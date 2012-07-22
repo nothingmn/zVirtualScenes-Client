@@ -1,0 +1,19 @@
+﻿http://code.google.com/p/zvirtualscenes/wiki/HttpAPIPlugin
+
+DONE /devices - Lists all devices.
+DONE /device/2 - Gets deatils on device with id 2.
+
+/device/2/commands - Gets all coomands for device 2.
+/device/2/command/ - name=DYNAMIC_CMD_LEVEL, arg=99,type=DEVICE Issues a device command with name == to DYNAMIC_CMD_LEVEL
+/device/2/command/ - [name='Change Level', arg=99,type=DEVICE] Issues a device command with friendly name == to 'Change Level'
+/device/2/command/812 arg=99,type=device_type - Issues device_type command 812 with arg of 99.
+/device/2/values - Lists device_values for device 2.
+/scenes - Lists all scenes.
+/scene/2 - is_running=true - Starts scene 2.
+/scene/2 - name="New Scene Name" - Changes scene 2 name.
+/groups - Gets a list of groups.
+/group/35 - Gets details about a group.
+/commands - Lists all built-in commands.
+/command/ - name=TURNOFF Issue a builtin command with name == to TURNOFF
+/command/ - friendlyname='Turn Off' Issue a builtin command with name == to 'Turn Off'
+/command/9 arg=99 - Issue a builtin command with id 9.

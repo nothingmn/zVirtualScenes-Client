@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1002]C:\Users\Rob\Documents\Visual Studio 2010\Projects\ClassLibrary1\zVirtualClient.Tests\bin\Debug\zVirtualClient.Tests.dll</TopNode>
+  <SelectedNode>[0-1001]zVirtualClient.Tests.Class1.LoginTest</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1002]C:\Users\Rob\Documents\Visual Studio 2010\Projects\ClassLibrary1\zVirtualClient.Tests\bin\Debug\zVirtualClient.Tests.dll" Expanded="true" />
+    <Node UniqueName="[0-1003]zVirtualClient" Expanded="true" />
+    <Node UniqueName="[0-1004]zVirtualClient.Tests" Expanded="true" />
+    <Node UniqueName="[0-1000]zVirtualClient.Tests.Class1" Expanded="true" />
+  </Nodes>
+</VisualState>

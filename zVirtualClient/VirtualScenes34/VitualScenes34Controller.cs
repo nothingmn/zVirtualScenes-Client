@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using zVirtualClient.Interfaces;
+
+
+namespace zVirtualClient.VirtualScenes34
+{
+    public class VitualScenes34Controller : IServiceController
+    {
+        Helpers.ILog log;
+        System.Net.CookieContainer Cookies = new System.Net.CookieContainer();
+        IUrlBuilder UrlBuilder;
+        public Credentials Credentials { get; set; }
+        IHttpClient HttpClient;
+        
+
+        public VitualScenes34Controller(Credentials Credentials, IHttpClient HttpClient = null)
+        {
+            log = new Helpers.log4netLogger<VitualScenes34Controller>();
+
+            this.Credentials = Credentials;
+            this.UrlBuilder = new VirtualScenes34UrlBuilder(this.Credentials);
+            if (HttpClient == null)
+                HttpClient = new Desktop.HttpClient(this.Credentials);
+
+            this.HttpClient = HttpClient;
+        }
+
+        Helpers.Serialization.ISerialize<Models.LoginResult> loginSerializer = new Helpers.Serialization.JSONSerializer<Models.LoginResult>();
+        Helpers.Serialization.ISerialize<Models.Devices> devicesSerializer = new Helpers.Serialization.JSONSerializer<Models.Devices>();
+        Helpers.Serialization.ISerialize<Models.DeviceDetails> deviceDetailsSerializer = new Helpers.Serialization.JSONSerializer<Models.DeviceDetails>();
+            
+        public Models.LoginResult Login()
+        {
+            HttpPayload login = this.UrlBuilder.LoginPayload();          
+
+            login.Cookies = this.Cookies;
+            string result = HttpClient.HTTPAsString(login);            
+            return loginSerializer.Deserialize(result);
+        }
+
+        public Models.LoginResult Logout()
+        {
+            HttpPayload logout = this.UrlBuilder.LogoutPayload();
+            logout.Cookies = this.Cookies;
+            string result = HttpClient.HTTPAsString(logout);
+            return loginSerializer.Deserialize(result);
+        }
+
+        public Models.Devices Devices()
+        {
+            HttpPayload devices = this.UrlBuilder.DevicesPayload();
+            devices.Cookies = this.Cookies;
+            string result = HttpClient.HTTPAsString(devices);
+
+            return devicesSerializer.Deserialize(result);
+        }
+        public Models.DeviceDetails DeviceDetails(int DeviceID)
+        {
+            HttpPayload devices = this.UrlBuilder.DeviceDetailsPayload(DeviceID);
+            devices.Cookies = this.Cookies;
+            string result = HttpClient.HTTPAsString(devices);
+            return deviceDetailsSerializer.Deserialize(result);
+        }
+
+    } 
+}
