@@ -29,8 +29,6 @@ namespace zVirtualClient.VirtualScenes34
         }
 
         Helpers.Serialization.ISerialize<Models.LoginResult> loginSerializer = new Helpers.Serialization.JSONSerializer<Models.LoginResult>();
-        Helpers.Serialization.ISerialize<Models.Devices> devicesSerializer = new Helpers.Serialization.JSONSerializer<Models.Devices>();
-        Helpers.Serialization.ISerialize<Models.DeviceDetails> deviceDetailsSerializer = new Helpers.Serialization.JSONSerializer<Models.DeviceDetails>();
             
         public Models.LoginResult Login()
         {
@@ -49,6 +47,7 @@ namespace zVirtualClient.VirtualScenes34
             return loginSerializer.Deserialize(result);
         }
 
+        Helpers.Serialization.ISerialize<Models.Devices> devicesSerializer = new Helpers.Serialization.JSONSerializer<Models.Devices>();
         public Models.Devices Devices()
         {
             HttpPayload devices = this.UrlBuilder.DevicesPayload();
@@ -57,6 +56,8 @@ namespace zVirtualClient.VirtualScenes34
 
             return devicesSerializer.Deserialize(result);
         }
+
+        Helpers.Serialization.ISerialize<Models.DeviceDetails> deviceDetailsSerializer = new Helpers.Serialization.JSONSerializer<Models.DeviceDetails>();
         public Models.DeviceDetails DeviceDetails(int DeviceID)
         {
             HttpPayload devices = this.UrlBuilder.DeviceDetailsPayload(DeviceID);
@@ -65,5 +66,13 @@ namespace zVirtualClient.VirtualScenes34
             return deviceDetailsSerializer.Deserialize(result);
         }
 
+        Helpers.Serialization.ISerialize<Models.DeviceCommands> deviceCommandsSerializer = new Helpers.Serialization.JSONSerializer<Models.DeviceCommands>();
+        public Models.DeviceCommands DeviceCommands(int DeviceID)
+        {
+            HttpPayload devices = this.UrlBuilder.DeviceCommandsPayload(DeviceID);
+            devices.Cookies = this.Cookies;
+            string result = HttpClient.HTTPAsString(devices);
+            return deviceCommandsSerializer.Deserialize(result);
+        }
     } 
 }

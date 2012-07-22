@@ -12,5 +12,6 @@ namespace zVirtualClient.Interfaces
         Models.LoginResult Logout();
         Models.Devices Devices();
         Models.DeviceDetails DeviceDetails(int DeviceID);
+        Models.DeviceCommands DeviceCommands(int DeviceID);
     }
 }

@@ -56,6 +56,8 @@
     <Compile Include="Interfaces\IServiceController.cs" />
     <Compile Include="Models\Details.cs" />
     <Compile Include="Models\Device.cs" />
+    <Compile Include="Models\DeviceCommand.cs" />
+    <Compile Include="Models\DeviceCommands.cs" />
     <Compile Include="Models\DeviceDetails.cs" />
     <Compile Include="Models\Devices.cs" />
     <Compile Include="Models\LoginResult.cs" />

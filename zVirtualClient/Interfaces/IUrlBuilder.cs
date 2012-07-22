@@ -12,5 +12,6 @@ namespace zVirtualClient.Interfaces
         HttpPayload LogoutPayload();
         HttpPayload DevicesPayload();
         HttpPayload DeviceDetailsPayload(int DeviceID);
+        HttpPayload DeviceCommandsPayload(int DeviceID);
     }
 }
