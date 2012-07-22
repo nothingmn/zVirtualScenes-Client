@@ -48,5 +48,12 @@ namespace zVirtualClient.VirtualScenes34
             pay.POST = false;
             return pay;
         }
+        public HttpPayload DeviceCommandsPayload(int DeviceID)
+        {
+            HttpPayload pay = new HttpPayload();
+            pay.Url = string.Format("{0}API/device/{1}/commands?u={2}", Credentials.Uri.ToString(), DeviceID, rnd.NextDouble());
+            pay.POST = false;
+            return pay;
+        }
     }
 }

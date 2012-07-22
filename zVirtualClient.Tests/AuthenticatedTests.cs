@@ -43,5 +43,16 @@ namespace zVirtualClient.Tests
             Assert.IsTrue(a.success);
             Assert.IsNotNull(a.details.id);
         }
+
+
+        [Test]
+        public void Device11Commands()
+        {
+            var a = client.DeviceCommands(11);
+            Assert.IsNotNull(a);
+            Assert.IsTrue(a.success);
+            Assert.IsNotNull(a.device_commands);
+        }
+
     }
 }
