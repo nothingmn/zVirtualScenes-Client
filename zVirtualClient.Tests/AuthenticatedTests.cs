@@ -107,6 +107,18 @@ namespace zVirtualClient.Tests
             Assert.IsTrue(result.success);
             Assert.IsTrue(result.desc == "Scene Started.");
         }
+
+
+        [Test]
+        public void Groups()
+        {
+            int sceneID = 1;
+            var result = client.Groups();
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.success);
+        }
+
+
     }
 }
 

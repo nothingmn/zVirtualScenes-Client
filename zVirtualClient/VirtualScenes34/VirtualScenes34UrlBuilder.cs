@@ -100,5 +100,15 @@ namespace zVirtualClient.VirtualScenes34
             pay.POST = true;
             return pay;
         }
+
+        public HttpPayload GroupsPayload()
+        {
+            HttpPayload pay = new HttpPayload();
+            pay.Url = string.Format("{0}API/groups?u={1}", Credentials.Uri.ToString(), rnd.NextDouble());
+            pay.POST = false;
+            return pay;
+        }
+
+
     }
 }

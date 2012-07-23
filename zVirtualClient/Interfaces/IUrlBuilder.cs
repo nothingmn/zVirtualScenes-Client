@@ -19,6 +19,7 @@ namespace zVirtualClient.Interfaces
         HttpPayload ScenesChangeNamePayload(int SceneID, string Name);
         HttpPayload StartScenePayload(int SceneID);
 
+        HttpPayload GroupsPayload();
 
     }
 }

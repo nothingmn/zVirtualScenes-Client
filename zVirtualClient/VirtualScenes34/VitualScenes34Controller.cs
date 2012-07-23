@@ -114,16 +114,26 @@ namespace zVirtualClient.VirtualScenes34
             return SceneNameChangeResponseSerializer.Deserialize(result);
         }
 
-        //Helpers.Serialization.ISerialize<Models.SceneNameChangeResponse> SceneNameChangeResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.SceneNameChangeResponse>();
         public Models.SceneNameChangeResponse StartScene(int SceneID)
         {
             HttpPayload devices = this.UrlBuilder.StartScenePayload(SceneID);
             devices.Cookies = this.Cookies;
             string result = HttpClient.HTTPAsString(devices);
-            
+
             return SceneNameChangeResponseSerializer.Deserialize(result);
 
         }
-        
+
+        Helpers.Serialization.ISerialize<Models.GroupsResponse> GroupsResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.GroupsResponse>();
+        public Models.GroupsResponse Groups()
+        {
+            HttpPayload devices = this.UrlBuilder.GroupsPayload();
+            devices.Cookies = this.Cookies;
+            string result = HttpClient.HTTPAsString(devices);
+            //return result;
+            return GroupsResponseSerializer.Deserialize(result);
+
+        }
+
     } 
 }
