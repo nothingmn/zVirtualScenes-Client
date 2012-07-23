@@ -96,6 +96,17 @@ namespace zVirtualClient.Tests
             Assert.IsTrue(result.success);
             Assert.IsTrue(result.desc == "Scene Name Updated.");
         }
+
+
+        [Test]
+        public void StartScene1()
+        {
+            int sceneID = 1;
+            var result = client.StartScene(sceneID);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.success);
+            Assert.IsTrue(result.desc == "Scene Started.");
+        }
     }
 }
 

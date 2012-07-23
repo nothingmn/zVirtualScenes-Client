@@ -92,6 +92,13 @@ namespace zVirtualClient.VirtualScenes34
             pay.POST = true;
             return pay;
         }
-        
+        public HttpPayload StartScenePayload(int SceneID)
+        {
+            HttpPayload pay = new HttpPayload();
+            pay.Url = string.Format("{0}API/scene/{1}", Credentials.Uri.ToString(), SceneID);
+            pay.Data = System.Text.Encoding.UTF8.GetBytes(string.Format("is_running=true&u=", SceneID, rnd.NextDouble()));
+            pay.POST = true;
+            return pay;
+        }
     }
 }

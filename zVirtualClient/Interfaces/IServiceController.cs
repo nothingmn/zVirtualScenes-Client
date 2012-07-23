@@ -17,5 +17,6 @@ namespace zVirtualClient.Interfaces
         Models.DeviceValues DeviceValues(int DeviceID);
         Models.SceneResponse Scenes();
         Models.SceneNameChangeResponse ChangeSceneName(int SceneID, string Name);
+        Models.SceneNameChangeResponse StartScene(int SceneID);
     }
 }

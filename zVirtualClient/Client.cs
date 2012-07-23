@@ -74,5 +74,10 @@ namespace zVirtualClient
         {
             return VirtualScenesController.ChangeSceneName(SceneID, Name);
         }
+
+        public Models.SceneNameChangeResponse StartScene(int SceneID)
+        {
+            return VirtualScenesController.StartScene(SceneID);
+        }
     }
 }
