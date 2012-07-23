@@ -138,6 +138,28 @@ namespace zVirtualClient.Tests
         }
 
 
+        //[Test]
+        //public void TurnGroup1OffByCommand()
+        //{
+        //    var result = client.SendCommand(new Models.BuiltinCommand() { arg = 1, friendlyname = "Turn Group Off", name = "GROUP_OFF", helptext = "", id = 3 });
+        //    Assert.IsNotNull(result);
+        //    //Assert.IsTrue(result.success);
+        //}
+        [Test]
+        public void CommandByIDAndArgGroup1On()
+        {
+            var result = client.SendCommand(new Models.BuiltinCommand() { arg = 1, id = 3 });
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.success);
+        }
+        [Test]
+        public void CommandByIDAndArgGroup1Off()
+        {
+            var result = client.SendCommand(new Models.BuiltinCommand() { arg = 1, id = 4 });
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.success);
+        }
+
 
     }
 }

@@ -93,5 +93,9 @@ namespace zVirtualClient
         {
             return VirtualScenesController.Commands();
         }
+        public Models.CommandsResponse SendCommand(Models.BuiltinCommand Command)
+        {
+            return VirtualScenesController.SendCommand(Command);
+        }
     }
 }

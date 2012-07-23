@@ -158,6 +158,13 @@ namespace zVirtualClient.VirtualScenes34
 
         }
 
+        public Models.CommandsResponse SendCommand(Models.BuiltinCommand Command)
+        {
+            HttpPayload devices = this.UrlBuilder.SendCommandsPayload(Command);
+            devices.Cookies = this.Cookies;
+            string result = HttpClient.HTTPAsString(devices);
+            return CommandsResponseSerializer.Deserialize(result);
+        }
         
     } 
 }

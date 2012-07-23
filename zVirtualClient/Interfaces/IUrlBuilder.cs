@@ -23,5 +23,6 @@ namespace zVirtualClient.Interfaces
         HttpPayload GroupDetailsPayload(int GroupID);
 
         HttpPayload CommandsPayload();
+        HttpPayload SendCommandsPayload(Models.BuiltinCommand Command);
     }
 }

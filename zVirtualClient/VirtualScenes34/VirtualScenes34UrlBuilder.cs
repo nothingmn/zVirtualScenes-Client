@@ -125,5 +125,37 @@ namespace zVirtualClient.VirtualScenes34
             return pay;
         }
 
+
+        public HttpPayload SendCommandsPayload(Models.BuiltinCommand Command)
+        {
+            HttpPayload pay = new HttpPayload();
+            if (Command.id > 0)
+            {
+                pay.Url = string.Format("{0}API/command/{1}", Credentials.Uri.ToString(), Command.id);
+                if (Command.arg >= 0)
+                {
+                    pay.Data = System.Text.Encoding.UTF8.GetBytes("arg=" + Command.arg);
+                }
+            }
+            else
+            {
+                pay.Url = string.Format("{0}API/command", Credentials.Uri.ToString());
+                if (!string.IsNullOrEmpty(Command.name))
+                {
+                    pay.Data = System.Text.Encoding.UTF8.GetBytes("name=" + Helpers.UrlHelper.Encode(Command.name));
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(Command.friendlyname))
+                    {
+                        pay.Data = System.Text.Encoding.UTF8.GetBytes("friendlyname=" + Helpers.UrlHelper.Encode(Command.friendlyname));
+                    }
+                }
+            }
+
+            pay.POST = true;
+            return pay;
+        }
+
     }
 }

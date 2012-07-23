@@ -11,5 +11,6 @@ namespace zVirtualClient.Models
         public string friendlyname { get; set; }
         public object helptext { get; set; }
         public string name { get; set; }
+        public int arg { get; set; }
     }
 }
