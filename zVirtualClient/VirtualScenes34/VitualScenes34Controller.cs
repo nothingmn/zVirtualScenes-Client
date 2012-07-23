@@ -28,9 +28,9 @@ namespace zVirtualClient.VirtualScenes34
             this.HttpClient = HttpClient;
         }
 
-        Helpers.Serialization.ISerialize<Models.LoginResult> loginSerializer = new Helpers.Serialization.JSONSerializer<Models.LoginResult>();
+        Helpers.Serialization.ISerialize<Models.LoginResponse> loginSerializer = new Helpers.Serialization.JSONSerializer<Models.LoginResponse>();
             
-        public Models.LoginResult Login()
+        public Models.LoginResponse Login()
         {
             HttpPayload login = this.UrlBuilder.LoginPayload();          
 
@@ -39,7 +39,7 @@ namespace zVirtualClient.VirtualScenes34
             return loginSerializer.Deserialize(result);
         }
 
-        public Models.LoginResult Logout()
+        public Models.LoginResponse Logout()
         {
             HttpPayload logout = this.UrlBuilder.LogoutPayload();
             logout.Cookies = this.Cookies;
@@ -94,5 +94,25 @@ namespace zVirtualClient.VirtualScenes34
             string result = HttpClient.HTTPAsString(devices);
             return deviceValuesResponseSerializer.Deserialize(result);
         }
+
+        Helpers.Serialization.ISerialize<Models.SceneResponse> SceneResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.SceneResponse>();
+        public Models.SceneResponse Scenes()
+        {
+            HttpPayload devices = this.UrlBuilder.ScenesPayload();
+            devices.Cookies = this.Cookies;
+            string result = HttpClient.HTTPAsString(devices);
+            return SceneResponseSerializer.Deserialize(result);
+        }
+
+
+        Helpers.Serialization.ISerialize<Models.SceneNameChangeResponse> SceneNameChangeResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.SceneNameChangeResponse>();
+        public Models.SceneNameChangeResponse ChangeSceneName(int SceneID, string Name)
+        {
+            HttpPayload devices = this.UrlBuilder.ScenesChangeNamePayload(SceneID, Name);
+            devices.Cookies = this.Cookies;
+            string result = HttpClient.HTTPAsString(devices);
+            return SceneNameChangeResponseSerializer.Deserialize(result);
+        }
+        
     } 
 }

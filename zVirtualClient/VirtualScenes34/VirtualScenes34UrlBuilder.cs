@@ -74,5 +74,24 @@ namespace zVirtualClient.VirtualScenes34
             pay.POST = false;
             return pay;
         }
+
+
+        public HttpPayload ScenesPayload()
+        {
+            HttpPayload pay = new HttpPayload();
+            pay.Url = string.Format("{0}API/scenes", Credentials.Uri.ToString());
+            //pay.Data = System.Text.Encoding.UTF8.GetBytes(string.Format("name={3}&arg={4}&type={5}&u={2}", Credentials.Uri.ToString(), DeviceID, rnd.NextDouble(), Name, arg, type));
+            pay.POST = false;
+            return pay;
+        }
+        public HttpPayload ScenesChangeNamePayload(int SceneID, string Name)
+        {
+            HttpPayload pay = new HttpPayload();
+            pay.Url = string.Format("{0}API/scene/{1}", Credentials.Uri.ToString(), SceneID);
+            pay.Data = System.Text.Encoding.UTF8.GetBytes(string.Format("name={0}&u={1}", Name, rnd.NextDouble()));
+            pay.POST = true;
+            return pay;
+        }
+        
     }
 }

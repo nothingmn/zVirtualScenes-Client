@@ -36,11 +36,11 @@ namespace zVirtualClient
         }
 
 
-        public Models.LoginResult Login()
+        public Models.LoginResponse Login()
         {
             return VirtualScenesController.Login();
         }
-        public Models.LoginResult Logout()
+        public Models.LoginResponse Logout()
         {
             return VirtualScenesController.Logout();
         }
@@ -65,6 +65,14 @@ namespace zVirtualClient
             return VirtualScenesController.DeviceValues(DeviceID);
         }
 
-        
+        public Models.SceneResponse Scenes()
+        {
+            return VirtualScenesController.Scenes();
+        }
+
+        public Models.SceneNameChangeResponse ChangeSceneName(int SceneID, string Name)
+        {
+            return VirtualScenesController.ChangeSceneName(SceneID, Name);
+        }
     }
 }

@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace zVirtualClient.Models
 {
     [DataContract]
-    public class LoginResult
+    public class LoginResponse
     {
         //{"success":true,"isLoggedIn":false}
 

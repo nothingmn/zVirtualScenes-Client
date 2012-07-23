@@ -17,7 +17,7 @@ namespace zVirtualClient.Tests
             //arrange
             Client client = new Client(Mother.Credentials);
             //act
-            Models.LoginResult result = client.Login();
+            Models.LoginResponse result = client.Login();
             //assert
             Assert.IsTrue(result.success);
         }
@@ -28,7 +28,7 @@ namespace zVirtualClient.Tests
 
             //arrange
             Client client = new Client(Mother.Credentials);
-            Models.LoginResult result = client.Login();
+            Models.LoginResponse result = client.Login();
             if (result.success)
             {
                 //act

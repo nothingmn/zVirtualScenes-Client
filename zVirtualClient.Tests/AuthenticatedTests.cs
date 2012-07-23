@@ -14,7 +14,7 @@ namespace zVirtualClient.Tests
         [SetUp]
         public void Login()
         {            
-            Models.LoginResult result = client.Login();
+            Models.LoginResponse result = client.Login();
             if (!result.success) throw new System.Security.SecurityException("Could not login");
         }
 
@@ -77,5 +77,26 @@ namespace zVirtualClient.Tests
             Assert.IsNotNull(a);
             Assert.IsTrue(a.success);
         }
+
+        [Test]
+        public void Scenes()
+        {
+            var a = client.Scenes();
+            Assert.IsNotNull(a);
+            Assert.IsTrue(a.success);
+        }
+
+        [Test]
+        public void ChangeSceneID1sName()
+        {
+            int sceneID = 1;
+            string newName = "Movie Mode";
+            var result = client.ChangeSceneName(sceneID, newName);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.success);
+            Assert.IsTrue(result.desc == "Scene Name Updated.");
+        }
     }
 }
+
+

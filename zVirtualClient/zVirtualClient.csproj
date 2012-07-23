@@ -62,7 +62,10 @@
     <Compile Include="Models\DeviceDetails.cs" />
     <Compile Include="Models\Devices.cs" />
     <Compile Include="Models\DeviceValues.cs" />
-    <Compile Include="Models\LoginResult.cs" />
+    <Compile Include="Models\LoginResponse.cs" />
+    <Compile Include="Models\Scene.cs" />
+    <Compile Include="Models\SceneNameChangeResponse.cs" />
+    <Compile Include="Models\SceneResponse.cs" />
     <Compile Include="Models\Value.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\UrlHelper.cs" />
