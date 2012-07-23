@@ -17,7 +17,7 @@ namespace zVirtualClient
         {
             if (HttpClient == null)
             {
-                HttpClient = new Desktop.HttpClient(Credentials);
+                HttpClient = new HTTP.DesktopHttpClient(Credentials);
             }
             if (Controller == null)
             {

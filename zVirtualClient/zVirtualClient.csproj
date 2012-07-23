@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="Credentials.cs" />
-    <Compile Include="Desktop\HttpClient.cs" />
+    <Compile Include="HTTP\DesktopHttpClient.cs" />
     <Compile Include="Helpers\ILog.cs" />
     <Compile Include="Helpers\log4netLogger.cs" />
     <Compile Include="Helpers\LogManager.cs" />
@@ -78,9 +78,7 @@
     <Compile Include="VirtualScenes34\VirtualScenes34UrlBuilder.cs" />
     <Compile Include="VirtualScenes34\VitualScenes34Controller.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="WP7\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="API.txt" />
     <Content Include="Resources\log4net.dll" />

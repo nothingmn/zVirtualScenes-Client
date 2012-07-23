@@ -23,7 +23,7 @@ namespace zVirtualClient.VirtualScenes34
             this.Credentials = Credentials;
             this.UrlBuilder = new VirtualScenes34UrlBuilder(this.Credentials);
             if (HttpClient == null)
-                HttpClient = new Desktop.HttpClient(this.Credentials);
+                HttpClient = new HTTP.DesktopHttpClient(this.Credentials);
 
             this.HttpClient = HttpClient;
         }

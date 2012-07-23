@@ -7,9 +7,9 @@ using System.IO;
 using zVirtualClient.Interfaces;
 
 
-namespace zVirtualClient.Desktop
+namespace zVirtualClient.HTTP
 {
-    public class HttpClient : IHttpClient
+    public class DesktopHttpClient : IHttpClient
     {
 
         public Credentials Credentials { get; set; }        
@@ -19,11 +19,11 @@ namespace zVirtualClient.Desktop
         Helpers.ILog log;
         Helpers.Serialization.ISerialize<HttpPayload> payLoadSerializer;
 
-        public HttpClient(Credentials Credentials)
+        public DesktopHttpClient(Credentials Credentials)
         {
             this.Credentials = Credentials;
             payLoadSerializer = new Helpers.Serialization.JSONSerializer<HttpPayload>();
-            log = new Helpers.log4netLogger<HttpClient>();
+            log = new Helpers.log4netLogger<DesktopHttpClient>();
         }
 
         public string HTTPAsString(HttpPayload Payload)

@@ -1,8 +1,7 @@
 ﻿http://code.google.com/p/zvirtualscenes/wiki/HttpAPIPlugin
 
-DONE /devices - Lists all devices.
-DONE /device/2 - Gets deatils on device with id 2.
-
+/devices - Lists all devices.
+/device/2 - Gets deatils on device with id 2.
 /device/2/commands - Gets all coomands for device 2.
 /device/2/command/ - name=DYNAMIC_CMD_LEVEL, arg=99,type=DEVICE Issues a device command with name == to DYNAMIC_CMD_LEVEL
 /device/2/command/ - [name='Change Level', arg=99,type=DEVICE] Issues a device command with friendly name == to 'Change Level'

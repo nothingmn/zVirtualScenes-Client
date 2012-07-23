@@ -1,0 +1,8 @@
+C:\source\github\zVirtualScenes-Client\zVirtualClient\bin\Debug\log4net.config
+C:\source\github\zVirtualScenes-Client\zVirtualClient\bin\Debug\zVirtualClient.dll
+C:\source\github\zVirtualScenes-Client\zVirtualClient\bin\Debug\zVirtualClient.pdb
+C:\source\github\zVirtualScenes-Client\zVirtualClient\bin\Debug\log4net.dll
+C:\source\github\zVirtualScenes-Client\zVirtualClient\bin\Debug\log4net.pdb
+C:\source\github\zVirtualScenes-Client\zVirtualClient\obj\Debug\ResolveAssemblyReference.cache
+C:\source\github\zVirtualScenes-Client\zVirtualClient\obj\Debug\zVirtualClient.dll
+C:\source\github\zVirtualScenes-Client\zVirtualClient\obj\Debug\zVirtualClient.pdb
