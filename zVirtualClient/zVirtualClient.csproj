@@ -54,6 +54,8 @@
     <Compile Include="Interfaces\HttpPayload.cs" />
     <Compile Include="Interfaces\IHttpClient.cs" />
     <Compile Include="Interfaces\IServiceController.cs" />
+    <Compile Include="Models\BuiltinCommand.cs" />
+    <Compile Include="Models\CommandsResponse.cs" />
     <Compile Include="Models\Details.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceCommand.cs" />

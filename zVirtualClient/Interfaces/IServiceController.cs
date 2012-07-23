@@ -22,5 +22,6 @@ namespace zVirtualClient.Interfaces
         Models.GroupsResponse Groups();
         Models.GroupDetailsResponse GroupDetails(int GroupID);
 
+        Models.CommandsResponse Commands();
     }
 }

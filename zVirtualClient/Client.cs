@@ -88,5 +88,10 @@ namespace zVirtualClient
         {
             return VirtualScenesController.GroupDetails(GroupID);
         }
+
+        public Models.CommandsResponse Commands()
+        {
+            return VirtualScenesController.Commands();
+        }
     }
 }

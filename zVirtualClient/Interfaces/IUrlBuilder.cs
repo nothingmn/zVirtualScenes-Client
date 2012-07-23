@@ -21,5 +21,7 @@ namespace zVirtualClient.Interfaces
 
         HttpPayload GroupsPayload();
         HttpPayload GroupDetailsPayload(int GroupID);
+
+        HttpPayload CommandsPayload();
     }
 }

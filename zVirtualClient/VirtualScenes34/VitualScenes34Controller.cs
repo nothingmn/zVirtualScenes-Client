@@ -147,6 +147,17 @@ namespace zVirtualClient.VirtualScenes34
 
         }
 
+        Helpers.Serialization.ISerialize<Models.CommandsResponse> CommandsResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.CommandsResponse>();
+        public Models.CommandsResponse Commands()
+        {
+            HttpPayload devices = this.UrlBuilder.CommandsPayload();
+            devices.Cookies = this.Cookies;
+            string result = HttpClient.HTTPAsString(devices);
+            //return result;
+            return CommandsResponseSerializer.Deserialize(result);
+
+        }
+
         
     } 
 }

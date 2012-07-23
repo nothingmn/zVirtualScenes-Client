@@ -129,6 +129,16 @@ namespace zVirtualClient.Tests
         }
 
 
+        [Test]
+        public void Commands()
+        {
+            var result = client.Commands();
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.success);
+        }
+
+
+
     }
 }
 

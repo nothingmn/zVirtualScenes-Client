@@ -117,6 +117,13 @@ namespace zVirtualClient.VirtualScenes34
             return pay;
         }
 
+        public HttpPayload CommandsPayload()
+        {
+            HttpPayload pay = new HttpPayload();
+            pay.Url = string.Format("{0}API/commands?u={1}", Credentials.Uri.ToString(), rnd.NextDouble());
+            pay.POST = false;
+            return pay;
+        }
 
     }
 }
