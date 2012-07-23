@@ -20,5 +20,7 @@ namespace zVirtualClient.Interfaces
         Models.SceneNameChangeResponse StartScene(int SceneID);
 
         Models.GroupsResponse Groups();
+        Models.GroupDetailsResponse GroupDetails(int GroupID);
+
     }
 }

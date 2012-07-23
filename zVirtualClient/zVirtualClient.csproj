@@ -63,6 +63,7 @@
     <Compile Include="Models\Devices.cs" />
     <Compile Include="Models\DeviceValues.cs" />
     <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\GroupDetailsResponse.cs" />
     <Compile Include="Models\GroupsResponse.cs" />
     <Compile Include="Models\LoginResponse.cs" />
     <Compile Include="Models\Scene.cs" />

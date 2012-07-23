@@ -10,5 +10,6 @@ namespace zVirtualClient.Models
         public int id { get; set; }
         public string name { get; set; }
         public int count { get; set; }
+        public List<Device> devices { get; set; }
     }
 }

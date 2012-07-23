@@ -20,6 +20,6 @@ namespace zVirtualClient.Interfaces
         HttpPayload StartScenePayload(int SceneID);
 
         HttpPayload GroupsPayload();
-
+        HttpPayload GroupDetailsPayload(int GroupID);
     }
 }

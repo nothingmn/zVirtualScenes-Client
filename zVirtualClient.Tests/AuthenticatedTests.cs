@@ -119,6 +119,16 @@ namespace zVirtualClient.Tests
         }
 
 
+        [Test]
+        public void Group1Details()
+        {
+            int groupID = 1;
+            var result = client.GroupDetails(groupID);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.success);
+        }
+
+
     }
 }
 

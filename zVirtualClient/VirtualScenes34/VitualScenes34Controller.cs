@@ -135,5 +135,18 @@ namespace zVirtualClient.VirtualScenes34
 
         }
 
+
+        Helpers.Serialization.ISerialize<Models.GroupDetailsResponse> GroupDetailsResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.GroupDetailsResponse>();
+        public Models.GroupDetailsResponse GroupDetails(int GroupID)
+        {
+            HttpPayload devices = this.UrlBuilder.GroupDetailsPayload(GroupID);
+            devices.Cookies = this.Cookies;
+            string result = HttpClient.HTTPAsString(devices);
+            //return result;
+            return GroupDetailsResponseSerializer.Deserialize(result);
+
+        }
+
+        
     } 
 }
