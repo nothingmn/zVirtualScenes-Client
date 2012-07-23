@@ -60,6 +60,11 @@ namespace zVirtualClient
         {
             return VirtualScenesController.DeviceCommand(DeviceID, Name, arg, type);
         }
+        public Models.DeviceValues DeviceValues(int DeviceID)
+        {
+            return VirtualScenesController.DeviceValues(DeviceID);
+        }
 
+        
     }
 }

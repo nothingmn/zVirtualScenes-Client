@@ -79,10 +79,20 @@ namespace zVirtualClient.VirtualScenes34
         Helpers.Serialization.ISerialize<Models.DeviceCommandResponse> deviceCommandsResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.DeviceCommandResponse>();
         public Models.DeviceCommandResponse DeviceCommand(int DeviceID, string Name, int arg, string type)
         {
-            HttpPayload devices = this.UrlBuilder.DeviceCommand(DeviceID, Name, arg, type);
+            HttpPayload devices = this.UrlBuilder.DeviceCommandPayload(DeviceID, Name, arg, type);
             devices.Cookies = this.Cookies;
             string result = HttpClient.HTTPAsString(devices);
             return deviceCommandsResponseSerializer.Deserialize(result);
+        }
+
+
+        Helpers.Serialization.ISerialize<Models.DeviceValues> deviceValuesResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.DeviceValues>();
+        public Models.DeviceValues DeviceValues(int DeviceID)
+        {
+            HttpPayload devices = this.UrlBuilder.DeviceValuesPayload(DeviceID);
+            devices.Cookies = this.Cookies;
+            string result = HttpClient.HTTPAsString(devices);
+            return deviceValuesResponseSerializer.Deserialize(result);
         }
     } 
 }

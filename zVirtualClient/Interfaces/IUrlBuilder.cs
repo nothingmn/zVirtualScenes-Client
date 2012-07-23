@@ -13,6 +13,7 @@ namespace zVirtualClient.Interfaces
         HttpPayload DevicesPayload();
         HttpPayload DeviceDetailsPayload(int DeviceID);
         HttpPayload DeviceCommandsPayload(int DeviceID);
-        HttpPayload DeviceCommand(int DeviceID, string Name, int arg, string type);
+        HttpPayload DeviceCommandPayload(int DeviceID, string Name, int arg, string type);
+        HttpPayload DeviceValuesPayload(int DeviceID);
     }
 }
