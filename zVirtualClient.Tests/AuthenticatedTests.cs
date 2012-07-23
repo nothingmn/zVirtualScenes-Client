@@ -54,5 +54,23 @@ namespace zVirtualClient.Tests
             Assert.IsNotNull(a.device_commands);
         }
 
+
+        [Test]
+        public void Device11OffCommands()
+        {
+            var a = client.DeviceCommand(11, "DYNAMIC_CMD_BASIC", 0, "device");
+            Assert.IsNotNull(a);
+            Assert.IsTrue(a.success);
+
+        }
+        [Test]
+        public void Device11OnCommands()
+        {
+            var a = client.DeviceCommand(11, "DYNAMIC_CMD_BASIC", 255, "device");
+            Assert.IsNotNull(a);
+            Assert.IsTrue(a.success);
+
+        }
+
     }
 }

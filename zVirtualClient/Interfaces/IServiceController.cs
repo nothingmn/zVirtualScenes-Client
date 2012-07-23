@@ -13,5 +13,6 @@ namespace zVirtualClient.Interfaces
         Models.Devices Devices();
         Models.DeviceDetails DeviceDetails(int DeviceID);
         Models.DeviceCommands DeviceCommands(int DeviceID);
+        Models.DeviceCommandResponse DeviceCommand(int DeviceID, string Name, int arg, string type);
     }
 }
