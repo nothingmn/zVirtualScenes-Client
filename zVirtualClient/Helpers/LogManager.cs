@@ -5,9 +5,19 @@ using System.Text;
 
 namespace zVirtualClient.Helpers
 {
-    public class LogManager
+    public class LogManager : ILogManager
     {
-        public static void ConfigureLogging()
+#if WINDOWS_PHONE
+        public void ConfigureLogging()
+        {
+        }
+        public ILog GetLogger<T>()
+        {
+            return new WP7Logger<T>();
+        }
+
+#else
+        public void ConfigureLogging()
         {
             //nunit friendly way to get the loggin config file
             string dll = typeof(LogManager).Assembly.CodeBase;
@@ -22,6 +32,12 @@ namespace zVirtualClient.Helpers
                 log4net.Config.XmlConfigurator.ConfigureAndWatch(configFile);
             }
         }
+        public ILog GetLogger<T>()
+        {
+            return new log4netLogger<T>();
+        }
+#endif
+
 
     }
 }

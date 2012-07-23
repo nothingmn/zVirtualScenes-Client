@@ -17,18 +17,20 @@ namespace zVirtualClient.HTTP
         public int ProxyPort { get; set; }
 
         Helpers.ILog log;
+
         Helpers.Serialization.ISerialize<HttpPayload> payLoadSerializer;
 
         public DesktopHttpClient(Credentials Credentials)
         {
             this.Credentials = Credentials;
-            payLoadSerializer = new Helpers.Serialization.JSONSerializer<HttpPayload>();
-            log = new Helpers.log4netLogger<DesktopHttpClient>();
+            payLoadSerializer = new Helpers.Serialization.NewtonSerializer<HttpPayload>();
+            log = Client.LogManager.GetLogger<DesktopHttpClient>();
         }
 
         public string HTTPAsString(HttpPayload Payload)
         {
             log.Debug("Request:" + payLoadSerializer.Serialize(Payload));
+             byte[] data = HTTPAsBytes(Payload);
             string result = System.Text.Encoding.UTF8.GetString(HTTPAsBytes(Payload));
             log.Debug("Response:" + result);
             return result;

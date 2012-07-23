@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1018]C:\source\github\zVirtualScenes-Client\zVirtualClient.Tests\bin\Debug\zVirtualClient.Tests.dll</TopNode>
+  <SelectedNode>[0-1018]C:\source\github\zVirtualScenes-Client\zVirtualClient.Tests\bin\Debug\zVirtualClient.Tests.dll</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1018]C:\source\github\zVirtualScenes-Client\zVirtualClient.Tests\bin\Debug\zVirtualClient.Tests.dll" Expanded="true" />
+    <Node UniqueName="[0-1019]zVirtualClient" Expanded="true" />
+    <Node UniqueName="[0-1020]zVirtualClient.Tests" Expanded="true" />
+    <Node UniqueName="[0-1003]zVirtualClient.Tests.AuthenticatedTests" Expanded="true" />
+    <Node UniqueName="[0-1000]zVirtualClient.Tests.AuthenticationTests" Expanded="true" />
+  </Nodes>
+</VisualState>

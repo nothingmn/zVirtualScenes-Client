@@ -8,6 +8,21 @@ namespace zVirtualClient
 {
     public class Client : IServiceController
     {
+        private static object _lock = new object();
+        public static Helpers.ILogManager LogManager
+        {
+            get {
+                lock (_lock)
+                {
+                    if (lm != null) return lm;
+                    lm = new Helpers.LogManager();
+                    lm.ConfigureLogging();
+                }
+                return lm;
+            }
+        }
+        static Helpers.ILogManager lm;
+        
         IHttpClient HttpClient { get; set; }
         IServiceController VirtualScenesController { get; set; }
         public Credentials Credentials { get; set; }
@@ -17,21 +32,27 @@ namespace zVirtualClient
         {
             if (HttpClient == null)
             {
-                HttpClient = new HTTP.DesktopHttpClient(Credentials);
+#if WINDOWS_PHONE
+                if (HttpClient == null)
+                    HttpClient = new HTTP.WP7HttpClient(this.Credentials);
+#else
+            if (HttpClient == null)
+                HttpClient = new HTTP.DesktopHttpClient(this.Credentials);
+#endif
             }
             if (Controller == null)
             {
                 Controller = new VirtualScenes34.VitualScenes34Controller(Credentials);
             }
-            Helpers.LogManager.ConfigureLogging();
-            Logger = new Helpers.log4netLogger<Client>();            
+            Logger = LogManager.GetLogger<Client>();
+            
             this.VirtualScenesController = Controller;
             if(this.VirtualScenesController.Credentials == null) this.VirtualScenesController.Credentials = Credentials;
             
             Logger.Debug("New Client Created");
             Logger.DebugFormat("HttpClient:{0}", HttpClient.ToString());
             Logger.DebugFormat("Controller:{0}", Controller.ToString());
-            Logger.DebugFormat("Credentials:{0}", Helpers.Serialization.JSONSerializer<Credentials>.ToJSON(Credentials));
+            Logger.DebugFormat("Credentials:{0}", Helpers.Serialization.NewtonSerializer<Credentials>.ToJSON(Credentials));
 
         }
 

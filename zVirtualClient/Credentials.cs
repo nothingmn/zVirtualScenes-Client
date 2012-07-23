@@ -6,20 +6,20 @@ using System.Runtime.Serialization;
 
 namespace zVirtualClient
 {
-    [DataContract]
+    
     public class Credentials
     {
-        [DataMember]
+        
         public string Host { get; set; }
-        [DataMember]
+        
         public int Port { get; set; }
-        [DataMember]
+        
         public string Username { get; set; }
-        [DataMember]
+        
         public string Password { get; set; }
-        [DataMember]
+        
         public System.Uri Uri { get; set; }
-        [DataMember]
+        
         public string Domain { get; set; }
 
         public Credentials(string Host, int Port, string Username, string Password)

@@ -3,63 +3,69 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
+    <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4A237305-EB03-4C75-A408-830C6A665156}</ProjectGuid>
+    <ProjectGuid>{2AB0B7B7-3781-4FBF-878B-2CAF452F5D4C}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>zVirtualClient</RootNamespace>
-    <AssemblyName>zVirtualClient</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <RootNamespace>zVirtualClient7</RootNamespace>
+    <AssemblyName>zVirtualClient7</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Resources\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Resources\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel.Web" />
-    <Reference Include="System.XML" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="mscorlib.extensions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="Credentials.cs" />
     <Compile Include="Helpers\ILogManager.cs" />
-    <Compile Include="Helpers\Serialization\ISerialize.cs" />
-    <Compile Include="Helpers\Serialization\JSONSerializer.cs" />
-    <Compile Include="Helpers\Serialization\NewtonSerializer.cs" />
-    <Compile Include="HTTP\DesktopHttpClient.cs" />
+    <Compile Include="Helpers\LogManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helpers\WP7Logger.cs" />
     <Compile Include="Helpers\ILog.cs" />
-    <Compile Include="Helpers\log4netLogger.cs" />
-    <Compile Include="Helpers\LogManager.cs" />
+    <Compile Include="Helpers\Serialization\ISerialize.cs" />
+    <Compile Include="Helpers\Serialization\NewtonSerializer.cs" />
+    <Compile Include="Helpers\UrlHelper.cs" />
+    <Compile Include="HTTP\WP7HttpClient.cs" />
     <Compile Include="Interfaces\HttpPayload.cs" />
     <Compile Include="Interfaces\IHttpClient.cs" />
     <Compile Include="Interfaces\IServiceController.cs" />
+    <Compile Include="Interfaces\IUrlBuilder.cs" />
     <Compile Include="Models\BuiltinCommand.cs" />
     <Compile Include="Models\CommandsResponse.cs" />
     <Compile Include="Models\Details.cs" />
@@ -79,26 +85,18 @@
     <Compile Include="Models\SceneResponse.cs" />
     <Compile Include="Models\Value.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Helpers\UrlHelper.cs" />
-    <Compile Include="Interfaces\IUrlBuilder.cs" />
     <Compile Include="VirtualScenes34\VirtualScenes34UrlBuilder.cs" />
     <Compile Include="VirtualScenes34\VitualScenes34Controller.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\WindowsPhone\Newtonsoft.Json.dll" />
+    <Content Include="Resources\WindowsPhone\Newtonsoft.Json.pdb" />
+    <Content Include="Resources\WindowsPhone\Newtonsoft.Json.xml" />
+  </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Content Include="API.txt" />
-    <Content Include="Resources\log4net.dll" />
-    <Content Include="Resources\log4net.pdb" />
-    <Content Include="Resources\Newtonsoft.Json.dll" />
-    <Content Include="Resources\Newtonsoft.Json.pdb" />
-    <Content Include="Resources\Newtonsoft.Json.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="log4net.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

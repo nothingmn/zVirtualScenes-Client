@@ -18,17 +18,22 @@ namespace zVirtualClient.VirtualScenes34
 
         public VitualScenes34Controller(Credentials Credentials, IHttpClient HttpClient = null)
         {
-            log = new Helpers.log4netLogger<VitualScenes34Controller>();
+            log = Client.LogManager.GetLogger<VitualScenes34Controller>();
 
             this.Credentials = Credentials;
             this.UrlBuilder = new VirtualScenes34UrlBuilder(this.Credentials);
+#if WINDOWS_PHONE
+            if (HttpClient == null)
+                HttpClient = new HTTP.WP7HttpClient(this.Credentials);
+#else
             if (HttpClient == null)
                 HttpClient = new HTTP.DesktopHttpClient(this.Credentials);
+#endif
 
             this.HttpClient = HttpClient;
         }
 
-        Helpers.Serialization.ISerialize<Models.LoginResponse> loginSerializer = new Helpers.Serialization.JSONSerializer<Models.LoginResponse>();
+        Helpers.Serialization.ISerialize<Models.LoginResponse> loginSerializer = new Helpers.Serialization.NewtonSerializer<Models.LoginResponse>();
             
         public Models.LoginResponse Login()
         {
@@ -47,7 +52,7 @@ namespace zVirtualClient.VirtualScenes34
             return loginSerializer.Deserialize(result);
         }
 
-        Helpers.Serialization.ISerialize<Models.Devices> devicesSerializer = new Helpers.Serialization.JSONSerializer<Models.Devices>();
+        Helpers.Serialization.ISerialize<Models.Devices> devicesSerializer = new Helpers.Serialization.NewtonSerializer<Models.Devices>();
         public Models.Devices Devices()
         {
             HttpPayload devices = this.UrlBuilder.DevicesPayload();
@@ -57,7 +62,7 @@ namespace zVirtualClient.VirtualScenes34
             return devicesSerializer.Deserialize(result);
         }
 
-        Helpers.Serialization.ISerialize<Models.DeviceDetails> deviceDetailsSerializer = new Helpers.Serialization.JSONSerializer<Models.DeviceDetails>();
+        Helpers.Serialization.ISerialize<Models.DeviceDetails> deviceDetailsSerializer = new Helpers.Serialization.NewtonSerializer<Models.DeviceDetails>();
         public Models.DeviceDetails DeviceDetails(int DeviceID)
         {
             HttpPayload devices = this.UrlBuilder.DeviceDetailsPayload(DeviceID);
@@ -66,7 +71,7 @@ namespace zVirtualClient.VirtualScenes34
             return deviceDetailsSerializer.Deserialize(result);
         }
 
-        Helpers.Serialization.ISerialize<Models.DeviceCommands> deviceCommandsSerializer = new Helpers.Serialization.JSONSerializer<Models.DeviceCommands>();
+        Helpers.Serialization.ISerialize<Models.DeviceCommands> deviceCommandsSerializer = new Helpers.Serialization.NewtonSerializer<Models.DeviceCommands>();
         public Models.DeviceCommands DeviceCommands(int DeviceID)
         {
             HttpPayload devices = this.UrlBuilder.DeviceCommandsPayload(DeviceID);
@@ -76,7 +81,7 @@ namespace zVirtualClient.VirtualScenes34
         }
 
 
-        Helpers.Serialization.ISerialize<Models.DeviceCommandResponse> deviceCommandsResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.DeviceCommandResponse>();
+        Helpers.Serialization.ISerialize<Models.DeviceCommandResponse> deviceCommandsResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.DeviceCommandResponse>();
         public Models.DeviceCommandResponse DeviceCommand(int DeviceID, string Name, int arg, string type)
         {
             HttpPayload devices = this.UrlBuilder.DeviceCommandPayload(DeviceID, Name, arg, type);
@@ -86,7 +91,7 @@ namespace zVirtualClient.VirtualScenes34
         }
 
 
-        Helpers.Serialization.ISerialize<Models.DeviceValues> deviceValuesResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.DeviceValues>();
+        Helpers.Serialization.ISerialize<Models.DeviceValues> deviceValuesResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.DeviceValues>();
         public Models.DeviceValues DeviceValues(int DeviceID)
         {
             HttpPayload devices = this.UrlBuilder.DeviceValuesPayload(DeviceID);
@@ -95,7 +100,7 @@ namespace zVirtualClient.VirtualScenes34
             return deviceValuesResponseSerializer.Deserialize(result);
         }
 
-        Helpers.Serialization.ISerialize<Models.SceneResponse> SceneResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.SceneResponse>();
+        Helpers.Serialization.ISerialize<Models.SceneResponse> SceneResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.SceneResponse>();
         public Models.SceneResponse Scenes()
         {
             HttpPayload devices = this.UrlBuilder.ScenesPayload();
@@ -105,7 +110,7 @@ namespace zVirtualClient.VirtualScenes34
         }
 
 
-        Helpers.Serialization.ISerialize<Models.SceneNameChangeResponse> SceneNameChangeResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.SceneNameChangeResponse>();
+        Helpers.Serialization.ISerialize<Models.SceneNameChangeResponse> SceneNameChangeResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.SceneNameChangeResponse>();
         public Models.SceneNameChangeResponse ChangeSceneName(int SceneID, string Name)
         {
             HttpPayload devices = this.UrlBuilder.ScenesChangeNamePayload(SceneID, Name);
@@ -124,7 +129,7 @@ namespace zVirtualClient.VirtualScenes34
 
         }
 
-        Helpers.Serialization.ISerialize<Models.GroupsResponse> GroupsResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.GroupsResponse>();
+        Helpers.Serialization.ISerialize<Models.GroupsResponse> GroupsResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.GroupsResponse>();
         public Models.GroupsResponse Groups()
         {
             HttpPayload devices = this.UrlBuilder.GroupsPayload();
@@ -136,7 +141,7 @@ namespace zVirtualClient.VirtualScenes34
         }
 
 
-        Helpers.Serialization.ISerialize<Models.GroupDetailsResponse> GroupDetailsResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.GroupDetailsResponse>();
+        Helpers.Serialization.ISerialize<Models.GroupDetailsResponse> GroupDetailsResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.GroupDetailsResponse>();
         public Models.GroupDetailsResponse GroupDetails(int GroupID)
         {
             HttpPayload devices = this.UrlBuilder.GroupDetailsPayload(GroupID);
@@ -147,7 +152,7 @@ namespace zVirtualClient.VirtualScenes34
 
         }
 
-        Helpers.Serialization.ISerialize<Models.CommandsResponse> CommandsResponseSerializer = new Helpers.Serialization.JSONSerializer<Models.CommandsResponse>();
+        Helpers.Serialization.ISerialize<Models.CommandsResponse> CommandsResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.CommandsResponse>();
         public Models.CommandsResponse Commands()
         {
             HttpPayload devices = this.UrlBuilder.CommandsPayload();
