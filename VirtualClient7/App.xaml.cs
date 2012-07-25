@@ -12,12 +12,26 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using zVirtualClient;
 
 namespace VirtualClient7
 {
     public partial class App : Application
     {
         private static MainViewModel viewModel = null;
+
+        static Client client;
+        public static Client Client
+        {
+            get
+            {
+                if (client == null)
+                {
+                    client = new Client(null);
+                }
+                return client;
+            }
+        }
 
         /// <summary>
         /// A static ViewModel used by the views to bind against.

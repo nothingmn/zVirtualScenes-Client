@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualClient7", "VirtualCl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zVirtualClient7", "zVirtualClient\zVirtualClient7.csproj", "{2AB0B7B7-3781-4FBF-878B-2CAF452F5D4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vcmd", "vcmd\vcmd.csproj", "{AF035C5F-2A21-4896-8C9F-DB325EE97FF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,16 @@ Global
 		{2AB0B7B7-3781-4FBF-878B-2CAF452F5D4C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2AB0B7B7-3781-4FBF-878B-2CAF452F5D4C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2AB0B7B7-3781-4FBF-878B-2CAF452F5D4C}.Release|x86.ActiveCfg = Release|Any CPU
+		{AF035C5F-2A21-4896-8C9F-DB325EE97FF9}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{AF035C5F-2A21-4896-8C9F-DB325EE97FF9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{AF035C5F-2A21-4896-8C9F-DB325EE97FF9}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{AF035C5F-2A21-4896-8C9F-DB325EE97FF9}.Debug|x86.ActiveCfg = Debug|x86
+		{AF035C5F-2A21-4896-8C9F-DB325EE97FF9}.Debug|x86.Build.0 = Debug|x86
+		{AF035C5F-2A21-4896-8C9F-DB325EE97FF9}.Release|Any CPU.ActiveCfg = Release|x86
+		{AF035C5F-2A21-4896-8C9F-DB325EE97FF9}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{AF035C5F-2A21-4896-8C9F-DB325EE97FF9}.Release|Mixed Platforms.Build.0 = Release|x86
+		{AF035C5F-2A21-4896-8C9F-DB325EE97FF9}.Release|x86.ActiveCfg = Release|x86
+		{AF035C5F-2A21-4896-8C9F-DB325EE97FF9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

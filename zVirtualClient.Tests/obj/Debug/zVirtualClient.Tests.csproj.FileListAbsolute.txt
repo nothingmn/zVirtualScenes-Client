@@ -10,3 +10,5 @@ C:\source\github\zVirtualScenes-Client\zVirtualClient.Tests\obj\Debug\zVirtualCl
 C:\source\github\zVirtualScenes-Client\zVirtualClient.Tests\bin\Debug\log4net.config
 C:\source\github\zVirtualScenes-Client\zVirtualClient.Tests\bin\Debug\zVirtualClient.Tests.dll
 C:\source\github\zVirtualScenes-Client\zVirtualClient.Tests\bin\Debug\zVirtualClient.Tests.pdb
+C:\source\github\zVirtualScenes-Client\zVirtualClient.Tests\bin\Debug\Newtonsoft.Json.dll
+C:\source\github\zVirtualScenes-Client\zVirtualClient.Tests\bin\Debug\Newtonsoft.Json.pdb

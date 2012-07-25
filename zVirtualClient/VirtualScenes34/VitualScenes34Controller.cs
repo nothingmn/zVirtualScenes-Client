@@ -79,126 +79,217 @@ namespace zVirtualClient.VirtualScenes34
 
         public void Logout()
         {
+            HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_logout);
             HttpPayload logout = this.UrlBuilder.LogoutPayload();
             logout.Cookies = this.Cookies;
             HttpClient.HTTPAsString(logout);
-            //return loginSerializer.Deserialize(result);
+            
+        }
+
+        void HttpClient_OnHttpDownloaded_logout(object Sender, byte[] Data, long Duration, string Key)
+        {
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_logout);
+            var result = loginSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (OnLogout != null) OnLogout(result);
         }
 
         Helpers.Serialization.ISerialize<Models.Devices> devicesSerializer = new Helpers.Serialization.NewtonSerializer<Models.Devices>();
         public void Devices()
         {
+            HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_devices);
             HttpPayload devices = this.UrlBuilder.DevicesPayload();
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
-            //return devicesSerializer.Deserialize(result);
+        }
+
+        void HttpClient_OnHttpDownloaded_devices(object Sender, byte[] Data, long Duration, string Key)
+        {
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_logout);
+            var result = devicesSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (OnDevices != null) OnDevices(result);
         }
 
         Helpers.Serialization.ISerialize<Models.DeviceDetails> deviceDetailsSerializer = new Helpers.Serialization.NewtonSerializer<Models.DeviceDetails>();
         public void DeviceDetails(int DeviceID)
         {
+            HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_devicedetails);
             HttpPayload devices = this.UrlBuilder.DeviceDetailsPayload(DeviceID);
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
-            //return deviceDetailsSerializer.Deserialize(result);
+        }
+
+        void HttpClient_OnHttpDownloaded_devicedetails(object Sender, byte[] Data, long Duration, string Key)
+        {
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_devicedetails);
+            var result = deviceDetailsSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (OnDeviceDetails != null) OnDeviceDetails(result);
         }
 
         Helpers.Serialization.ISerialize<Models.DeviceCommands> deviceCommandsSerializer = new Helpers.Serialization.NewtonSerializer<Models.DeviceCommands>();
         public void DeviceCommands(int DeviceID)
         {
+            HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_devicecommands);
             HttpPayload devices = this.UrlBuilder.DeviceCommandsPayload(DeviceID);
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
-            //return deviceCommandsSerializer.Deserialize(result);
+        }
+
+        void HttpClient_OnHttpDownloaded_devicecommands(object Sender, byte[] Data, long Duration, string Key)
+        {
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_devicecommands);
+            var result = deviceCommandsSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (OnDeviceCommands != null) OnDeviceCommands(result);
         }
 
 
         Helpers.Serialization.ISerialize<Models.DeviceCommandResponse> deviceCommandsResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.DeviceCommandResponse>();
         public void DeviceCommand(int DeviceID, string Name, int arg, string type)
         {
+            HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_devicecommand);
             HttpPayload devices = this.UrlBuilder.DeviceCommandPayload(DeviceID, Name, arg, type);
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
-            //return deviceCommandsResponseSerializer.Deserialize(result);
+        }
+
+        void HttpClient_OnHttpDownloaded_devicecommand(object Sender, byte[] Data, long Duration, string Key)
+        {
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_devicecommand);
+            var result = deviceCommandsResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (OnDeviceCommand != null) OnDeviceCommand(result);
         }
 
 
         Helpers.Serialization.ISerialize<Models.DeviceValues> deviceValuesResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.DeviceValues>();
         public void DeviceValues(int DeviceID)
         {
+            HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded);
             HttpPayload devices = this.UrlBuilder.DeviceValuesPayload(DeviceID);
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
-            //return deviceValuesResponseSerializer.Deserialize(result);
+        }
+
+        void HttpClient_OnHttpDownloaded(object Sender, byte[] Data, long Duration, string Key)
+        {
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded);
+            var result = deviceValuesResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (OnDeviceValues != null) OnDeviceValues(result);
         }
 
         Helpers.Serialization.ISerialize<Models.SceneResponse> SceneResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.SceneResponse>();
         public void Scenes()
         {
+            HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_scenes);
             HttpPayload devices = this.UrlBuilder.ScenesPayload();
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
-            //return SceneResponseSerializer.Deserialize(result);
+        }
+
+        void HttpClient_OnHttpDownloaded_scenes(object Sender, byte[] Data, long Duration, string Key)
+        {
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_scenes);
+            var result = SceneResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (OnScenes != null) OnScenes(result);
         }
 
 
         Helpers.Serialization.ISerialize<Models.SceneNameChangeResponse> SceneNameChangeResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.SceneNameChangeResponse>();
         public void ChangeSceneName(int SceneID, string Name)
         {
+            HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_changename);
             HttpPayload devices = this.UrlBuilder.ScenesChangeNamePayload(SceneID, Name);
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
-            //return SceneNameChangeResponseSerializer.Deserialize(result);
+        }
+
+        void HttpClient_OnHttpDownloaded_changename(object Sender, byte[] Data, long Duration, string Key)
+        {
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_changename);
+            var result = SceneNameChangeResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (OnChangeSceneName != null) OnChangeSceneName(result);
         }
 
         public void StartScene(int SceneID)
         {
+            HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_startscene);
             HttpPayload devices = this.UrlBuilder.StartScenePayload(SceneID);
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
 
-            //return SceneNameChangeResponseSerializer.Deserialize(result);
 
+        }
+
+        void HttpClient_OnHttpDownloaded_startscene(object Sender, byte[] Data, long Duration, string Key)
+        {
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_startscene);
+            var result = SceneNameChangeResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (OnStartScene != null) OnStartScene(result);
         }
 
         Helpers.Serialization.ISerialize<Models.GroupsResponse> GroupsResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.GroupsResponse>();
         public void Groups()
         {
+            HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_groups);
             HttpPayload devices = this.UrlBuilder.GroupsPayload();
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
 
-            //return GroupsResponseSerializer.Deserialize(result);
+        }
 
+        void HttpClient_OnHttpDownloaded_groups(object Sender, byte[] Data, long Duration, string Key)
+        {
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_groups);
+            var result = GroupsResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (OnGroups != null) OnGroups(result);
         }
 
 
         Helpers.Serialization.ISerialize<Models.GroupDetailsResponse> GroupDetailsResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.GroupDetailsResponse>();
         public void GroupDetails(int GroupID)
         {
+            HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_groupdetails);
             HttpPayload devices = this.UrlBuilder.GroupDetailsPayload(GroupID);
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
-            //return GroupDetailsResponseSerializer.Deserialize(result);
 
+        }
+
+        void HttpClient_OnHttpDownloaded_groupdetails(object Sender, byte[] Data, long Duration, string Key)
+        {
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_groupdetails);
+            var result = GroupDetailsResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (OnGroupDetails != null) OnGroupDetails(result);
         }
 
         Helpers.Serialization.ISerialize<Models.CommandsResponse> CommandsResponseSerializer = new Helpers.Serialization.NewtonSerializer<Models.CommandsResponse>();
         public void Commands()
         {
+            HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_commands);
             HttpPayload devices = this.UrlBuilder.CommandsPayload();
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
-            //return CommandsResponseSerializer.Deserialize(result);
 
+        }
+
+        void HttpClient_OnHttpDownloaded_commands(object Sender, byte[] Data, long Duration, string Key)
+        {
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_commands);
+            var result = CommandsResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (OnCommands != null) OnCommands(result);
         }
 
         public void SendCommand(Models.BuiltinCommand Command)
         {
+            HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_sendcommand);
             HttpPayload devices = this.UrlBuilder.SendCommandsPayload(Command);
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
-            //return CommandsResponseSerializer.Deserialize(result);
+        }
+
+        void HttpClient_OnHttpDownloaded_sendcommand(object Sender, byte[] Data, long Duration, string Key)
+        {
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_sendcommand);
+            var result = CommandsResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (OnSendCommand != null) OnSendCommand(result);
         }
         
     } 

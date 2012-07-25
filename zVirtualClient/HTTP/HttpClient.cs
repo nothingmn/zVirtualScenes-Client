@@ -8,6 +8,11 @@ namespace zVirtualClient.HTTP
 {
     public class HttpClient
     {
+        Helpers.ILog Logger;
+        public HttpClient()
+        {
+            Logger = Client.LogManager.GetLogger<HttpClient>();
+        }
         public enum HttpMethods
         {
             GET,
@@ -76,6 +81,7 @@ namespace zVirtualClient.HTTP
         {
             try
             {
+                Logger.Info(string.Format("Url:{0}, Method:{1}, Key:{2}, Username:{3}, Password:{4}, Domain:{5}, Accept:{6}, AllowAutoRedirect:{7}, ContentType:{8}, UseDefaultCredentials:{9}, UserAgent:{10}", Url, Method, Key, Username, Password, Domain, Accept, AllowAutoRedirect, ContentType, UseDefaultCredentials, UserAgent));
                 StopWatch = new Stopwatch();
                 StopWatch.Start();
                 this.Key = Key;
