@@ -53,10 +53,12 @@
     <Compile Include="Helpers\Serialization\ISerialize.cs" />
     <Compile Include="Helpers\Serialization\JSONSerializer.cs" />
     <Compile Include="Helpers\Serialization\NewtonSerializer.cs" />
-    <Compile Include="HTTP\DesktopHttpClient.cs" />
     <Compile Include="Helpers\ILog.cs" />
     <Compile Include="Helpers\log4netLogger.cs" />
     <Compile Include="Helpers\LogManager.cs" />
+    <Compile Include="HTTP\HttpClient.cs" />
+    <Compile Include="HTTP\HttpDelegates.cs" />
+    <Compile Include="HTTP\VirtualClientHttp.cs" />
     <Compile Include="Interfaces\HttpPayload.cs" />
     <Compile Include="Interfaces\IHttpClient.cs" />
     <Compile Include="Interfaces\IServiceController.cs" />

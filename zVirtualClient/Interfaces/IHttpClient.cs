@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using zVirtualClient.HTTP;
 
 namespace zVirtualClient.Interfaces
 {
@@ -10,8 +11,11 @@ namespace zVirtualClient.Interfaces
         Credentials Credentials { get; set; }
         string ProxyAddress { get; set; }
         int ProxyPort { get; set; }
-        string HTTPAsString(HttpPayload Payload);
-        
-        
+        void HTTPAsString(HttpPayload Payload);
+        event HttpDownloaded OnHttpDownloaded;
+        event HttpDownloadError OnHttpDownloadError;
+        event HttpDownloadProgress OnHttpDownloadProgress;
+        event HttpDownloadTimeout OnHttpDownloadTimeout;
+
     }
 }

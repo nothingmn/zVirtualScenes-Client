@@ -61,7 +61,10 @@
     <Compile Include="Helpers\Serialization\ISerialize.cs" />
     <Compile Include="Helpers\Serialization\NewtonSerializer.cs" />
     <Compile Include="Helpers\UrlHelper.cs" />
-    <Compile Include="HTTP\WP7HttpClient.cs" />
+    <Compile Include="HTTP\HttpClient.cs" />
+    <Compile Include="HTTP\HttpDelegates.cs" />
+    <Compile Include="HTTP\StopWatch.cs" />
+    <Compile Include="HTTP\VirtualClientHttp.cs" />
     <Compile Include="Interfaces\HttpPayload.cs" />
     <Compile Include="Interfaces\IHttpClient.cs" />
     <Compile Include="Interfaces\IServiceController.cs" />

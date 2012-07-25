@@ -52,10 +52,14 @@ namespace VirtualClient7
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
             zVirtualClient.Client c = new zVirtualClient.Client(new zVirtualClient.Credentials("http://styx", 8030, null, "password"));
-            var result = c.Login();
-            MessageBox.Show(result.isLoggedIn.ToString());
-            MessageBox.Show(result.success.ToString());
+            c.OnLogin += new zVirtualClient.Interfaces.LoginResponse(c_OnLogin);
+            c.Login();
 
+        }
+
+        void c_OnLogin(zVirtualClient.Models.LoginResponse LoginResponse)
+        {
+            throw new NotImplementedException();
         }
     }
 }
