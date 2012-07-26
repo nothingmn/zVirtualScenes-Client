@@ -21,13 +21,13 @@ namespace vcmd
     }
     public class Arguments
     {
-        [Argument(ArgumentType.Required, ShortName = "pa", HelpText = "Password to the zVirtualScenes Server")]
+        [Argument(ArgumentType.AtMostOnce, ShortName = "pa", HelpText = "Password to the zVirtualScenes Server")]
         public string Password { get; set; }
 
-        [Argument(ArgumentType.Required, ShortName = "h", HelpText = "Host to the zVirtualScenes Serer (http://server.com)")]
+        [Argument(ArgumentType.AtMostOnce, ShortName = "h", HelpText = "Host to the zVirtualScenes Serer (http://server.com)")]
         public string Host { get; set; }
 
-        [Argument(ArgumentType.Required, ShortName = "po", HelpText = "Port to the zVirtualScenes Serer")]
+        [Argument(ArgumentType.AtMostOnce, ShortName = "po", HelpText = "Port to the zVirtualScenes Serer")]
         public int Port { get; set; }
 
         [Argument(ArgumentType.Required, ShortName = "a", HelpText = "Action to take")]

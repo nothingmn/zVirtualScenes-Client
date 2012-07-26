@@ -20,6 +20,7 @@ namespace VirtualClient7
     {
         private static MainViewModel viewModel = null;
 
+        public static bool Connected { get; set; }
         static Client client;
         public static Client Client
         {
@@ -27,10 +28,30 @@ namespace VirtualClient7
             {
                 if (client == null)
                 {
-                    client = new Client(null);
+                    zVirtualClient.HTTP.HttpClient.Timeout = int.MaxValue;
+                    Connected = false;
+                    client = new Client(new Credentials("http://000", 000, null, "000"));
+                    client.OnError += new zVirtualClient.Interfaces.Error(client_OnError);
+                    client.OnLogin += new zVirtualClient.Interfaces.LoginResponse(client_OnLogin);
+                    client.Login();
                 }
                 return client;
             }
+        }
+
+        static void client_OnLogin(zVirtualClient.Models.LoginResponse LoginResponse)
+        {
+            Connected = LoginResponse.success;
+            if (Connected)
+            {
+                viewModel.LoadData();
+            }
+        }
+
+        static void client_OnError(object Sender, string Message, Exception Exception)
+        {
+            Connected = false;
+            if(Exception!=null)  throw Exception;
         }
 
         /// <summary>
@@ -104,7 +125,7 @@ namespace VirtualClient7
             // Ensure that application state is restored appropriately
             if (!App.ViewModel.IsDataLoaded)
             {
-                App.ViewModel.LoadData();
+                App.Client.Login();
             }
         }
 

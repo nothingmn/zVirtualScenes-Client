@@ -16,6 +16,33 @@ namespace vcmd
 
             if (vcmd.Parser.ParseArgumentsWithUsage(args, a))
             {
+                if (string.IsNullOrEmpty(a.Host))
+                {
+                    a.Host = System.Configuration.ConfigurationSettings.AppSettings["host"];
+                }
+                if (string.IsNullOrEmpty(a.Password))
+                {
+                    a.Password = System.Configuration.ConfigurationSettings.AppSettings["password"];
+                }
+                if (a.Port<=0)
+                {
+                    int port = 0;
+                    string p = System.Configuration.ConfigurationSettings.AppSettings["port"];
+                    int.TryParse(p, out port);
+                    a.Port = port;
+                }
+                if (string.IsNullOrEmpty(a.Host))
+                {
+                    throw new ArgumentNullException("Host");
+                }
+                if (string.IsNullOrEmpty(a.Password))
+                {
+                    throw new ArgumentNullException("Password");
+                }
+                if ((a.Port <= 0))
+                {
+                    throw new ArgumentNullException("Port");
+                }
                 //     insert application code here
                 Credentials c = new Credentials(a.Host, a.Port, null, a.Password);
                 client = new Client(c);

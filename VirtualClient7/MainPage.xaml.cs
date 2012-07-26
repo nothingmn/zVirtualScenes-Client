@@ -43,21 +43,15 @@ namespace VirtualClient7
         {
             if (!App.ViewModel.IsDataLoaded)
             {
-                App.ViewModel.LoadData();
+                //App.ViewModel.LoadData();
             }
         }
 
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
-            zVirtualClient.Client c = new zVirtualClient.Client(new zVirtualClient.Credentials("http://styx", 8030, null, "password"));
-            c.OnLogin += new zVirtualClient.Interfaces.LoginResponse(c_OnLogin);
-            c.Login();
-
+            App.Client.Devices();
         }
 
-        void c_OnLogin(zVirtualClient.Models.LoginResponse LoginResponse)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

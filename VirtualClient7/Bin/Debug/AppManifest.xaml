@@ -2,6 +2,5 @@
   <Deployment.Parts>
     <AssemblyPart x:Name="VirtualClient7" Source="VirtualClient7.dll" />
     <AssemblyPart x:Name="zVirtualClient7" Source="zVirtualClient7.dll" />
-    <AssemblyPart x:Name="Newtonsoft.Json" Source="Newtonsoft.Json.dll" />
   </Deployment.Parts>
 </Deployment>

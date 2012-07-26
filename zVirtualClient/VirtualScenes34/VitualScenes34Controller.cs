@@ -104,7 +104,7 @@ namespace zVirtualClient.VirtualScenes34
 
         void HttpClient_OnHttpDownloaded_devices(object Sender, byte[] Data, long Duration, string Key)
         {
-            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_logout);
+            HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_devices);
             var result = devicesSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnDevices != null) OnDevices(result);
         }
