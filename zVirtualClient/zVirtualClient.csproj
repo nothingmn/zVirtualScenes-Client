@@ -59,9 +59,11 @@
     <Compile Include="HTTP\HttpClient.cs" />
     <Compile Include="HTTP\HttpDelegates.cs" />
     <Compile Include="HTTP\VirtualClientHttp.cs" />
-    <Compile Include="Interfaces\HttpPayload.cs" />
-    <Compile Include="Interfaces\IHttpClient.cs" />
+    <Compile Include="HTTP\HttpPayload.cs" />
+    <Compile Include="Configuration\IConfigurationReader.cs" />
+    <Compile Include="HTTP\IHttpClient.cs" />
     <Compile Include="Interfaces\IServiceController.cs" />
+    <Compile Include="Storage\IStoreage.cs" />
     <Compile Include="Models\BuiltinCommand.cs" />
     <Compile Include="Models\CommandsResponse.cs" />
     <Compile Include="Models\Details.cs" />
@@ -82,7 +84,10 @@
     <Compile Include="Models\Value.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\UrlHelper.cs" />
-    <Compile Include="Interfaces\IUrlBuilder.cs" />
+    <Compile Include="HTTP\IUrlBuilder.cs" />
+    <Compile Include="Configuration\AppConfigConfigurationReader.cs" />
+    <Compile Include="Storage\FileStorage.cs" />
+    <Compile Include="Storage\IsolatedStorage.cs" />
     <Compile Include="VirtualScenes34\VirtualScenes34UrlBuilder.cs" />
     <Compile Include="VirtualScenes34\VitualScenes34Controller.cs" />
   </ItemGroup>

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace zVirtualClient.HTTP
 {
-    public class VirtualClientHttp : Interfaces.IHttpClient
+    public class VirtualClientHttp : IHttpClient
     {
         public VirtualClientHttp(Credentials credentials)
         {
@@ -20,7 +20,7 @@ namespace zVirtualClient.HTTP
         public Credentials Credentials { get; set; }
         public string ProxyAddress { get; set; }
         public int ProxyPort { get; set; }
-        public void HTTPAsString(Interfaces.HttpPayload Payload)
+        public void HTTPAsString(HttpPayload Payload)
         {
             HttpClient c = new HttpClient();
             c.OnHttpDownloaded += new HttpDownloaded(c_OnHttpDownloaded);

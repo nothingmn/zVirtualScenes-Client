@@ -16,32 +16,30 @@ namespace vcmd
 
             if (vcmd.Parser.ParseArgumentsWithUsage(args, a))
             {
+                var configurationReader = new zVirtualClient.Configuration.AppConfigConfigurationReader();
                 if (string.IsNullOrEmpty(a.Host))
                 {
-                    a.Host = System.Configuration.ConfigurationSettings.AppSettings["host"];
+                    a.Host = configurationReader.ReadSetting<string>("Host");
+                    if (string.IsNullOrEmpty(a.Host))
+                    {
+                        throw new ArgumentNullException("Host");
+                    }
                 }
                 if (string.IsNullOrEmpty(a.Password))
                 {
-                    a.Password = System.Configuration.ConfigurationSettings.AppSettings["password"];
+                    a.Password = configurationReader.ReadSetting<string>("Password");
+                    if (string.IsNullOrEmpty(a.Password))
+                    {
+                        throw new ArgumentNullException("Password");
+                    }
                 }
-                if (a.Port<=0)
+                if (a.Port <= 0)
                 {
-                    int port = 0;
-                    string p = System.Configuration.ConfigurationSettings.AppSettings["port"];
-                    int.TryParse(p, out port);
-                    a.Port = port;
-                }
-                if (string.IsNullOrEmpty(a.Host))
-                {
-                    throw new ArgumentNullException("Host");
-                }
-                if (string.IsNullOrEmpty(a.Password))
-                {
-                    throw new ArgumentNullException("Password");
-                }
-                if ((a.Port <= 0))
-                {
-                    throw new ArgumentNullException("Port");
+                    a.Port = configurationReader.ReadSetting<int>("Port");
+                    if ((a.Port <= 0))
+                    {
+                        throw new ArgumentNullException("Port");
+                    }
                 }
                 //     insert application code here
                 Credentials c = new Credentials(a.Host, a.Port, null, a.Password);
@@ -350,7 +348,7 @@ namespace vcmd
         static void client_OnError(object Sender, string Message, Exception Exception)
         {
             Console.WriteLine(Message);
-            throw Exception;
+            Console.WriteLine(Exception.ToString());
             running = false;
         }
     }

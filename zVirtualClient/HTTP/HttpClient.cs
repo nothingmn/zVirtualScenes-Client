@@ -22,7 +22,7 @@ namespace zVirtualClient.HTTP
             DELETE, 
             OPTIONS
         } 
-        public static long Timeout = 5000;
+        public static long Timeout = int.MaxValue;
 
 
         public event HttpDownloaded OnHttpDownloaded;

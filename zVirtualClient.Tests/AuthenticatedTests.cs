@@ -111,28 +111,48 @@ namespace zVirtualClient.Tests
         {
             response = SceneNameChangeResponse;
             testTrigger.Set();
-        }
+        } 
         
         [Test]
         public void Login()
         {
+            zVirtualClient.HTTP.HttpClient.Timeout = int.MaxValue;
             testTrigger = new AutoResetEvent(false);
             client.Login();
             testTrigger.WaitOne();
             Assert.IsTrue(((Models.LoginResponse)response).success);
 
+
+        }
+        [Test]
+        public void Devices()
+        {
+            zVirtualClient.HTTP.HttpClient.Timeout = int.MaxValue;
+            testTrigger = new AutoResetEvent(false);
+            client.Login();
+            testTrigger.WaitOne();
+
+            Assert.IsFalse(hasError);
+
             client.Devices();
             testTrigger.WaitOne();
 
+            Assert.IsFalse(hasError);
             //assert
             Models.Devices DevicesResponse = (Models.Devices)response;
             Assert.IsTrue(DevicesResponse != null, "Count:" + DevicesResponse.devices.Count);
             Assert.IsTrue(DevicesResponse.success);
 
         }
+
+        private bool hasError = false;
+        private object error = null;
         void client_OnError(object Sender, string Message, Exception Exception)
         {
-            Assert.Fail(Message, Sender, Exception);
+            hasError = true;
+            error = Exception;
+            //Assert.Fail(Message, Sender, Exception);
+            testTrigger.Set();
         }
 
         object response;

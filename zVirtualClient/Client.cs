@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using zVirtualClient.HTTP;
 using zVirtualClient.Interfaces;
 
 namespace zVirtualClient
@@ -47,8 +48,17 @@ namespace zVirtualClient
         public event CommandsResponse OnSendCommand;
         public event Error OnError;
 
-        public Client(Credentials Credentials, IHttpClient HttpClient = null, IServiceController Controller = null)
+        private Configuration.IConfigurationReader ConfigurationReader;
+        public Client(Credentials Credentials, IHttpClient HttpClient = null, IServiceController Controller = null, Configuration.IConfigurationReader ConfigurationReader = null)
         {
+            if (ConfigurationReader == null)
+            {
+#if WINDOWS_PHONE
+                ConfigurationReader = new Configuration.IsolatedStorageConfigurationReader();
+#else
+                ConfigurationReader = new Configuration.AppConfigConfigurationReader();
+#endif
+            }
             if (HttpClient == null)
             {
                 if (HttpClient == null)

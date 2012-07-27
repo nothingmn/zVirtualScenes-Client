@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -10,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Coding4Fun.Phone.Controls;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using zVirtualClient;
@@ -18,58 +20,65 @@ namespace VirtualClient7
 {
     public partial class App : Application
     {
-        private static MainViewModel viewModel = null;
+        private static DevicesViewModel devicesViewModel = null;
+        private static ScenesViewModel scenesViewModel = null;
+        private static DeviceCommandsViewModel deviceCommandsViewModel = null;
 
         public static bool Connected { get; set; }
         static Client client;
         public static Client Client
         {
-            get
-            {
-                if (client == null)
-                {
-                    zVirtualClient.HTTP.HttpClient.Timeout = int.MaxValue;
-                    Connected = false;
-                    client = new Client(new Credentials("http://000", 000, null, "000"));
-                    client.OnError += new zVirtualClient.Interfaces.Error(client_OnError);
-                    client.OnLogin += new zVirtualClient.Interfaces.LoginResponse(client_OnLogin);
-                    client.Login();
-                }
-                return client;
-            }
+            get { return client; }
+            set { client = value; }
         }
 
-        static void client_OnLogin(zVirtualClient.Models.LoginResponse LoginResponse)
-        {
-            Connected = LoginResponse.success;
-            if (Connected)
-            {
-                viewModel.LoadData();
-            }
-        }
-
-        static void client_OnError(object Sender, string Message, Exception Exception)
-        {
-            Connected = false;
-            if(Exception!=null)  throw Exception;
-        }
 
         /// <summary>
-        /// A static ViewModel used by the views to bind against.
+        /// A static DevicesViewModel used by the views to bind against.
         /// </summary>
-        /// <returns>The MainViewModel object.</returns>
-        public static MainViewModel ViewModel
+        /// <returns>The DevicesViewModel object.</returns>
+        public static DeviceCommandsViewModel DeviceCommandsViewModel
         {
             get
             {
                 // Delay creation of the view model until necessary
-                if (viewModel == null)
-                    viewModel = new MainViewModel();
+                if (deviceCommandsViewModel == null)
+                    deviceCommandsViewModel = new DeviceCommandsViewModel();
 
-                return viewModel;
+                return deviceCommandsViewModel;
+            }
+        }
+        /// <summary>
+        /// A static DevicesViewModel used by the views to bind against.
+        /// </summary>
+        /// <returns>The DevicesViewModel object.</returns>
+        public static DevicesViewModel DevicesViewModel
+        {
+            get
+            {
+                // Delay creation of the view model until necessary
+                if (devicesViewModel == null)
+                    devicesViewModel = new DevicesViewModel();
+
+                return devicesViewModel;
             }
         }
 
+        /// <summary>
+        /// A static DevicesViewModel used by the views to bind against.
+        /// </summary>
+        /// <returns>The DevicesViewModel object.</returns>
+        public static ScenesViewModel ScenesViewModel
+        {
+            get
+            {
+                // Delay creation of the view model until necessary
+                if (scenesViewModel == null)
+                    scenesViewModel = new ScenesViewModel();
+
+                return scenesViewModel;
+            }
+        }
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
@@ -123,7 +132,7 @@ namespace VirtualClient7
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
             // Ensure that application state is restored appropriately
-            if (!App.ViewModel.IsDataLoaded)
+            if (!App.DevicesViewModel.IsDataLoaded)
             {
                 App.Client.Login();
             }
