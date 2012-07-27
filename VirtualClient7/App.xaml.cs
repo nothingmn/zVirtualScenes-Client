@@ -171,7 +171,7 @@ namespace VirtualClient7
                 System.Diagnostics.Debugger.Break();
             }
         }
-
+    
         #region Phone application initialization
 
         // Avoid double-initialization

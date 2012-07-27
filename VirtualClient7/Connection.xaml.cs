@@ -22,11 +22,30 @@ namespace VirtualClient7
             InitializeComponent();
             var host = ConfigurationReader.ReadSetting<string>("Host");
             if (!string.IsNullOrEmpty(host)) this.HostInput.Text = host;
-            var pass = ConfigurationReader.ReadSetting<string>("Port");
-            if (!string.IsNullOrEmpty(pass)) this.PasswordInput.Password = pass;
-            var port = ConfigurationReader.ReadSetting<int>("Password");
-            if (!string.IsNullOrEmpty(host)) this.PortInput.Text = port.ToString();
 
+            var port = ConfigurationReader.ReadSetting<string>("Port");
+            if (!string.IsNullOrEmpty(port)) this.PortInput.Text = port;
+
+            var pass = ConfigurationReader.ReadSetting<string>("Password");
+            if (!string.IsNullOrEmpty(pass)) this.PasswordInput.Password = pass;
+
+            this.HostInput.KeyUp += new KeyEventHandler(HostInput_KeyUp);
+            this.PortInput.KeyUp += new KeyEventHandler(HostInput_KeyUp);
+        }
+
+ 
+
+        void HostInput_KeyUp(object sender, KeyEventArgs e)
+        {
+            this.URLField.Text = "";
+            System.Uri uri;
+            string h = this.HostInput.Text;
+            string p = this.PortInput.Text;
+
+            if (System.Uri.TryCreate(string.Format("{0}:{1}/API/", h, p), UriKind.Absolute, out uri))
+            {
+                this.URLField.Text = uri.ToString();
+            }
         }
 
         IsolatedStorageConfigurationReader ConfigurationReader = new IsolatedStorageConfigurationReader();

@@ -32,20 +32,24 @@
                 <RowDefinition Height="75"></RowDefinition>
                 <RowDefinition Height="75"></RowDefinition>
                 <RowDefinition Height="75"></RowDefinition>
+                <RowDefinition Height="75"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>                
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="HostTitle" Text="host:" Grid.Row="0" Grid.Column="0" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="PortTitle" Text="port:" Grid.Row="1" Grid.Column="0" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="PasswordTitle" Text="password:" Grid.Row="2" Grid.Column="0" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBox HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="HostInput" Grid.Row="0" Grid.Column="1" Width="200" Height="75"  />
-            <TextBox InputScope="Number" HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="PortInput" Grid.Row="1" Grid.Column="1" Width="200" Height="75">
-                
-            </TextBox>
-            <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="PasswordInput" Grid.Row="2" Grid.Column="1"  Width="200" Height="75"   />
+
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  x:Name="URLField" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource PhoneTextLargeStyle}"/>
+
+            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="HostTitle" Text="host:" Grid.Row="1" Grid.Column="0" Style="{StaticResource PhoneTextLargeStyle}"/>
+            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="PortTitle" Text="port:" Grid.Row="2" Grid.Column="0" Style="{StaticResource PhoneTextLargeStyle}"/>
+            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="PasswordTitle" Text="password:" Grid.Row="3" Grid.Column="0" Style="{StaticResource PhoneTextLargeStyle}"/>
+            
+            <TextBox HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="HostInput" Grid.Row="1" Grid.Column="1" Width="275" />
+            <TextBox InputScope="Number" HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="PortInput" Grid.Row="2" Grid.Column="1" Width="270" Height="75"/>
+            <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="PasswordInput" Grid.Row="3" Grid.Column="1"  Width="270" Height="75"   />
+
         </Grid>
     </Grid>
  

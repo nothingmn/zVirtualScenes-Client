@@ -130,8 +130,15 @@ namespace VirtualClient7
         }
 
         static void client_OnError(object Sender, string Message, Exception Exception)
-        {
+        {           
             App.Connected = false;
+
+            ConfigurationReader.WriteSetting("Host", "");
+            ConfigurationReader.WriteSetting("Port", "0");
+            ConfigurationReader.WriteSetting("Password", "");
+
+            MessageBox.Show("An error has occured, exiting.  Please try again.");
+            
             if (Exception != null) throw Exception;
         }
 
