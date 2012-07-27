@@ -1387,15 +1387,15 @@ namespace vcmd
 
                             builder.Append(":{");
                             bool first = true;
-                            foreach (PropertyInfo property in valueType.GetProperties())
+                            foreach (FieldInfo field in valueType.GetFields())
                             {
-                                if (property.GetGetMethod().IsStatic)
+                                if (field.IsStatic)
                                 {
                                     if (first)
                                         first = false;
                                     else
                                         builder.Append('|');
-                                    builder.Append(property.Name);
+                                    builder.Append(field.Name);
                                 }
                             }
                             builder.Append('}');

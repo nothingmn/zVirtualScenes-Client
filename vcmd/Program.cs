@@ -89,7 +89,7 @@ namespace vcmd
                 case Actions.DeviceDetails:
                     client.DeviceDetails(a.DeviceID);
                     break;
-                case Actions.ListBuildInCommands:
+                case Actions.ListBuiltInCommands:
                     client.Commands();
                     break;
                 case Actions.ListDeviceCommands:
@@ -110,7 +110,7 @@ namespace vcmd
                 case Actions.ListScenes:
                     client.Scenes();
                     break;
-                case Actions.SendBuildInCommand:                    
+                case Actions.SendBuiltInCommand:                    
                     break;
                 case Actions.StartScene:
                     client.StartScene(a.SceneID);
@@ -304,7 +304,7 @@ namespace vcmd
         {
             if (CommandsResponse.success)
             {
-                Console.WriteLine(string.Format("Device Command:"));
+                Console.WriteLine(string.Format("List of Built in Device Commands:"));
                 foreach (var item in CommandsResponse.builtin_commands)
                 {
                     Console.WriteLine(string.Format("{0} : {1}",item.friendlyname, item.helptext));

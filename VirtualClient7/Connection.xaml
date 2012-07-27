@@ -36,7 +36,7 @@
                 <RowDefinition Height="*"></RowDefinition>                
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"></ColumnDefinition>
+                <ColumnDefinition Width="175"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
@@ -49,7 +49,7 @@
             <TextBox HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="HostInput" Grid.Row="1" Grid.Column="1" Width="275" />
             <TextBox InputScope="Number" HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="PortInput" Grid.Row="2" Grid.Column="1" Width="270" Height="75"/>
             <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="PasswordInput" Grid.Row="3" Grid.Column="1"  Width="270" Height="75"   />
-
+            <Image Source="Images/logo.png" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"></Image>
         </Grid>
     </Grid>
  

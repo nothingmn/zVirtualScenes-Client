@@ -16,8 +16,8 @@ namespace vcmd
         StartScene,
         ListGroups,
         ListGroupsDetails,
-        ListBuildInCommands,
-        SendBuildInCommand
+        ListBuiltInCommands,
+        SendBuiltInCommand
     }
     public class Arguments
     {
