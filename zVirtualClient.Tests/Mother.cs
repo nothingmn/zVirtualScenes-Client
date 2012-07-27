@@ -11,7 +11,7 @@ namespace zVirtualClient.Tests
         {
             get
             {
-                return new Credentials("http://home.chartier-family.com", 8030, null, "5757");
+                return new Credentials("http://styx", 8030, null, "5757");
             }
         }
     }
