@@ -292,7 +292,7 @@ namespace vcmd
         public string ShortName
         {
             get { return this.shortName; }
-            set { Debug.Assert(value == null || !(this is DefaultArgumentAttribute)); this.shortName = value; }
+            set { this.shortName = value; }
         }
 
         /// <summary>
@@ -308,8 +308,8 @@ namespace vcmd
         /// </summary>
         public string LongName
         {
-            get { Debug.Assert(!this.DefaultLongName); return this.longName; }
-            set { Debug.Assert(value != ""); this.longName = value; }
+            get {  return this.longName; }
+            set { this.longName = value; }
         }
 
         /// <summary>
@@ -536,25 +536,25 @@ namespace vcmd
             internal COORD dwMaximumWindowSize;
         }
 
-        [DllImport("kernel32.dll", EntryPoint = "GetStdHandle", SetLastError = true, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
-        private static extern int GetStdHandle(int nStdHandle);
+        //[DllImport("kernel32.dll", EntryPoint = "GetStdHandle", SetLastError = true, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        //private static extern int GetStdHandle(int nStdHandle);
 
-        [DllImport("kernel32.dll", EntryPoint = "GetConsoleScreenBufferInfo", SetLastError = true, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
-        private static extern int GetConsoleScreenBufferInfo(int hConsoleOutput, ref CONSOLE_SCREEN_BUFFER_INFO lpConsoleScreenBufferInfo);
-
+        //[DllImport("kernel32.dll", EntryPoint = "GetConsoleScreenBufferInfo", SetLastError = true, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall);
+		//private static extern int GetConsoleScreenBufferInfo(int hConsoleOutput, ref CONSOLE_SCREEN_BUFFER_INFO lpConsoleScreenBufferInfo);
+		
         /// <summary>
         /// Returns the number of columns in the current console window
         /// </summary>
         /// <returns>Returns the number of columns in the current console window</returns>
         public static int GetConsoleWindowWidth()
         {
-            int screenWidth;
-            CONSOLE_SCREEN_BUFFER_INFO csbi = new CONSOLE_SCREEN_BUFFER_INFO();
+			return System.Console.WindowWidth;
+            //int screenWidth;
+            //CONSOLE_SCREEN_BUFFER_INFO csbi = new CONSOLE_SCREEN_BUFFER_INFO();
 
-            int rc;
-            rc = GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), ref csbi);
-            screenWidth = csbi.dwSize.x;
-            return screenWidth;
+            //GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), ref csbi);
+            //screenWidth = csbi.dwSize.x;
+            //return screenWidth;
         }
 
         /// <summary>
@@ -603,8 +603,8 @@ namespace vcmd
         public Parser(Type argumentSpecification, ErrorReporter reporter)
         {
             this.reporter = reporter;
-            this.arguments = new ArrayList();
-            this.argumentMap = new Hashtable();
+            this.arguments = new System.Collections.Generic.List<vcmd.Parser.Argument>();
+            this.argumentMap = new System.Collections.Generic.Dictionary<string, vcmd.Parser.Argument> ();
 
             foreach (PropertyInfo prop in argumentSpecification.GetProperties())
             {
@@ -614,12 +614,13 @@ namespace vcmd
                     ArgumentAttribute attribute = GetAttribute(prop);
                     if (attribute is DefaultArgumentAttribute)
                     {
-                        Debug.Assert(this.defaultArgument == null);
+                        
                         this.defaultArgument = new Argument(attribute, prop, reporter);
                     }
                     else
-                    {
-                        this.arguments.Add(new Argument(attribute, prop, reporter));
+                    {						
+						Argument a = new Argument(attribute, prop, reporter);
+                        this.arguments.Add(a);
                     }
                 }
             }
@@ -627,13 +628,13 @@ namespace vcmd
             // add explicit names to map
             foreach (Argument argument in this.arguments)
             {
-                Debug.Assert(!argumentMap.ContainsKey(argument.LongName));
+                
                 this.argumentMap[argument.LongName] = argument;
                 if (argument.ExplicitShortName)
                 {
                     if (argument.ShortName != null && argument.ShortName.Length > 0)
                     {
-                        Debug.Assert(!argumentMap.ContainsKey(argument.ShortName));
+                        
                         this.argumentMap[argument.ShortName] = argument;
                     }
                     else
@@ -662,7 +663,7 @@ namespace vcmd
             if (attributes.Length == 1)
                 return (ArgumentAttribute)attributes[0];
 
-            Debug.Assert(attributes.Length == 0);
+            
             return null;
         }
 
@@ -1109,17 +1110,7 @@ namespace vcmd
                     this.collectionValues = new ArrayList();
                 }
 
-                Debug.Assert(this.longName != null && this.longName != "");
-                Debug.Assert(!this.isDefault || !this.ExplicitShortName);
-                Debug.Assert(!IsCollection || AllowMultiple, "Collection arguments must have allow multiple");
-                Debug.Assert(!Unique || IsCollection, "Unique only applicable to collection arguments");
-                Debug.Assert(IsValidElementType(Type) ||
-                    IsCollectionType(Type));
-                Debug.Assert((IsCollection && IsValidElementType(elementType)) ||
-                    (!IsCollection && elementType == null));
-                Debug.Assert(!(this.IsRequired && this.HasDefaultValue), "Required arguments cannot have default value");
-                Debug.Assert(!this.HasDefaultValue || (this.defaultValue.GetType() == property.PropertyType), "Type of default value must match property type");
-            }
+                 }
 
             public bool Finish(object destination)
             {
@@ -1199,16 +1190,16 @@ namespace vcmd
             {
                 // null is only valid for bool variables
                 // empty string is never valid
-                if ((stringData != null || type == typeof(bool)) && (stringData == null || stringData.Length > 0))
+                if ((stringData != null || type.Name.ToLower().StartsWith ("bool")) && (stringData == null || stringData.Length > 0))
                 {
                     try
                     {
-                        if (type == typeof(string))
+                        if (type.Name.ToLower().StartsWith ("string"))
                         {
                             value = stringData;
                             return true;
                         }
-                        else if (type == typeof(bool))
+                        else if (type.Name.ToLower().StartsWith ("bool"))
                         {
                             if (stringData == null || stringData == "+")
                             {
@@ -1221,19 +1212,19 @@ namespace vcmd
                                 return true;
                             }
                         }
-                        else if (type == typeof(int))
+                        else if (type.Name.ToLower().StartsWith ("int"))
                         {
                             value = int.Parse(stringData);
                             return true;
                         }
-                        else if (type == typeof(uint))
+                        else if (type.Name.ToLower().StartsWith ("uint"))
                         {
                             value = int.Parse(stringData);
                             return true;
                         }
                         else
                         {
-                            Debug.Assert(type.IsEnum);
+                            
                             value = Enum.Parse(type, stringData, true);
                             return true;
                         }
@@ -1347,12 +1338,11 @@ namespace vcmd
                     return builder.ToString();
                 }
             }
-
-            public string SyntaxHelp
-            {
-                get
-                {
-                    StringBuilder builder = new StringBuilder();
+			
+			private string buildSyntaxHelp() {
+		
+				
+				 StringBuilder builder = new StringBuilder();
 
                     if (this.IsDefault)
                     {
@@ -1365,25 +1355,25 @@ namespace vcmd
                         builder.Append("/");
                         builder.Append(this.LongName);
                         Type valueType = this.ValueType;
-                        if (valueType == typeof(int))
+                        if (valueType.Name.ToLower ().StartsWith ("int"))
                         {
                             builder.Append(":<int>");
                         }
-                        else if (valueType == typeof(uint))
+                        else if (valueType.Name.ToLower ().StartsWith ("uint"))
                         {
                             builder.Append(":<uint>");
                         }
-                        else if (valueType == typeof(bool))
+                        else if (valueType.Name.ToLower ().StartsWith ("bool"))
                         {
                             builder.Append("[+|-]");
                         }
-                        else if (valueType == typeof(string))
+                        else if (valueType.Name.ToLower ().StartsWith ("string"))
                         {
                             builder.Append(":<string>");
                         }
                         else
                         {
-                            Debug.Assert(valueType.IsEnum);
+                            
 
                             builder.Append(":{");
                             bool first = true;
@@ -1403,6 +1393,13 @@ namespace vcmd
                     }
 
                     return builder.ToString();
+			}
+			
+            public string SyntaxHelp
+            {
+                get
+                {
+                   return buildSyntaxHelp ();
                 }
             }
 
@@ -1456,8 +1453,8 @@ namespace vcmd
             private bool isDefault;
         }
 
-        private ArrayList arguments;
-        private Hashtable argumentMap;
+        private System.Collections.Generic.IList<vcmd.Parser.Argument> arguments;
+        private System.Collections.Generic.IDictionary<string, vcmd.Parser.Argument>  argumentMap;
         private Argument defaultArgument;
         private ErrorReporter reporter;
     }

@@ -6,15 +6,17 @@ using zVirtualClient;
 
 namespace vcmd
 {
+	
     class Program
     {
+		static System.Threading.ManualResetEvent reset;
         static Arguments a = new Arguments();
-        static bool running = true;
-        static Client client;
+		static Client client;
         static void Main(string[] args)
         {
+			reset = new  System.Threading.ManualResetEvent(false);
 
-            if (vcmd.Parser.ParseArgumentsWithUsage(args, a))
+            if (vcmd.Parser.ParseArguments(args, a))
             {
                 var configurationReader = new zVirtualClient.Configuration.AppConfigConfigurationReader();
                 if (string.IsNullOrEmpty(a.Host))
@@ -62,11 +64,8 @@ namespace vcmd
                 client.OnStartScene += new zVirtualClient.Interfaces.SceneNameChangeResponse(client_OnStartScene);
                 Console.WriteLine("Trying to login..");
                 client.Login();
-                while (running)
-                {
-                    System.Threading.Thread.Sleep(500);
-                }
-
+				
+				reset.WaitOne ();
             }
 
         }
@@ -160,7 +159,7 @@ namespace vcmd
         static void client_OnLogout(zVirtualClient.Models.LoginResponse LoginResponse)
         {
             Console.WriteLine("Logout Result:" + LoginResponse.success);
-            running = false;
+			reset.Set ();
 
         }
 
@@ -340,7 +339,7 @@ namespace vcmd
             else
             {
                 Console.WriteLine("Could not authenticate your credentails against the Server");
-                running = false;
+                reset.Set ();
             }
 
         }
@@ -349,7 +348,7 @@ namespace vcmd
         {
             Console.WriteLine(Message);
             Console.WriteLine(Exception.ToString());
-            running = false;
+            reset.Set ();
         }
     }
 }
