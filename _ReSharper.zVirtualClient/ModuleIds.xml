@@ -1,7 +1,0 @@
-<Modules>
-  <Module PersistentId="A26A314C-FDFC-4F4E-811B-8C83733F54A8" ModuleId="zVirtualClient.Tests" />
-  <Module PersistentId="4A237305-EB03-4C75-A408-830C6A665156" ModuleId="zVirtualClient" />
-  <Module PersistentId="2AB0B7B7-3781-4FBF-878B-2CAF452F5D4C" ModuleId="zVirtualClient7" />
-  <Module PersistentId="2AA1C0AE-6FC1-4BD6-8CA0-1800439F39E2" ModuleId="VirtualClient7" />
-  <Module PersistentId="AF035C5F-2A21-4896-8C9F-DB325EE97FF9" ModuleId="vcmd" />
-</Modules>
