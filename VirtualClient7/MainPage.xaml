@@ -62,7 +62,7 @@
             <!--<shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1" Click="ApplicationBarIconButton_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>-->
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="Forget Credentials" Click="ForgetCredentialsApplicationBarMenuItem_Click" />
+                <shell:ApplicationBarMenuItem Text="Manage Credentials" Click="ForgetCredentialsApplicationBarMenuItem_Click" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

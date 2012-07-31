@@ -33,6 +33,7 @@
                 <RowDefinition Height="75"></RowDefinition>
                 <RowDefinition Height="75"></RowDefinition>
                 <RowDefinition Height="75"></RowDefinition>
+                <RowDefinition Height="75"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>                
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -41,22 +42,25 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  x:Name="URLField" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource PhoneTextLargeStyle}"/>
+            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="ProfileTitle" Text="Profile:" Grid.Row="1" Grid.Column="0" Style="{StaticResource PhoneTextLargeStyle}"/>
+            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="HostTitle" Text="host:" Grid.Row="2" Grid.Column="0" Style="{StaticResource PhoneTextLargeStyle}"/>
+            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="PortTitle" Text="port:" Grid.Row="3" Grid.Column="0" Style="{StaticResource PhoneTextLargeStyle}"/>
+            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="PasswordTitle" Text="password:" Grid.Row="4" Grid.Column="0" Style="{StaticResource PhoneTextLargeStyle}"/>
 
-            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="HostTitle" Text="host:" Grid.Row="1" Grid.Column="0" Style="{StaticResource PhoneTextLargeStyle}"/>
-            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="PortTitle" Text="port:" Grid.Row="2" Grid.Column="0" Style="{StaticResource PhoneTextLargeStyle}"/>
-            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="PasswordTitle" Text="password:" Grid.Row="3" Grid.Column="0" Style="{StaticResource PhoneTextLargeStyle}"/>
+            <ListBox HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="ProfileList" Grid.Row="1" Grid.Column="1" Width="275" Height="75"/>
+            <TextBox HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="HostInput" Grid.Row="2" Grid.Column="1" Width="275" />
+            <TextBox InputScope="Number" HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="PortInput" Grid.Row="3" Grid.Column="1" Width="275"/>
+            <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="PasswordInput" Grid.Row="4" Grid.Column="1"  Width="275"   />
             
-            <TextBox HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="HostInput" Grid.Row="1" Grid.Column="1" Width="275" />
-            <TextBox InputScope="Number" HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="PortInput" Grid.Row="2" Grid.Column="1" Width="270" Height="75"/>
-            <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="PasswordInput" Grid.Row="3" Grid.Column="1"  Width="270" Height="75"   />
-            <Image Source="Images/logo.png" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"></Image>
+            <Image Source="Images/logo.png" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"></Image>
         </Grid>
     </Grid>
  
     <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Images/Save.png" Text="Save" Click="SaveButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/save.png" Text="Save" Click="SaveButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/rename1.png" Text="Rename" Click="RenameButton_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
