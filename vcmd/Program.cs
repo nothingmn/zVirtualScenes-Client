@@ -6,46 +6,38 @@ using zVirtualClient;
 
 namespace vcmd
 {
-	
+
     class Program
     {
-		static System.Threading.ManualResetEvent reset;
+        static System.Threading.ManualResetEvent reset;
         static Arguments a = new Arguments();
-		static Client client;
+        static Client client;
         static void Main(string[] args)
         {
-			reset = new  System.Threading.ManualResetEvent(false);
+            reset = new System.Threading.ManualResetEvent(false);
 
             if (vcmd.Parser.ParseArguments(args, a))
             {
                 var configurationReader = new zVirtualClient.Configuration.AppConfigConfigurationReader();
-                if (string.IsNullOrEmpty(a.Host))
-                {
-                    a.Host = configurationReader.ReadSetting<string>("Host");
-                    if (string.IsNullOrEmpty(a.Host))
-                    {
-                        throw new ArgumentNullException("Host");
-                    }
-                }
-                if (string.IsNullOrEmpty(a.Password))
-                {
-                    a.Password = configurationReader.ReadSetting<string>("Password");
-                    if (string.IsNullOrEmpty(a.Password))
-                    {
-                        throw new ArgumentNullException("Password");
-                    }
-                }
-                if (a.Port <= 0)
-                {
-                    a.Port = configurationReader.ReadSetting<int>("Port");
-                    if ((a.Port <= 0))
-                    {
-                        throw new ArgumentNullException("Port");
-                    }
-                }
                 //     insert application code here
                 CredentialStore store = new CredentialStore(configurationReader);
-                
+
+                string defaultName = store.DefaultCredential.Name;
+
+                if (defaultName != "Home")
+                {
+                    store.AddCredential(new Credential()
+                                            {
+                                                Default = true,
+                                                Host = "home.chartier-family.com",
+                                                Name = "Home",
+                                                Password = "5757",
+                                                Port = 8030
+                                            });
+                    store.SetDefault("Home");
+                    store.RemoveCredential(defaultName);
+                }
+
                 client = new Client(store.DefaultCredential);
                 client.OnError += new zVirtualClient.Interfaces.Error(client_OnError);
                 client.OnLogin += new zVirtualClient.Interfaces.LoginResponse(client_OnLogin);
@@ -65,8 +57,8 @@ namespace vcmd
                 client.OnStartScene += new zVirtualClient.Interfaces.SceneNameChangeResponse(client_OnStartScene);
                 Console.WriteLine("Trying to login..");
                 client.Login();
-				
-				reset.WaitOne ();
+
+                reset.WaitOne();
             }
 
         }
@@ -110,7 +102,7 @@ namespace vcmd
                 case Actions.ListScenes:
                     client.Scenes();
                     break;
-                case Actions.SendBuiltInCommand:                    
+                case Actions.SendBuiltInCommand:
                     break;
                 case Actions.StartScene:
                     client.StartScene(a.SceneID);
@@ -134,7 +126,7 @@ namespace vcmd
         }
 
         static void client_OnSendCommand(zVirtualClient.Models.CommandsResponse CommandsResponse)
-        {            
+        {
             Logout();
             throw new NotImplementedException();
         }
@@ -160,7 +152,7 @@ namespace vcmd
         static void client_OnLogout(zVirtualClient.Models.LoginResponse LoginResponse)
         {
             Console.WriteLine("Logout Result:" + LoginResponse.success);
-			reset.Set ();
+            reset.Set();
 
         }
 
@@ -171,7 +163,7 @@ namespace vcmd
                 StringBuilder sb = new StringBuilder();
                 foreach (var val in GroupsResponse.groups)
                 {
-                    sb.Append(string.Format("Group Details:\nid:\t\t{1}\ncount:\t\t{0}\nname:\t\t{2}\n",  val.count, val.id, val.name));
+                    sb.Append(string.Format("Group Details:\nid:\t\t{1}\ncount:\t\t{0}\nname:\t\t{2}\n", val.count, val.id, val.name));
                     foreach (var i in val.devices)
                     {
                         sb.Append(string.Format("\nDevice Name\r\r{0}", i.name));
@@ -218,7 +210,7 @@ namespace vcmd
                 foreach (var val in DeviceValuesResponse.values)
                 {
 
-                    Console.WriteLine( string.Format("Device Value Details:\nid:\t\t{1}\ngenre:\t\t{0}\nindex2:\t\t{2}\nlabel_name:\t\t{3}\nread_only:\t\t{4}\ntype:\t\t{5}\nvalue:\t\t{6}\nvalue_id:\t\t{7}\n", val.grene, val.id, val.index2, val.label_name, val.read_only, val.type, val.value, val.value_id ));
+                    Console.WriteLine(string.Format("Device Value Details:\nid:\t\t{1}\ngenre:\t\t{0}\nindex2:\t\t{2}\nlabel_name:\t\t{3}\nread_only:\t\t{4}\ntype:\t\t{5}\nvalue:\t\t{6}\nvalue_id:\t\t{7}\n", val.grene, val.id, val.index2, val.label_name, val.read_only, val.type, val.value, val.value_id));
                 }
             }
             else
@@ -235,7 +227,7 @@ namespace vcmd
                 Console.WriteLine(string.Format("Devices Found:{0}", DevicesResponse.devices.Count));
                 foreach (var item in DevicesResponse.devices)
                 {
-                    Console.WriteLine(string.Format("Device Details:\nid:\t\t{0}\nlevel:\t\t{1}\nlevel_txt:\t\t{2}\nname:\t\t{3}\non_off:\t\t{4}\nplugin_name:\t\t{5}\ntype:\t\t{6}\n", item.id, item.level, item.level_txt, item.name, item.on_off, item.plugin_name, item.type));                    
+                    Console.WriteLine(string.Format("Device Details:\nid:\t\t{0}\nlevel:\t\t{1}\nlevel_txt:\t\t{2}\nname:\t\t{3}\non_off:\t\t{4}\nplugin_name:\t\t{5}\ntype:\t\t{6}\n", item.id, item.level, item.level_txt, item.name, item.on_off, item.plugin_name, item.type));
                 }
             }
             else
@@ -307,7 +299,7 @@ namespace vcmd
                 Console.WriteLine(string.Format("List of Built in Device Commands:"));
                 foreach (var item in CommandsResponse.builtin_commands)
                 {
-                    Console.WriteLine(string.Format("{0} : {1}",item.friendlyname, item.helptext));
+                    Console.WriteLine(string.Format("{0} : {1}", item.friendlyname, item.helptext));
                 }
             }
             else
@@ -340,7 +332,7 @@ namespace vcmd
             else
             {
                 Console.WriteLine("Could not authenticate your credentails against the Server");
-                reset.Set ();
+                reset.Set();
             }
 
         }
@@ -349,7 +341,7 @@ namespace vcmd
         {
             Console.WriteLine(Message);
             Console.WriteLine(Exception.ToString());
-            reset.Set ();
+            reset.Set();
         }
     }
 }

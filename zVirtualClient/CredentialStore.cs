@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace zVirtualClient
 {
     public class CredentialStore
@@ -41,6 +43,9 @@ namespace zVirtualClient
                 DefaultCredential = new Credential();
                 DefaultCredential.Default = true;
                 DefaultCredential.Name = "Profile 1";
+                DefaultCredential.Host = "localhost";
+                DefaultCredential.Port = 6000;
+                DefaultCredential.Password = "password";
                 Credentials.Add(DefaultCredential);
                 this.Save();
             }
@@ -67,10 +72,18 @@ namespace zVirtualClient
         }
         public void Save()
         {
-            string payload = Newtonsoft.Json.JsonConvert.SerializeObject(Credentials);
-            if (!string.IsNullOrEmpty(payload))
+            try
             {
-                ConfigurationReader.WriteSetting("Profiles", payload);
+                string payload = Newtonsoft.Json.JsonConvert.SerializeObject(Credentials);
+                if (!string.IsNullOrEmpty(payload))
+                {
+                    ConfigurationReader.WriteSetting("Profiles", payload);
+                }
+            }
+            catch (Exception e) 
+            {
+                    
+                throw;
             }
         }
         public void UpdateCredential(string Name, Credential NewCredential)
@@ -109,6 +122,22 @@ namespace zVirtualClient
                     this.Save();
                 }
             }
+        }
+
+        public void SetDefault(string Name)
+        {
+            foreach (var c in this.Credentials)
+            {
+                if(c.Name == Name)
+                {
+                    this.DefaultCredential = c;
+                    this.DefaultCredential.Default = true;
+                } else
+                {
+                    c.Default = false;
+                }
+            }
+            Save();
         }
         public void AddCredential(Credential Credential, bool MakeDefault = true)
         {

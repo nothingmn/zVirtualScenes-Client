@@ -20,6 +20,10 @@ namespace zVirtualClient
         {
             get
             {
+                if(!Host.ToLower().StartsWith("http"))
+                {
+                    Host = "http://" + Host;
+                }
                 System.Uri u;
                 if (Uri.TryCreate(string.Format("{0}:{1}", Host, Port), UriKind.RelativeOrAbsolute, out u))
                 {

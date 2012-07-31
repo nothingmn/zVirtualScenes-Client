@@ -7,10 +7,15 @@ namespace zVirtualClient.Tests
 {
     public class Mother
     {
-        static CredentialStore store = new CredentialStore(null);
+        static CredentialStore store = new CredentialStore();
         public static Credential Credential
         {
-            get { return store.DefaultCredential; }
+            get
+            {
+                store.AddCredential(new Credential(){ Default=true, Host="home.chartier-family.com", Name="Home", Password="5757", Port=8030});
+                store.SetDefault("Home");
+                return store.DefaultCredential;
+            }
         }
     }
 }
