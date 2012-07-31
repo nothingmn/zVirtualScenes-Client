@@ -44,8 +44,9 @@ namespace vcmd
                     }
                 }
                 //     insert application code here
-                Credentials c = new Credentials(a.Host, a.Port, null, a.Password);
-                client = new Client(c);
+                CredentialStore store = new CredentialStore(configurationReader);
+                
+                client = new Client(store.DefaultCredential);
                 client.OnError += new zVirtualClient.Interfaces.Error(client_OnError);
                 client.OnLogin += new zVirtualClient.Interfaces.LoginResponse(client_OnLogin);
                 client.OnLogout += new zVirtualClient.Interfaces.LogoutResponse(client_OnLogout);

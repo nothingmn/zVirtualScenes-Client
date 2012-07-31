@@ -8,7 +8,7 @@ namespace zVirtualClient.HTTP
 {
     interface IUrlBuilder
     {        
-        Credentials Credentials { get; set; }
+        Credential Credential { get; set; }
         HttpPayload LoginPayload();
         HttpPayload LogoutPayload();
         HttpPayload DevicesPayload();

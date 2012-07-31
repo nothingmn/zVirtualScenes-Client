@@ -21,9 +21,12 @@ namespace zVirtualClient.Interfaces
     public delegate void SendCommandResponse(Models.BuiltinCommand BuiltinCommandResponse);
     public delegate void Error(object Sender, string Message, Exception Exception);
 
+    public delegate void Request(object Sender, string Type);
+    public delegate void RequestCompleted(object Sender, string Type);
+
     public interface IServiceController
     {
-        Credentials Credentials { get; set; }
+        Credential Credential { get; set; }
         void Login();
         void Logout();
         void Devices();

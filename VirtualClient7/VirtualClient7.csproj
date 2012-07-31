@@ -116,13 +116,33 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\christmastree.png" />
-    <Content Include="Images\fan.png" />
-    <Content Include="Images\kitchen.png" />
-    <Content Include="Images\light.png" />
-    <Content Include="Images\logo.png" />
-    <Content Include="Images\save.png" />
-    <Content Include="Images\switch.png" />
+    <Content Include="Images\christmastree.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\rename1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\fan.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\kitchen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\light.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\rename.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\save.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\switch.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Properties\AppManifest.xml" />
     <Content Include="Properties\WMAppManifest.xml" />
     <Content Include="Resources\Coding4Fun.Phone.Controls.dll" />

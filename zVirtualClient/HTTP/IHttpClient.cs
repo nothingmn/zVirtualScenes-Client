@@ -8,7 +8,7 @@ namespace zVirtualClient.HTTP
 {
     public interface IHttpClient
     {
-        Credentials Credentials { get; set; }
+        Credential Credential { get; set; }
         string ProxyAddress { get; set; }
         int ProxyPort { get; set; }
         void HTTPAsString(HttpPayload Payload);

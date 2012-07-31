@@ -7,12 +7,10 @@ namespace zVirtualClient.Tests
 {
     public class Mother
     {
-        public static Credentials Credentials
+        static CredentialStore store = new CredentialStore(null);
+        public static Credential Credential
         {
-            get
-            {
-                return new Credentials("http://styx", 8030, null, "5757");
-            }
+            get { return store.DefaultCredential; }
         }
     }
 }

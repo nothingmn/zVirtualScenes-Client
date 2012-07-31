@@ -11,7 +11,7 @@ namespace zVirtualClient.Tests
     public class AuthenticatedTests
     {
         AutoResetEvent testTrigger;
-        Client client = new Client(Mother.Credentials);
+        Client client = new Client(Mother.Credential);
         [SetUp]
         public void setup()
         {

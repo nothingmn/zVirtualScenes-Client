@@ -13,7 +13,7 @@ namespace zVirtualClient.VirtualScenes34
         Helpers.ILog log;
         System.Net.CookieContainer Cookies = new System.Net.CookieContainer();
         IUrlBuilder UrlBuilder;
-        public Credentials Credentials { get; set; }
+        public Credential Credential { get; set; }
         IHttpClient HttpClient;
 
         public event LoginResponse OnLogin;
@@ -33,15 +33,15 @@ namespace zVirtualClient.VirtualScenes34
         public event Error OnError;
      
 
-        public VitualScenes34Controller(Credentials Credentials, IHttpClient HttpClient = null)
+        public VitualScenes34Controller(Credential Credential, IHttpClient HttpClient = null)
         {
             log = Client.LogManager.GetLogger<VitualScenes34Controller>();
 
-            this.Credentials = Credentials;
-            this.UrlBuilder = new VirtualScenes34UrlBuilder(this.Credentials);
+            this.Credential = Credential;
+            this.UrlBuilder = new VirtualScenes34UrlBuilder(this.Credential);
 
             if (HttpClient == null)
-                HttpClient = new HTTP.VirtualClientHttp(this.Credentials);
+                HttpClient = new HTTP.VirtualClientHttp(this.Credential);
 
             this.HttpClient = HttpClient;
 

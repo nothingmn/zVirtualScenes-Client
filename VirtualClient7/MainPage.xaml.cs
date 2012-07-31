@@ -12,6 +12,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Coding4Fun.Phone.Controls;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 using zVirtualClient;
 
 namespace VirtualClient7
@@ -27,6 +28,7 @@ namespace VirtualClient7
             this.scenesContentPanel.DataContext = App.ScenesViewModel;
 
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+
         }
 
 
@@ -44,10 +46,21 @@ namespace VirtualClient7
             devicesMainListBox.SelectedIndex = -1;
         }
 
-
+        ProgressIndicator prog;
         // Load data for the DevicesViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
+
+            SystemTray.SetIsVisible(this, true);
+            SystemTray.SetOpacity(this, 0.5);
+            SystemTray.SetBackgroundColor(this, SystemColors.DesktopColor);
+            SystemTray.SetForegroundColor(this, Colors.Blue);
+
+            prog = new ProgressIndicator();
+            prog.IsVisible = true;
+            prog.IsIndeterminate = true;
+            prog.Text = "Connecting, please wait...";  
+
             AttemptConnection();
         }
 
@@ -58,9 +71,7 @@ namespace VirtualClient7
             zVirtualClient.HTTP.HttpClient.Timeout = int.MaxValue;
             App.Connected = false;
 
-            creds = new Credentials(ConfigurationReader.ReadSetting<string>("Host"),
-                                    ConfigurationReader.ReadSetting<int>("Port"), null,
-                                    ConfigurationReader.ReadSetting<string>("Password"));
+            creds = App.CredentialStore.DefaultCredential;
 
 
             if (string.IsNullOrEmpty(creds.Host) || string.IsNullOrEmpty(creds.Password) || creds.Port <= 0)
@@ -75,7 +86,8 @@ namespace VirtualClient7
                 App.Client.OnDevices += new zVirtualClient.Interfaces.DevicesResponse(Client_OnDevices);
                 App.Client.OnScenes += new zVirtualClient.Interfaces.SceneResponse(Client_OnScenes);
                 App.Client.OnStartScene += new zVirtualClient.Interfaces.SceneNameChangeResponse(Client_OnStartScene);
-
+                App.Client.OnRequest += new zVirtualClient.Interfaces.Request(Client_OnRequest);
+                App.Client.OnRequestCompleted += new zVirtualClient.Interfaces.RequestCompleted(Client_OnRequestCompleted);
                 App.Client.Login();
 
                 if (!App.DevicesViewModel.IsDataLoaded)
@@ -83,6 +95,24 @@ namespace VirtualClient7
                     //App.DevicesViewModel.LoadData();
                 }
             }
+        }
+
+        void Client_OnRequestCompleted(object Sender, string Type)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                SystemTray.SetIsVisible(this, false);
+                //prog.IsVisible = false;
+            });
+        }
+
+        void Client_OnRequest(object Sender, string Type)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    SystemTray.SetIsVisible(this, true);
+                    //prog.IsVisible = true;
+                });
         }
 
         void Client_OnScenes(zVirtualClient.Models.SceneResponse SceneResponse)
@@ -129,29 +159,26 @@ namespace VirtualClient7
             }
         }
 
-        static void client_OnError(object Sender, string Message, Exception Exception)
+        void client_OnError(object Sender, string Message, Exception Exception)
         {           
             App.Connected = false;
 
-            ConfigurationReader.WriteSetting("Host", "");
-            ConfigurationReader.WriteSetting("Port", "0");
-            ConfigurationReader.WriteSetting("Password", "");
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                MessageBox.Show("An error has occured.  Please make sure you are using the correct credentials.\r\n" + (string.IsNullOrEmpty(Message) ? "" : Message));
+                NavigationService.Navigate(new Uri("/Connection.xaml", UriKind.RelativeOrAbsolute));
+            });
 
-            MessageBox.Show("An error has occured, exiting.  Please try again.");
-            
-            if (Exception != null) throw Exception;
         }
 
         public static zVirtualClient.Configuration.IConfigurationReader ConfigurationReader;
         private static System.Threading.AutoResetEvent evt;
 
-        private Credentials creds;
+        private Credential creds;
 
         private void ForgetCredentialsApplicationBarMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurationReader.WriteSetting("Host", "");
-            ConfigurationReader.WriteSetting("Port", "0");
-            ConfigurationReader.WriteSetting("Password", "");
+            NavigationService.Navigate(new Uri("/Connection.xaml", UriKind.RelativeOrAbsolute));
 
         }
 

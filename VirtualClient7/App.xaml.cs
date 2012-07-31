@@ -32,7 +32,18 @@ namespace VirtualClient7
             set { client = value; }
         }
 
-
+        private static CredentialStore credentialStore;
+        public static CredentialStore CredentialStore
+        {
+            get
+            {
+                if(credentialStore==null)
+                {
+                    credentialStore = new CredentialStore();
+                }
+                return credentialStore;
+            }
+        }
         /// <summary>
         /// A static DevicesViewModel used by the views to bind against.
         /// </summary>

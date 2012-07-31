@@ -7,9 +7,9 @@ namespace zVirtualClient.HTTP
 {
     public class VirtualClientHttp : IHttpClient
     {
-        public VirtualClientHttp(Credentials credentials)
+        public VirtualClientHttp(Credential credential)
         {
-            this.Credentials = credentials;
+            this.Credential = credential;
         }
 
         public event HttpDownloaded OnHttpDownloaded;
@@ -17,7 +17,7 @@ namespace zVirtualClient.HTTP
         public event HttpDownloadProgress OnHttpDownloadProgress;
         public event HttpDownloadTimeout OnHttpDownloadTimeout;
 
-        public Credentials Credentials { get; set; }
+        public Credential Credential { get; set; }
         public string ProxyAddress { get; set; }
         public int ProxyPort { get; set; }
         public void HTTPAsString(HttpPayload Payload)
