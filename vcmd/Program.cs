@@ -29,9 +29,9 @@ namespace vcmd
                     store.AddCredential(new Credential()
                                             {
                                                 Default = true,
-                                                Host = "home.chartier-family.com",
+                                                Host = "SERVER",
                                                 Name = "Home",
-                                                Password = "5757",
+                                                Password = "PASSWORD",
                                                 Port = 8030
                                             });
                     store.SetDefault("Home");
