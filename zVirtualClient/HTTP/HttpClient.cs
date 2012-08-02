@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Diagnostics;
+using zVirtualClient.Helpers;
 
 namespace zVirtualClient.HTTP
 {
@@ -11,7 +12,7 @@ namespace zVirtualClient.HTTP
         Helpers.ILog Logger;
         public HttpClient()
         {
-            Logger = Client.LogManager.GetLogger<HttpClient>();
+            Logger = LogManager.Manager.GetLogger<HttpClient>();
         }
         public enum HttpMethods
         {
@@ -77,6 +78,11 @@ namespace zVirtualClient.HTTP
                      ContentType, UseDefaultCredentials, UserAgent);
         }
 
+
+        string ContentType = null;
+        string Accept = null;
+        bool AllowAutoRedirect = false;
+        string UserAgent = null;
         private void Download(string Url, HttpMethods Method = HttpMethods.GET, byte[] PostData = null, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null)
         {
             try
@@ -88,6 +94,11 @@ namespace zVirtualClient.HTTP
                 this.Url = Url;
                 var request = (HttpWebRequest)WebRequest.Create(Url);
 
+                if (CookieContainer != null) request.CookieContainer = CookieContainer;
+                this.ContentType = ContentType;
+                this.Accept = Accept;
+                this.AllowAutoRedirect = AllowAutoRedirect;
+                this.UserAgent = UserAgent;
 
                 request.AllowAutoRedirect = AllowAutoRedirect;
                 if (CookieContainer != null) request.CookieContainer = CookieContainer;
@@ -118,7 +129,6 @@ namespace zVirtualClient.HTTP
                 {
                     //for get's we just jump directly to the get respnose
                     request.BeginGetResponse(new AsyncCallback(HandleResponse), request);
-                    //request.BeginGetResponse(HandleResponse, request);
                     HasElapsed();
                 }
 
@@ -136,6 +146,12 @@ namespace zVirtualClient.HTTP
             try
             {
                 var req = ((HttpWebRequest)request.AsyncState);
+                
+                req.AllowAutoRedirect = AllowAutoRedirect;
+                if (Accept != null) req.Accept = Accept;
+                if (ContentType != null) req.ContentType = ContentType;
+                if (UserAgent != null) req.UserAgent = UserAgent;
+                
                 HasElapsed();
                 using (Stream requestStream = req.EndGetRequestStream(request))
                 {
