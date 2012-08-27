@@ -32,7 +32,7 @@ namespace zVirtualClient.Configuration
             if (config.AppSettings.Settings.AllKeys.Contains(Key))
             {
                 config.AppSettings.Settings.Remove(Key);
-            }
+            }            
             config.AppSettings.Settings.Add(Key, (string) Convert.ChangeType(Value, typeof (string)));
             config.Save(ConfigurationSaveMode.Full);
         }

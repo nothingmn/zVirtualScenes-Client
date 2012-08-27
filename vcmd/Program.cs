@@ -16,7 +16,7 @@ namespace vcmd
         {
             reset = new System.Threading.ManualResetEvent(false);
 
-            if (vcmd.Parser.ParseArguments(args, a))
+            if (vcmd.Parser.ParseArgumentsWithUsage(args, a))
             {
                 var configurationReader = new zVirtualClient.Configuration.AppConfigConfigurationReader();
                 //     insert application code here
@@ -24,26 +24,36 @@ namespace vcmd
 
                 string defaultName = store.DefaultCredential.Name;
 
-                if (defaultName != "Home")
-                {
-                    store.AddCredential(new Credential()
-                                            {
-                                                Default = true,
-                                                Host = "SERVER",
-                                                Name = "Home",
-                                                Password = "PASSWORD",
-                                                Port = 8030
-                                            });
-                    store.SetDefault("Home");
-                    store.RemoveCredential(defaultName);
-                }
+                //if (defaultName != "Home")
+                //{
+                //    store.AddCredential(new Credential()
+                //                            {
+                //                                Default = true,
+                //                                Host = "SERVER",
+                //                                Name = "Home",
+                //                                Password = "PASSWORD",
+                //                                Port = 8030
+                //                            });
+                //    store.SetDefault("Home");
+                //    store.RemoveCredential(defaultName);
+                //}
+                Credential c = new Credential();
+                c.Domain = null;
+                c.Username = null;
+                c.Default = true;
+                c.Host = a.Host;
+                c.Port = a.Port;
+                c.Name = defaultName;
+                c.Password = a.Password;
+                store.UpdateCredential(c.Name, c);
 
                 client = new Client(store.DefaultCredential);
                 client.OnError += new zVirtualClient.Interfaces.Error(client_OnError);
                 client.OnLogin += new zVirtualClient.Interfaces.LoginResponse(client_OnLogin);
                 client.OnLogout += new zVirtualClient.Interfaces.LogoutResponse(client_OnLogout);
 
-                client.OnChangeSceneName += new zVirtualClient.Interfaces.SceneNameChangeResponse(client_OnChangeSceneName);
+                client.OnChangeSceneName +=
+                    new zVirtualClient.Interfaces.SceneNameChangeResponse(client_OnChangeSceneName);
                 client.OnCommands += new zVirtualClient.Interfaces.CommandsResponse(client_OnCommands);
                 client.OnDeviceCommand += new zVirtualClient.Interfaces.DeviceCommandResponse(client_OnDeviceCommand);
                 client.OnDeviceCommands += new zVirtualClient.Interfaces.DeviceCommandsResponse(client_OnDeviceCommands);
@@ -55,17 +65,27 @@ namespace vcmd
                 client.OnScenes += new zVirtualClient.Interfaces.SceneResponse(client_OnScenes);
                 client.OnSendCommand += new zVirtualClient.Interfaces.CommandsResponse(client_OnSendCommand);
                 client.OnStartScene += new zVirtualClient.Interfaces.SceneNameChangeResponse(client_OnStartScene);
-                Console.WriteLine("Trying to login..");
-                client.Login();
+
+                if (client.Cookies == null)
+                {
+                    Console.WriteLine("Trying to login..");
+                    client.Login();
+                }
+                else
+                {
+                    Console.WriteLine("Already logged in, in a previous session, trying to just take the action..");
+                    TakeAction();
+                }
 
                 reset.WaitOne();
             }
 
         }
+
         static void Logout()
         {
-            Console.WriteLine("All done, logging out");
-            client.Logout();
+            //Console.WriteLine("All done, logging out");
+            //client.Logout();
         }
         static void TakeAction()
         {
@@ -327,6 +347,7 @@ namespace vcmd
             if (LoginResponse.success)
             {
                 Console.WriteLine("Login was a success");
+                client.PersistCookie();
                 TakeAction();
             }
             else
@@ -341,6 +362,7 @@ namespace vcmd
         {
             Console.WriteLine(Message);
             Console.WriteLine(Exception.ToString());
+            client.KillCookie();
             reset.Set();
         }
     }

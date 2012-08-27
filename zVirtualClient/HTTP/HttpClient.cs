@@ -12,7 +12,8 @@ namespace zVirtualClient.HTTP
         Helpers.ILog Logger;
         public HttpClient()
         {
-            Logger = LogManager.Manager.GetLogger<HttpClient>();
+            LogManager lm = new LogManager();
+            Logger = lm.GetLogger<HttpClient>();
         }
         public enum HttpMethods
         {

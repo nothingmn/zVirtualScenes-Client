@@ -706,15 +706,16 @@ namespace vcmd
                                 {
                                     optionArgument = argument.Substring(option.Length + 1);
                                 }
-
-                                Argument arg = (Argument)this.argumentMap[option];
-                                if (arg == null)
+                                
+                                
+                                if(!this.argumentMap.ContainsKey(option)) 
                                 {
                                     ReportUnrecognizedArgument(argument);
                                     hadError = true;
                                 }
                                 else
                                 {
+                                    Argument arg = (Argument)this.argumentMap[option];
                                     hadError |= !arg.SetValue(optionArgument, destination);
                                 }
                                 break;

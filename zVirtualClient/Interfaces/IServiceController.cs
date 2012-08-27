@@ -58,5 +58,6 @@ namespace zVirtualClient.Interfaces
         event CommandsResponse OnSendCommand;
         event Error OnError;
 
+        System.Net.CookieContainer Cookies { get; set; }
     }
 }

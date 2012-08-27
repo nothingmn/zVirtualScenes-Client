@@ -154,12 +154,15 @@ namespace VirtualClient7
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
             // Ensure that required application state is persisted here.
+
+            App.Client.PersistCookie();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
+            App.Client.PersistCookie();
         }
 
         // Code to execute if a navigation fails

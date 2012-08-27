@@ -11,7 +11,7 @@ namespace zVirtualClient.VirtualScenes34
     public class VitualScenes34Controller : IServiceController
     {
         Helpers.ILog log;
-        System.Net.CookieContainer Cookies = new System.Net.CookieContainer();
+        public  System.Net.CookieContainer Cookies { get; set; }
         IUrlBuilder UrlBuilder;
         public Credential Credential { get; set; }
         IHttpClient HttpClient;
@@ -35,6 +35,8 @@ namespace zVirtualClient.VirtualScenes34
 
         public VitualScenes34Controller(Credential Credential, IHttpClient HttpClient = null)
         {
+            Cookies = new System.Net.CookieContainer();
+
             log = Client.LogManager.GetLogger<VitualScenes34Controller>();
 
             this.Credential = Credential;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using zVirtualClient.HTTP;
 using zVirtualClient.Interfaces;
@@ -31,6 +32,7 @@ namespace zVirtualClient
         public Helpers.ILog Logger { get; set; }
 
 
+        public System.Net.CookieContainer Cookies { get; set; }
 
         public event LoginResponse OnLogin;
         public event LogoutResponse OnLogout;
@@ -62,6 +64,7 @@ namespace zVirtualClient
                 ConfigurationReader = new Configuration.AppConfigConfigurationReader();
 #endif
             }
+            this.ConfigurationReader = ConfigurationReader;
             if (HttpClient == null)
             {
                 if (HttpClient == null)
@@ -72,7 +75,7 @@ namespace zVirtualClient
                 Controller = new VirtualScenes34.VitualScenes34Controller(Credential);
             }
             Logger = LogManager.GetLogger<Client>();
-
+            this.Credential = Credential;
             this.VirtualScenesController = Controller;
             if (this.VirtualScenesController.Credential == null) this.VirtualScenesController.Credential = Credential;
             this.VirtualScenesController.OnError += new Error(VirtualScenesController_OnError);
@@ -97,6 +100,50 @@ namespace zVirtualClient
             VirtualScenesController.OnCommands += new CommandsResponse(VirtualScenesController_OnCommands);
             VirtualScenesController.OnSendCommand += new CommandsResponse(VirtualScenesController_OnSendCommand);
 
+
+            LoadCookie();
+        }
+
+        public void PersistCookie()
+        {
+            try
+            {
+                var cookies = VirtualScenesController.Cookies.GetCookies(this.Credential.Uri);
+                if (cookies != null && cookies.Count > 0)
+                {
+                    var cookie = cookies["zvs"];
+                    if (cookie != null)
+                    {
+                        ConfigurationReader.WriteSetting<string>("cookie", cookie.Value);
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                    
+            }
+        }
+
+        public void KillCookie()
+        {
+            ConfigurationReader.WriteSetting<string>("cookie", "");
+        }
+        public void LoadCookie()
+        {
+            try
+            {
+                var cookieGuid = ConfigurationReader.ReadSetting<string>("cookie");
+                if (!string.IsNullOrEmpty(cookieGuid))
+                {
+                    this.VirtualScenesController.Cookies = new CookieContainer();
+                    this.VirtualScenesController.Cookies.Add(this.Credential.Uri, new Cookie("zvs", cookieGuid));
+                    this.Cookies = this.VirtualScenesController.Cookies;
+                }
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         void VirtualScenesController_OnError(object Sender, string Message, Exception Exception)
