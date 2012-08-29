@@ -54,12 +54,13 @@ namespace VirtualClient7
             SystemTray.SetIsVisible(this, true);
             SystemTray.SetOpacity(this, 0.5);
             SystemTray.SetBackgroundColor(this, SystemColors.DesktopColor);
-            SystemTray.SetForegroundColor(this, Colors.Blue);
+            SystemTray.SetForegroundColor(this, SystemColors.MenuColor);
 
-            prog = new ProgressIndicator();
+            prog = new ProgressIndicator();            
             prog.IsVisible = true;
             prog.IsIndeterminate = true;
-            prog.Text = "Connecting, please wait...";  
+            prog.Text = "Connecting, please wait...";
+            SystemTray.SetProgressIndicator(this, prog);
 
             AttemptConnection();
         }
