@@ -9,12 +9,55 @@ using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.Generic;
 
 namespace VirtualClient7
 {
     public class SceneViewModel : INotifyPropertyChanged
     {
+        private static Dictionary<string, Uri> _Images;
+        public static Dictionary<string, Uri> Images
+        {
+            get
+            {
+                if (_Images == null)
+                {
+                    _Images = new Dictionary<string, Uri>();
+                    _Images.Add("exit,leave,off", new System.Uri("/Images/Exit.png", UriKind.RelativeOrAbsolute));
+                    _Images.Add("play,on,enter", new System.Uri("/Images/play.png", UriKind.RelativeOrAbsolute));
+                    _Images.Add("movie", new System.Uri("/Images/movie.png", UriKind.RelativeOrAbsolute));
+                    _Images.Add("work", new System.Uri("/Images/work.png", UriKind.RelativeOrAbsolute));
+                    _Images.Add("stop", new System.Uri("/Images/stop.png", UriKind.RelativeOrAbsolute));
+                    _Images.Add("switch", new System.Uri("/Images/switch.png", UriKind.RelativeOrAbsolute));
+                }
+                return _Images;
+            }
+        }
+
+        public zVirtualClient.Models.Device Device { get; set; }
+        public BitmapImage Image
+        {
+            get
+            {
+
+                foreach (string key in Images.Keys)
+                {
+                    string[] lst = key.Split(',');
+                    foreach (var s in lst)
+                    {
+                        if (this.name.ToLower().Contains(s))
+                        {
+                            return new BitmapImage(Images[key]);
+                        }
+                    }
+                }
+
+                return new BitmapImage(Images["switch"]);
+            }
+        }
+        
         public zVirtualClient.Models.Scene Scene { get; set; }
         public int id
         {

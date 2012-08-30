@@ -18,6 +18,7 @@ namespace VirtualClient7
 {
     public class ScenesViewModel : INotifyPropertyChanged
     {
+        
         public ScenesViewModel()
         {
             this.Items = new ObservableCollection<SceneViewModel>();
