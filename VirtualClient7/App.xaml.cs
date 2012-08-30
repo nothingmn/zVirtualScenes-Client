@@ -18,11 +18,27 @@ using zVirtualClient;
 
 namespace VirtualClient7
 {
+
     public partial class App : Application
     {
         private static DevicesViewModel devicesViewModel = null;
         private static ScenesViewModel scenesViewModel = null;
         private static DeviceCommandsViewModel deviceCommandsViewModel = null;
+
+        public static string Theme = "dark";
+
+        public static System.Uri FixThemeImage(System.Uri Uri)
+        {
+            return new System.Uri(FixThemeImage(Uri.ToString()), UriKind.RelativeOrAbsolute);
+        }
+        public static string FixThemeImage(string Uri)
+        {
+            if (Theme != "dark")
+            {
+                Uri = Uri.Replace("/dark/", string.Format("/{0}/", Theme));
+            }
+            return Uri;
+        }
 
         public static bool Connected { get; set; }
         static Client client;
@@ -37,7 +53,7 @@ namespace VirtualClient7
         {
             get
             {
-                if(credentialStore==null)
+                if (credentialStore == null)
                 {
                     credentialStore = new CredentialStore();
                 }
@@ -101,6 +117,8 @@ namespace VirtualClient7
         /// </summary>
         public App()
         {
+            if (((Color)Application.Current.Resources["PhoneBackgroundColor"] != Colors.Black)) Theme = "light";
+
             // Global handler for uncaught exceptions. 
             UnhandledException += Application_UnhandledException;
 
@@ -154,7 +172,7 @@ namespace VirtualClient7
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
             // Ensure that required application state is persisted here.
-            if(App.Client!=null) App.Client.PersistCookie();
+            if (App.Client != null) App.Client.PersistCookie();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
@@ -184,7 +202,7 @@ namespace VirtualClient7
                 System.Diagnostics.Debugger.Break();
             }
         }
-    
+
         #region Phone application initialization
 
         // Avoid double-initialization

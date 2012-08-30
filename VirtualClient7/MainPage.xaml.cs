@@ -26,8 +26,9 @@ namespace VirtualClient7
             // Set the data context of the listbox control to the sample data
             this.devicesContentPanel.DataContext = App.DevicesViewModel;
             this.scenesContentPanel.DataContext = App.ScenesViewModel;
-
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+
+            
 
         }
 
@@ -166,8 +167,12 @@ namespace VirtualClient7
 
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                MessageBox.Show("An error has occured.  Please make sure you are using the correct credentials.\r\n" + (string.IsNullOrEmpty(Message) ? "" : Message));
-                NavigationService.Navigate(new Uri("/Connection.xaml", UriKind.RelativeOrAbsolute));
+                
+                var result = MessageBox.Show("An error has occured.  Would you like to modify your connection information?\r\n" + (string.IsNullOrEmpty(Message) ? "" : Message), "Site Access Error", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    NavigationService.Navigate(new Uri("/Connection.xaml", UriKind.RelativeOrAbsolute));
+                }
             });
 
         }
@@ -206,6 +211,11 @@ namespace VirtualClient7
                 }
             });
 
+        }
+
+        private void ApplicationBarIconButton_Click(object sender, EventArgs e)
+        {
+            App.Client.Devices();
         }
 
 

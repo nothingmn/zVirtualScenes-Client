@@ -39,6 +39,7 @@ namespace VirtualClient7
             }
             this.ProfileList.Items.Add("Add New...");
             this.ProfileList.SelectedItem = App.CredentialStore.DefaultCredential;
+
         }
 
         void ProfileList_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -25,12 +25,12 @@ namespace VirtualClient7
                 if (_Images == null)
                 {
                     _Images = new Dictionary<string, Uri>();
-                    _Images.Add("exit,leave,off", new System.Uri("/Images/Exit.png", UriKind.RelativeOrAbsolute));
-                    _Images.Add("play,on,enter", new System.Uri("/Images/play.png", UriKind.RelativeOrAbsolute));
-                    _Images.Add("movie", new System.Uri("/Images/movie.png", UriKind.RelativeOrAbsolute));
-                    _Images.Add("work", new System.Uri("/Images/work.png", UriKind.RelativeOrAbsolute));
-                    _Images.Add("stop", new System.Uri("/Images/stop.png", UriKind.RelativeOrAbsolute));
-                    _Images.Add("switch", new System.Uri("/Images/switch.png", UriKind.RelativeOrAbsolute));
+                    _Images.Add("exit,leave,off", new System.Uri(App.FixThemeImage("/Images/dark/Exit.png"), UriKind.RelativeOrAbsolute));
+                    _Images.Add("play,on,enter", new System.Uri(App.FixThemeImage("/Images/dark/play.png"), UriKind.RelativeOrAbsolute));
+                    _Images.Add("movie", new System.Uri(App.FixThemeImage("/Images/dark/movie.png"), UriKind.RelativeOrAbsolute));
+                    _Images.Add("work", new System.Uri(App.FixThemeImage("/Images/dark/work.png"), UriKind.RelativeOrAbsolute));
+                    _Images.Add("stop", new System.Uri(App.FixThemeImage("/Images/dark/stop.png"), UriKind.RelativeOrAbsolute));
+                    _Images.Add("switch", new System.Uri(App.FixThemeImage("/Images/dark/switch.png"), UriKind.RelativeOrAbsolute));
                 }
                 return _Images;
             }
