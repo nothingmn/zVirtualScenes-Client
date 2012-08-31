@@ -1,20 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{3ef1ae4b-daad-40e8-b20a-282bb563e5db}" Title="VirtualClient7" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="DataBoundApp1 author" Description="Sample description" Publisher="DataBoundApp1">
-    <IconPath IsRelative="true" IsResource="false">Images/logo.png</IconPath>
+  <App xmlns="" ProductID="{3ef1ae4b-daad-40e8-b20a-282bb563e5db}" Title="zVirtualScenes Client" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="DataBoundApp1 author" Description="Sample description" Publisher="DataBoundApp1">
+    <IconPath IsRelative="true" IsResource="false">Images\logo.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
-      <Capability Name="ID_CAP_SENSORS" />
     </Capabilities>
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
     </Tasks>
     <Tokens>
-      <PrimaryToken TokenID="DataBoundApp1Token" TaskName="_default">
+      <PrimaryToken TokenID="zVirtualScenesClientv1Token" TaskName="_default">
         <TemplateType5>
           <BackgroundImageURI IsRelative="true" IsResource="false">Background.png</BackgroundImageURI>
           <Count>0</Count>
-          <Title>VirtualClient7</Title>
+          <Title>zVirtualScenes Client</Title>
         </TemplateType5>
       </PrimaryToken>
     </Tokens>
