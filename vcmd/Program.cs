@@ -66,16 +66,16 @@ namespace vcmd
                 client.OnSendCommand += new zVirtualClient.Interfaces.CommandsResponse(client_OnSendCommand);
                 client.OnStartScene += new zVirtualClient.Interfaces.SceneNameChangeResponse(client_OnStartScene);
 
-                if (client.Cookies == null)
-                {
+                //if (client.Cookies == null)
+                //{
                     Console.WriteLine("Trying to login..");
                     client.Login();
-                }
-                else
-                {
-                    Console.WriteLine("Already logged in, in a previous session, trying to just take the action..");
-                    TakeAction();
-                }
+                //}
+                //else
+                //{
+                //    Console.WriteLine("Already logged in, in a previous session, trying to just take the action..");
+                //    TakeAction();
+                //}
 
                 reset.WaitOne();
             }
@@ -84,8 +84,9 @@ namespace vcmd
 
         static void Logout()
         {
-            //Console.WriteLine("All done, logging out");
-            //client.Logout();
+            Console.WriteLine("All done, logging out");
+            client.Logout();
+            reset.Set();
         }
         static void TakeAction()
         {
@@ -294,7 +295,7 @@ namespace vcmd
             if (DeviceCommandsResponse.success)
             {
                 Console.WriteLine(string.Format("Device Commands:"));
-                foreach (var item in DeviceCommandsResponse.device_commands)
+                foreach (var item in DeviceCommandsResponse.DeviceCommand)
                 {
                     Console.WriteLine(string.Format("{0} : {1}", item.friendlyname, item.helptext));
                 }

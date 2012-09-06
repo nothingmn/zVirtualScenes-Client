@@ -195,7 +195,11 @@ namespace VirtualClient7
         // Code to execute on Unhandled Exceptions
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(e.ExceptionObject.Message);
+#if DEBUG
+            MessageBox.Show(e.ExceptionObject.ToString());
+#else
+            MessageBox.Show("There was an error, the app will now exit.");
+#endif
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // An unhandled exception has occurred; break into the debugger

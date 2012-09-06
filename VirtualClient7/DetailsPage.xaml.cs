@@ -27,20 +27,20 @@ namespace VirtualClient7
 
         void Client_OnDeviceCommands(zVirtualClient.Models.DeviceCommands DeviceCommandsResponse)
         {
-            if (DeviceCommandsResponse.success)
+            if (DeviceCommandsResponse != null)
             {
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
-                    {
-                        App.DeviceCommandsViewModel.Items.Clear();
-                        foreach (
-                            var d in DeviceCommandsResponse.device_commands)
+                if (DeviceCommandsResponse.success)
+                {
+                    Deployment.Current.Dispatcher.BeginInvoke(() =>
                         {
-                            App.DeviceCommandsViewModel.Items.Add(
-                                new DeviceCommandViewModel()
-                                    {DeviceCommand = d});
-                        }
-                        App.DeviceCommandsViewModel.IsDataLoaded = true;
-                    });
+                            App.DeviceCommandsViewModel.Items.Clear();
+                            foreach (var d in DeviceCommandsResponse.DeviceCommand)
+                            {
+                                App.DeviceCommandsViewModel.Items.Add(new DeviceCommandViewModel() { DeviceCommand = d });
+                            }
+                            App.DeviceCommandsViewModel.IsDataLoaded = true;
+                        });
+                }
             }
         }
 

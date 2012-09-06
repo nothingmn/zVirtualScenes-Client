@@ -106,44 +106,44 @@ namespace zVirtualClient
 
         public void PersistCookie()
         {
-            try
-            {
-                var cookies = VirtualScenesController.Cookies.GetCookies(this.Credential.Uri);
-                if (cookies != null && cookies.Count > 0)
-                {
-                    var cookie = cookies["zvs"];
-                    if (cookie != null)
-                    {
-                        ConfigurationReader.WriteSetting<string>("cookie", cookie.Value);
-                    }
-                }
+            //try
+            //{
+            //    var cookies = VirtualScenesController.Cookies.GetCookies(this.Credential.Uri);
+            //    if (cookies != null && cookies.Count > 0)
+            //    {
+            //        var cookie = cookies["zvs"];
+            //        if (cookie != null)
+            //        {
+            //            ConfigurationReader.WriteSetting<string>("cookie", cookie.Value);
+            //        }
+            //    }
 
-            }
-            catch (Exception e)
-            {
+            //}
+            //catch (Exception e)
+            //{
                     
-            }
+            //}
         }
 
         public void KillCookie()
         {
-            ConfigurationReader.WriteSetting<string>("cookie", "");
+            //ConfigurationReader.WriteSetting<string>("cookie", "");
         }
         public void LoadCookie()
         {
-            try
-            {
-                var cookieGuid = ConfigurationReader.ReadSetting<string>("cookie");
-                if (!string.IsNullOrEmpty(cookieGuid))
-                {
-                    this.VirtualScenesController.Cookies = new CookieContainer();
-                    this.VirtualScenesController.Cookies.Add(this.Credential.Uri, new Cookie("zvs", cookieGuid));
-                    this.Cookies = this.VirtualScenesController.Cookies;
-                }
-            }
-            catch (Exception e)
-            {
-            }
+            //try
+            //{
+            //    var cookieGuid = ConfigurationReader.ReadSetting<string>("cookie");
+            //    if (!string.IsNullOrEmpty(cookieGuid))
+            //    {
+            //        this.VirtualScenesController.Cookies = new CookieContainer();
+            //        this.VirtualScenesController.Cookies.Add(this.Credential.Uri, new Cookie("zvs", cookieGuid));
+            //        this.Cookies = this.VirtualScenesController.Cookies;
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //}
         }
 
         void VirtualScenesController_OnError(object Sender, string Message, Exception Exception)
