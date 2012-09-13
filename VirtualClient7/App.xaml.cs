@@ -190,6 +190,7 @@ namespace VirtualClient7
                 // A navigation has failed; break into the debugger
                 System.Diagnostics.Debugger.Break();
             }
+
         }
 
         // Code to execute on Unhandled Exceptions

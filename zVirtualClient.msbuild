@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<Project DefaultTargets="Build-Both" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  
+	<Target Name="Build-Debug">
+		<MSBuild Projects="zVirtualClient.sln" Targets="Rebuild" Properties="Configuration=Debug" />
+	</Target>
+
+	<Target Name="Build-Release">
+		<MSBuild Projects="zVirtualClient.sln" Targets="Rebuild" Properties="Configuration=Release" />
+	</Target>
+		
+	<Target Name="Build-Both" DependsOnTargets="Build-Release;Build-Debug">
+		
+    </Target>
+	
+</Project>
+

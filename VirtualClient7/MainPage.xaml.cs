@@ -168,11 +168,11 @@ namespace VirtualClient7
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 
-                var result = MessageBox.Show("An error has occured.  Would you like to modify your connection information?\r\n" + (string.IsNullOrEmpty(Message) ? "" : Message), "Site Access Error", MessageBoxButton.OKCancel);
-                if (result == MessageBoxResult.OK)
-                {
+                //var result = MessageBox.Show("An error has occured.  Would you like to modify your connection information?\r\n" + (string.IsNullOrEmpty(Message) ? "" : Message), "Site Access Error", MessageBoxButton.OKCancel);
+                //if (result == MessageBoxResult.OK)
+                //{
                     NavigationService.Navigate(new Uri("/Connection.xaml", UriKind.RelativeOrAbsolute));
-                }
+                //}
             });
 
         }

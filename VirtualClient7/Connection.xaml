@@ -59,6 +59,7 @@
     <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton x:Name="RefreshButton" IconUri="/Images/dark/refresh.png" Text="Refresh" Click="RefreshButton_Click"/>
             <shell:ApplicationBarIconButton x:Name="SaveButton" IconUri="/Images/dark/save.png" Text="Save" Click="SaveButton_Click"/>
             <shell:ApplicationBarIconButton x:Name="RenameButton" IconUri="/Images/dark/rename1.png" Text="Rename" Click="RenameButton_Click"/>
         </shell:ApplicationBar>

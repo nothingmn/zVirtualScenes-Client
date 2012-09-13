@@ -93,7 +93,7 @@ namespace VirtualClient7
 
                 string name = this.ProfileList.SelectedItem.ToString();
                 bool AddNew = (name == "Add New...");
-                var c = new Credential() {Default = true, Host = host, Name = name, Password = password, Port = port};
+                var c = new Credential() { Default = true, Host = host, Name = name, Password = password, Port = port };
                 if (AddNew)
                 {
                     c.Name = c.Host;
@@ -105,6 +105,7 @@ namespace VirtualClient7
                     App.CredentialStore.UpdateCredential(name, c);
                     MessageBox.Show("Updated your existing credential.");
                 }
+                NavigationService.GoBack();
             }
         }
 
@@ -137,6 +138,42 @@ namespace VirtualClient7
                     this.ProfileList.SelectedItem = cred;
                 }
             }
+        }
+
+        private void RefreshButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                int p = 0;
+                if (int.TryParse(this.PortInput.Text, out p))
+                {
+                    zVirtualClient.Client c = new Client(new Credential() { Host = this.HostInput.Text, Password = this.PasswordInput.Password, Port = p });
+                    c.OnLogin += new zVirtualClient.Interfaces.LoginResponse(c_OnLogin);
+                    c.OnError += new zVirtualClient.Interfaces.Error(c_OnError);
+                    c.Login();
+                }
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid Credentials.");
+            }
+        }
+
+        void c_OnError(object Sender, string Message, Exception Exception)
+        {
+            MessageBox.Show("Invalid Credentials.");
+        }
+
+        void c_OnLogin(zVirtualClient.Models.LoginResponse LoginResponse)
+        {
+            if (LoginResponse.success)
+            {
+                SaveButton_Click(null, null);                
+            }
+            else
+                MessageBox.Show("Invalid Credentials.");
         }
     }
 }
