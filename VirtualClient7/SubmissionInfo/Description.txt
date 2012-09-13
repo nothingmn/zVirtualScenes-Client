@@ -1,0 +1,1 @@
+This is the official Windows Phone 7 client for the zVirtualScenes server!  Control every aspect of your home!  Turn on and off lights, control your thermostat, run pre-set scene's to activate virtually anything!
