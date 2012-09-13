@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>  
-<Project DefaultTargets="Build-Both" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  
+<Project DefaultTargets="Build-All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  
 	<Target Name="Build-Debug">
 		<MSBuild Projects="zVirtualClient.sln" Targets="Rebuild" Properties="Configuration=Debug" />
 	</Target>
@@ -8,7 +8,11 @@
 		<MSBuild Projects="zVirtualClient.sln" Targets="Rebuild" Properties="Configuration=Release" />
 	</Target>
 		
-	<Target Name="Build-Both" DependsOnTargets="Build-Release;Build-Debug">
+	<Target Name="Build-vCmd">
+		<MSBuild Projects="zVirtualClient.sln" Targets="vcmd" Properties="Configuration=Release" />
+	</Target>
+		
+	<Target Name="Build-All" DependsOnTargets="Build-Release;Build-Debug;Build-vCmd">
 		
     </Target>
 	
