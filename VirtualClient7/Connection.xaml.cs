@@ -112,12 +112,10 @@ namespace VirtualClient7
                 {
                     c.Name = c.Host;
                     App.CredentialStore.AddCredential(c, true);
-                    MessageBox.Show("Added your new credential, and set it as the default.");
                 }
                 else
                 {
                     App.CredentialStore.UpdateCredential(name, c);
-                    MessageBox.Show("Updated your existing credential.");
                 }
                 NavigationService.GoBack();
             }
@@ -162,9 +160,8 @@ namespace VirtualClient7
                 int p = 0;
                 if (int.TryParse(this.PortInput.Text, out p))
                 {
-                    prog.IsVisible = true;
+                    SystemTray.SetIsVisible(this, true);
                     zVirtualClient.Client c = new Client(new Credential() { Host = this.HostInput.Text, Password = this.PasswordInput.Password, Port = p });
-                    MessageBox.Show(string.Format("Attemping to connect, Host:{0}, Password:{1}, Port:{2}", c.Credential.Host, c.Credential.Password, c.Credential.Port));
                     c.OnLogin += new zVirtualClient.Interfaces.LoginResponse(c_OnLogin);
                     c.OnError += new zVirtualClient.Interfaces.Error(c_OnError);
                     c.Login();
@@ -178,26 +175,35 @@ namespace VirtualClient7
             }
             catch (Exception)
             {
-                prog.IsVisible = false;
+                SystemTray.SetIsVisible(this, false);
                 MessageBox.Show("Invalid Credentials.");
             }
         }
 
         void c_OnError(object Sender, string Message, Exception Exception)
         {
-            prog.IsVisible = false;
-            MessageBox.Show("Invalid Credentials.");
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                SystemTray.SetIsVisible(this, false);
+                MessageBox.Show("Invalid Credentials.");
+            });
         }
 
         void c_OnLogin(zVirtualClient.Models.LoginResponse LoginResponse)
         {
-            prog.IsVisible = false;
-            if (LoginResponse.success)
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                SaveButton_Click(null, null);                
-            }
-            else
-                MessageBox.Show("Invalid Credentials.");
+                SystemTray.SetIsVisible(this, false);
+                prog.IsVisible = false;
+                if (LoginResponse.success)
+                {
+                    SaveButton_Click(null, null);
+                }
+                else
+                {
+                    MessageBox.Show("Invalid Credentials.");
+                }
+            });
         }
     }
 }
