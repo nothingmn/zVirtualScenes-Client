@@ -156,22 +156,29 @@ namespace VirtualClient7
 
         private void RefreshButton_Click(object sender, EventArgs e)
         {
-            prog.IsVisible = true;
             try
             {
 
                 int p = 0;
                 if (int.TryParse(this.PortInput.Text, out p))
                 {
+                    prog.IsVisible = true;
                     zVirtualClient.Client c = new Client(new Credential() { Host = this.HostInput.Text, Password = this.PasswordInput.Password, Port = p });
+                    MessageBox.Show(string.Format("Attemping to connect, Host:{0}, Password:{1}, Port:{2}", c.Credential.Host, c.Credential.Password, c.Credential.Port));
                     c.OnLogin += new zVirtualClient.Interfaces.LoginResponse(c_OnLogin);
                     c.OnError += new zVirtualClient.Interfaces.Error(c_OnError);
                     c.Login();
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Invalid Port specified.");
                 }
 
             }
             catch (Exception)
             {
+                prog.IsVisible = false;
                 MessageBox.Show("Invalid Credentials.");
             }
         }
