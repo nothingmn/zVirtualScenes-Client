@@ -76,7 +76,7 @@ namespace VirtualClient7
             creds = App.CredentialStore.DefaultCredential;
 
 
-            if (string.IsNullOrEmpty(creds.Host) || string.IsNullOrEmpty(creds.Password) || creds.Port <= 0)
+            if (string.IsNullOrEmpty(creds.Host) || creds.Host == "localhost"  || string.IsNullOrEmpty(creds.Password) || creds.Port <= 0)
             {
                 NavigationService.Navigate(new Uri("/Connection.xaml", UriKind.RelativeOrAbsolute));
             }
