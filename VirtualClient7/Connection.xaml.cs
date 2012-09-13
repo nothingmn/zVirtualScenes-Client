@@ -13,6 +13,7 @@ using Coding4Fun.Phone.Controls;
 using Microsoft.Phone.Controls;
 using zVirtualClient;
 using zVirtualClient.Configuration;
+using Microsoft.Phone.Shell;
 
 namespace VirtualClient7
 {
@@ -40,8 +41,21 @@ namespace VirtualClient7
             this.ProfileList.Items.Add("Add New...");
             this.ProfileList.SelectedItem = App.CredentialStore.DefaultCredential;
 
-        }
 
+            SystemTray.SetIsVisible(this, true);
+            SystemTray.SetOpacity(this, 0.5);
+            SystemTray.SetBackgroundColor(this, SystemColors.DesktopColor);
+            SystemTray.SetForegroundColor(this, SystemColors.MenuColor);
+
+            prog = new ProgressIndicator();
+            prog.IsVisible = false;
+            prog.IsIndeterminate = true;
+            prog.Text = "Connecting, please wait...";
+            SystemTray.SetProgressIndicator(this, prog);
+
+
+        }
+        ProgressIndicator prog;
         void ProfileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (this.ProfileList.SelectedItem != null)
@@ -142,6 +156,7 @@ namespace VirtualClient7
 
         private void RefreshButton_Click(object sender, EventArgs e)
         {
+            prog.IsVisible = true;
             try
             {
 
@@ -163,11 +178,13 @@ namespace VirtualClient7
 
         void c_OnError(object Sender, string Message, Exception Exception)
         {
+            prog.IsVisible = false;
             MessageBox.Show("Invalid Credentials.");
         }
 
         void c_OnLogin(zVirtualClient.Models.LoginResponse LoginResponse)
         {
+            prog.IsVisible = false;
             if (LoginResponse.success)
             {
                 SaveButton_Click(null, null);                
