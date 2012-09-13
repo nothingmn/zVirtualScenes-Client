@@ -47,7 +47,7 @@
             <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="PortTitle" Text="port:" Grid.Row="3" Grid.Column="0" Style="{StaticResource PhoneTextLargeStyle}"/>
             <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"  x:Name="PasswordTitle" Text="password:" Grid.Row="4" Grid.Column="0" Style="{StaticResource PhoneTextLargeStyle}"/>
 
-            <ListBox HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="ProfileList" Grid.Row="1" Grid.Column="1" Width="275" Height="150" FontSize="32" BorderBrush="White" BorderThickness="1"></ListBox>
+            <ListBox HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="ProfileList" Grid.Row="1" Grid.Column="1" Width="275" Height="150" FontSize="32" BorderBrush="{StaticResource PhoneSubtleBrush}" BorderThickness="1"></ListBox>
             <TextBox HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="HostInput" Grid.Row="2" Grid.Column="1" Width="275" />
             <TextBox InputScope="Number" HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="PortInput" Grid.Row="3" Grid.Column="1" Width="275"/>
             <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="PasswordInput" Grid.Row="4" Grid.Column="1"  Width="275"   />
