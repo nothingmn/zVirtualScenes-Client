@@ -35,22 +35,25 @@ namespace VirtualClient7
 
         private void SetupTile()
         {
-            // Updates will happen on a fixed interval. 
-            SampleTileSchedule.Recurrence = UpdateRecurrence.Interval;
-
-            // Updates will happen every hour.  Because MaxUpdateCount is not set, the schedule will run indefinitely.
-            SampleTileSchedule.Interval = UpdateInterval.EveryHour;
-
             var tileCredential = new CredentialStore();
-            string color = "Black";
-            if (App.Theme == "dark")
+            if (tileCredential.DefaultCredential.Host != "localhost")
             {
-                color = "White";
+                // Updates will happen on a fixed interval. 
+                SampleTileSchedule.Recurrence = UpdateRecurrence.Interval;
+
+                // Updates will happen every hour.  Because MaxUpdateCount is not set, the schedule will run indefinitely.
+                SampleTileSchedule.Interval = UpdateInterval.EveryHour;
+
+                string color = "Black";
+                if (App.Theme == "dark")
+                {
+                    color = "White";
+                }
+                var url = string.Format("{0}/tile.png?Color={1}", tileCredential.DefaultCredential.Uri.ToString(), color);
+                SampleTileSchedule.RemoteImageUri = new Uri(url);
+                SampleTileSchedule.Start();
+                TileScheduleRunning = true;
             }
-            var url = string.Format("{0}/tile.png?Color={1}", tileCredential.DefaultCredential.Uri.ToString(), color);
-            SampleTileSchedule.RemoteImageUri = new Uri(url);
-            SampleTileSchedule.Start();
-            TileScheduleRunning = true;
         }
         ShellTileSchedule SampleTileSchedule = new ShellTileSchedule();
         bool TileScheduleRunning = false;
