@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using zVirtualClient.Interfaces;
 using zVirtualClient.HTTP;
@@ -12,6 +13,8 @@ namespace zVirtualClient.VirtualScenes34
     {
         Helpers.ILog log;
         public  System.Net.CookieContainer Cookies { get; set; }
+        public WebHeaderCollection Headers { get; set; }
+
         IUrlBuilder UrlBuilder;
         public Credential Credential { get; set; }
         IHttpClient HttpClient;
@@ -36,7 +39,7 @@ namespace zVirtualClient.VirtualScenes34
         public VitualScenes34Controller(Credential Credential, IHttpClient HttpClient = null)
         {
             Cookies = new System.Net.CookieContainer();
-
+            Headers = new WebHeaderCollection();
             log = Client.LogManager.GetLogger<VitualScenes34Controller>();
 
             this.Credential = Credential;
@@ -61,21 +64,23 @@ namespace zVirtualClient.VirtualScenes34
             if (this.OnError != null) this.OnError(Sender, Key, exception);
         }
 
-
+        private string tokenKey = "zvstoken";
         Helpers.Serialization.ISerialize<Models.LoginResponse> loginSerializer = new Helpers.Serialization.NewtonSerializer<Models.LoginResponse>();
             
         public void Login()
         {
-            HttpPayload login = this.UrlBuilder.LoginPayload();          
+            HttpPayload login = this.UrlBuilder.LoginPayload();
+            if (this.Headers.AllKeys.Contains(tokenKey)) login.Headers[tokenKey] = this.Headers[tokenKey];
             login.Cookies = this.Cookies;
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloadedLogin);
             HttpClient.HTTPAsString(login);                        
         }
 
-        void HttpClient_OnHttpDownloadedLogin(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloadedLogin(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloadedLogin);
-            var result = loginSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
+            var result = loginSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));            
             if (OnLogin != null) OnLogin(result);
         }
 
@@ -83,14 +88,16 @@ namespace zVirtualClient.VirtualScenes34
         {
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_logout);
             HttpPayload logout = this.UrlBuilder.LogoutPayload();
+            if (this.Headers.AllKeys.Contains(tokenKey)) logout.Headers[tokenKey] = this.Headers[tokenKey];
             logout.Cookies = this.Cookies;
             HttpClient.HTTPAsString(logout);
             
         }
 
-        void HttpClient_OnHttpDownloaded_logout(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloaded_logout(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_logout);
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
             var result = loginSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnLogout != null) OnLogout(result);
         }
@@ -100,13 +107,15 @@ namespace zVirtualClient.VirtualScenes34
         {
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_devices);
             HttpPayload devices = this.UrlBuilder.DevicesPayload();
+            if (this.Headers.AllKeys.Contains(tokenKey)) devices.Headers[tokenKey] = this.Headers[tokenKey];
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
         }
 
-        void HttpClient_OnHttpDownloaded_devices(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloaded_devices(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_devices);
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
             var result = devicesSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnDevices != null) OnDevices(result);
         }
@@ -116,13 +125,15 @@ namespace zVirtualClient.VirtualScenes34
         {
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_devicedetails);
             HttpPayload devices = this.UrlBuilder.DeviceDetailsPayload(DeviceID);
+            if (this.Headers.AllKeys.Contains(tokenKey)) devices.Headers[tokenKey] = this.Headers[tokenKey];
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
         }
 
-        void HttpClient_OnHttpDownloaded_devicedetails(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloaded_devicedetails(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_devicedetails);
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
             var result = deviceDetailsSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnDeviceDetails != null) OnDeviceDetails(result);
         }
@@ -133,12 +144,14 @@ namespace zVirtualClient.VirtualScenes34
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_devicecommands);
             HttpPayload devices = this.UrlBuilder.DeviceCommandsPayload(DeviceID);
             devices.Cookies = this.Cookies;
+            if (this.Headers.AllKeys.Contains(tokenKey)) devices.Headers[tokenKey] = this.Headers[tokenKey];
             HttpClient.HTTPAsString(devices);
         }
 
-        void HttpClient_OnHttpDownloaded_devicecommands(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloaded_devicecommands(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_devicecommands);
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
             var result = deviceCommandsSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnDeviceCommands != null) OnDeviceCommands(result);
         }
@@ -150,12 +163,14 @@ namespace zVirtualClient.VirtualScenes34
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_devicecommand);
             HttpPayload devices = this.UrlBuilder.DeviceCommandPayload(DeviceID, Name, arg, type);
             devices.Cookies = this.Cookies;
+            if (this.Headers.AllKeys.Contains(tokenKey)) devices.Headers[tokenKey] = this.Headers[tokenKey];
             HttpClient.HTTPAsString(devices);
         }
 
-        void HttpClient_OnHttpDownloaded_devicecommand(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloaded_devicecommand(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_devicecommand);
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
             var result = deviceCommandsResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnDeviceCommand != null) OnDeviceCommand(result);
         }
@@ -167,12 +182,14 @@ namespace zVirtualClient.VirtualScenes34
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded);
             HttpPayload devices = this.UrlBuilder.DeviceValuesPayload(DeviceID);
             devices.Cookies = this.Cookies;
+            if (this.Headers.AllKeys.Contains(tokenKey)) devices.Headers[tokenKey] = this.Headers[tokenKey];
             HttpClient.HTTPAsString(devices);
         }
 
-        void HttpClient_OnHttpDownloaded(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloaded(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded);
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
             var result = deviceValuesResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnDeviceValues != null) OnDeviceValues(result);
         }
@@ -182,13 +199,15 @@ namespace zVirtualClient.VirtualScenes34
         {
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_scenes);
             HttpPayload devices = this.UrlBuilder.ScenesPayload();
+            if (this.Headers.AllKeys.Contains(tokenKey)) devices.Headers[tokenKey] = this.Headers[tokenKey];
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
         }
 
-        void HttpClient_OnHttpDownloaded_scenes(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloaded_scenes(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_scenes);
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
             var result = SceneResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnScenes != null) OnScenes(result);
         }
@@ -200,12 +219,14 @@ namespace zVirtualClient.VirtualScenes34
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_changename);
             HttpPayload devices = this.UrlBuilder.ScenesChangeNamePayload(SceneID, Name);
             devices.Cookies = this.Cookies;
+            if (this.Headers.AllKeys.Contains(tokenKey)) devices.Headers[tokenKey] = this.Headers[tokenKey];
             HttpClient.HTTPAsString(devices);
         }
 
-        void HttpClient_OnHttpDownloaded_changename(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloaded_changename(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_changename);
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
             var result = SceneNameChangeResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnChangeSceneName != null) OnChangeSceneName(result);
         }
@@ -215,14 +236,16 @@ namespace zVirtualClient.VirtualScenes34
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_startscene);
             HttpPayload devices = this.UrlBuilder.StartScenePayload(SceneID);
             devices.Cookies = this.Cookies;
+            if (this.Headers.AllKeys.Contains(tokenKey)) devices.Headers[tokenKey] = this.Headers[tokenKey];
             HttpClient.HTTPAsString(devices);
 
 
         }
 
-        void HttpClient_OnHttpDownloaded_startscene(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloaded_startscene(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_startscene);
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
             var result = SceneNameChangeResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnStartScene != null) OnStartScene(result);
         }
@@ -233,13 +256,15 @@ namespace zVirtualClient.VirtualScenes34
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_groups);
             HttpPayload devices = this.UrlBuilder.GroupsPayload();
             devices.Cookies = this.Cookies;
+            if (this.Headers.AllKeys.Contains(tokenKey)) devices.Headers[tokenKey] = this.Headers[tokenKey];
             HttpClient.HTTPAsString(devices);
 
         }
 
-        void HttpClient_OnHttpDownloaded_groups(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloaded_groups(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_groups);
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
             var result = GroupsResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnGroups != null) OnGroups(result);
         }
@@ -250,14 +275,16 @@ namespace zVirtualClient.VirtualScenes34
         {
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_groupdetails);
             HttpPayload devices = this.UrlBuilder.GroupDetailsPayload(GroupID);
+            if (this.Headers.AllKeys.Contains(tokenKey)) devices.Headers[tokenKey] = this.Headers[tokenKey];
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
 
         }
 
-        void HttpClient_OnHttpDownloaded_groupdetails(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloaded_groupdetails(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_groupdetails);
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
             var result = GroupDetailsResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnGroupDetails != null) OnGroupDetails(result);
         }
@@ -267,14 +294,16 @@ namespace zVirtualClient.VirtualScenes34
         {
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_commands);
             HttpPayload devices = this.UrlBuilder.CommandsPayload();
+            if (this.Headers.AllKeys.Contains(tokenKey)) devices.Headers[tokenKey] = this.Headers[tokenKey];
             devices.Cookies = this.Cookies;
             HttpClient.HTTPAsString(devices);
 
         }
 
-        void HttpClient_OnHttpDownloaded_commands(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloaded_commands(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_commands);
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
             var result = CommandsResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnCommands != null) OnCommands(result);
         }
@@ -284,12 +313,14 @@ namespace zVirtualClient.VirtualScenes34
             HttpClient.OnHttpDownloaded += new HttpDownloaded(HttpClient_OnHttpDownloaded_sendcommand);
             HttpPayload devices = this.UrlBuilder.SendCommandsPayload(Command);
             devices.Cookies = this.Cookies;
+            if (this.Headers.AllKeys.Contains(tokenKey)) devices.Headers[tokenKey] = this.Headers[tokenKey];
             HttpClient.HTTPAsString(devices);
         }
 
-        void HttpClient_OnHttpDownloaded_sendcommand(object Sender, byte[] Data, long Duration, string Key)
+        void HttpClient_OnHttpDownloaded_sendcommand(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection headers)
         {
             HttpClient.OnHttpDownloaded -= new HttpDownloaded(HttpClient_OnHttpDownloaded_sendcommand);
+            if (headers.AllKeys.Contains(tokenKey)) this.Headers[tokenKey] = headers[tokenKey];
             var result = CommandsResponseSerializer.Deserialize(System.Text.Encoding.UTF8.GetString(Data, 0, Data.Length));
             if (OnSendCommand != null) OnSendCommand(result);
         }

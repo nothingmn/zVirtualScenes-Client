@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Runtime.Serialization;
 
@@ -13,6 +14,14 @@ namespace zVirtualClient.HTTP
         public string Url { get; set; }
         public bool POST { get; set; }
         public byte[] Data { get; set; }
+        public WebHeaderCollection Headers { get; set; }
+
+         public HttpPayload()
+         {
+             Headers = new WebHeaderCollection();
+             Cookies = new CookieContainer();
+         }
+
         public string RawData
         {
             get

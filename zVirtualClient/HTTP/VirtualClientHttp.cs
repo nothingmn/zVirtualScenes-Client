@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace zVirtualClient.HTTP
@@ -29,11 +30,11 @@ namespace zVirtualClient.HTTP
             c.OnHttpDownloadTimeout += new HttpDownloadTimeout(c_OnHttpDownloadTimeout);
             if (Payload.POST)
             {
-                c.POST(Payload.Url, Payload.Data, Payload.Key, Payload.Cookies, null, null, null, null, true, null, false, null);
+                c.POST(Payload.Url, Payload.Data, Payload.Key, Payload.Cookies, null, null, null, null, true, null, false, null, Payload.Headers);
             }
             else
             {
-                c.GET(Payload.Url, Payload.Key, Payload.Cookies, null, null, null, null, true, null, false, null);
+                c.GET(Payload.Url, Payload.Key, Payload.Cookies, null, null, null, null, true, null, false, null, Payload.Headers);
             }
         }
 
@@ -52,9 +53,9 @@ namespace zVirtualClient.HTTP
             if (OnHttpDownloadError != null) OnHttpDownloadError(Sender, exception, Key);
         }
 
-        void c_OnHttpDownloaded(object Sender, byte[] Data, long Duration, string Key)
+        void c_OnHttpDownloaded(object Sender, byte[] Data, long Duration, string Key, WebHeaderCollection Headers)
         {
-            if (OnHttpDownloaded != null) OnHttpDownloaded(Sender, Data, Duration, Key);
+            if (OnHttpDownloaded != null) OnHttpDownloaded(Sender, Data, Duration, Key, Headers);
         }
     }
 }

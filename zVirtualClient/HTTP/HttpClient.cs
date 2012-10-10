@@ -39,44 +39,44 @@ namespace zVirtualClient.HTTP
         private byte[] _PostData = null;
         private string Key;
 
-        public void GET(string Url, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null)
+        public void GET(string Url, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null, WebHeaderCollection Headers = null)
         {
             Download(Url, HttpMethods.GET, null, Key, CookieContainer, Username, Password, Domain, Accept, AllowAutoRedirect,
-                     ContentType, UseDefaultCredentials, UserAgent);
+                     ContentType, UseDefaultCredentials, UserAgent, Headers);
         }
 
 
-        public void HEAD(string Url, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null)
+        public void HEAD(string Url, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null, WebHeaderCollection Headers = null)
         {
             Download(Url, HttpMethods.HEAD, null, Key, CookieContainer, Username, Password, Domain, Accept, AllowAutoRedirect,
-                     ContentType, UseDefaultCredentials, UserAgent);
+                     ContentType, UseDefaultCredentials, UserAgent, Headers);
         }
 
 
-        public void PUT(string Url, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null)
+        public void PUT(string Url, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null, WebHeaderCollection Headers = null)
         {
             Download(Url, HttpMethods.PUT, null, Key, CookieContainer, Username, Password, Domain, Accept, AllowAutoRedirect,
-                     ContentType, UseDefaultCredentials, UserAgent);
+                     ContentType, UseDefaultCredentials, UserAgent, Headers);
         }
 
 
-        public void DELETE(string Url, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null)
+        public void DELETE(string Url, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null, WebHeaderCollection Headers = null)
         {
             Download(Url, HttpMethods.DELETE, null, Key, CookieContainer, Username, Password, Domain, Accept, AllowAutoRedirect,
-                     ContentType, UseDefaultCredentials, UserAgent);
+                     ContentType, UseDefaultCredentials, UserAgent, Headers);
         }
 
 
 
-        public void POST(string Url, byte[] PostData = null, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null)
+        public void POST(string Url, byte[] PostData = null, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null, WebHeaderCollection Headers = null)
         {
             Download(Url, HttpMethods.POST, PostData, Key, CookieContainer, Username, Password, Domain, Accept, AllowAutoRedirect,
-                     ContentType, UseDefaultCredentials, UserAgent);
+                     ContentType, UseDefaultCredentials, UserAgent, Headers);
         }
-        public void OPTIONS(string Url, byte[] PostData = null, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null)
+        public void OPTIONS(string Url, byte[] PostData = null, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null, WebHeaderCollection Headers = null)
         {
             Download(Url, HttpMethods.OPTIONS, PostData, Key, CookieContainer, Username, Password, Domain, Accept, AllowAutoRedirect,
-                     ContentType, UseDefaultCredentials, UserAgent);
+                     ContentType, UseDefaultCredentials, UserAgent, Headers);
         }
 
 
@@ -84,7 +84,7 @@ namespace zVirtualClient.HTTP
         string Accept = null;
         bool AllowAutoRedirect = false;
         string UserAgent = null;
-        private void Download(string Url, HttpMethods Method = HttpMethods.GET, byte[] PostData = null, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null)
+        private void Download(string Url, HttpMethods Method = HttpMethods.GET, byte[] PostData = null, string Key = null, System.Net.CookieContainer CookieContainer = null, string Username = null, string Password = null, string Domain = null, string Accept = null, Boolean AllowAutoRedirect = false, string ContentType = null, bool UseDefaultCredentials = false, string UserAgent = null, WebHeaderCollection Headers = null)
         {
             try
             {
@@ -95,6 +95,19 @@ namespace zVirtualClient.HTTP
                 this.Url = Url;
                 var request = (HttpWebRequest)WebRequest.Create(Url);
 
+                if (Headers != null)
+                {
+                    foreach (var name in Headers.AllKeys)
+                    {
+                        try
+                        {
+                            request.Headers[name] = Headers[name];
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                }
                 if (CookieContainer != null) request.CookieContainer = CookieContainer;
                 this.ContentType = ContentType;
                 this.Accept = Accept;
@@ -106,6 +119,8 @@ namespace zVirtualClient.HTTP
                 if (Accept != null) request.Accept = Accept;
                 if (ContentType != null) request.ContentType = ContentType;
                 if (UserAgent != null) request.UserAgent = UserAgent;
+
+                
 
                 if (!string.IsNullOrEmpty(Domain) && !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password))
                 {
@@ -207,12 +222,13 @@ namespace zVirtualClient.HTTP
                             {
                                 data.Add(buffer[i]);
                             }
+                            
                             if (OnHttpDownloadProgress != null) OnHttpDownloadProgress(this, response.ContentLength, (long)data.Count, (response.ContentLength <= 0 ? 0 : (((float)data.Count / (float)response.ContentLength) * 100)), StopWatch.ElapsedMilliseconds, this.Key);
                             if (length <= 0) break;
 
                         }
                         //time to signal
-                        if (OnHttpDownloaded != null) OnHttpDownloaded(this, data.ToArray(), StopWatch.ElapsedMilliseconds, this.Key);
+                        if (OnHttpDownloaded != null) OnHttpDownloaded(this, data.ToArray(), StopWatch.ElapsedMilliseconds, this.Key, response.Headers);
                     }
                 }
             }
