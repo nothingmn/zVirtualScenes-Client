@@ -15,9 +15,19 @@
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
-        <controls:Pivot Title="HOME CONTROL">
+        <controls:Pivot Title="HOME CONTROL" Name="MainPivot">
             <!--Pivot item one-->
-            <controls:PivotItem Header="devices">
+
+            <controls:PivotItem Header="connecting" Name="ConnectionPivotItem">
+                <TextBlock Text="Please wait while I attempt to connect to your zVirtual Scenes Server..." MaxHeight="300" MaxWidth="300" TextOptions.TextHintingMode="Animated" TextWrapping="Wrap" TextAlignment="Center" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </controls:PivotItem>
+            
+            <controls:PivotItem Header="setup" Name="SetupPivotItem">
+                <TextBlock Text="This application needs to be configured to point to a zVirtual Scenes Server.  Tap here to set that up now." MaxHeight="300" MaxWidth="300" TextOptions.TextHintingMode="Animated" TextWrapping="Wrap" TextAlignment="Center" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Tap="TextBlock_Tap_1"/>
+            </controls:PivotItem>
+
+
+            <controls:PivotItem Header="devices" Name="DevicesPivotItem">
 
                 <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
                     <Grid x:Name="devicesContentPanel" Grid.Row="1" Margin="12,0,12,0">
@@ -47,7 +57,7 @@
             </controls:PivotItem>
 
             <!--Pivot item two-->
-            <controls:PivotItem Header="scenes">
+            <controls:PivotItem Header="scenes" Name="ScenesPivotItem">
                 <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
                 <Grid x:Name="scenesContentPanel" Grid.Row="1" Margin="12,0,12,0">
                     <ListBox x:Name="scenesMainListBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectionChanged="scenesMainListBox_SelectionChanged">

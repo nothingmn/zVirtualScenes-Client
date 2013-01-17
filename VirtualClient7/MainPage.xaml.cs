@@ -89,7 +89,36 @@ namespace VirtualClient7
             prog.Text = "Connecting, please wait...";
             SystemTray.SetProgressIndicator(this, prog);
 
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                MainPivot.Items.Clear();
+                MainPivot.Items.Add(ConnectionPivotItem);
+            });
+
+
             AttemptConnection();
+        }
+
+        private void TweakUIFromConfig(bool isConfigured)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    MainPivot.Items.Clear();
+                    SystemTray.SetIsVisible(this, false);
+                    if (isConfigured)
+                    {
+                        MainPivot.Items.Add(DevicesPivotItem);
+                        MainPivot.Items.Add(ScenesPivotItem);
+
+
+                    }
+                    else
+                    {
+                        MainPivot.Items.Add(SetupPivotItem);
+
+                    }
+
+                });
         }
 
         private void AttemptConnection()
@@ -104,7 +133,7 @@ namespace VirtualClient7
 
             if (string.IsNullOrEmpty(creds.Host) || creds.Host == "localhost"  || string.IsNullOrEmpty(creds.Password) || creds.Port <= 0)
             {
-                NavigationService.Navigate(new Uri("/Connection.xaml", UriKind.RelativeOrAbsolute));
+                TweakUIFromConfig(false);
             }
             else
             {
@@ -156,6 +185,9 @@ namespace VirtualClient7
                             new SceneViewModel() { Scene = d });
                     }
                     App.ScenesViewModel.IsDataLoaded = true;
+
+                    TweakUIFromConfig(true);
+
                 });
             }
         }
@@ -191,15 +223,7 @@ namespace VirtualClient7
         {           
             App.Connected = false;
 
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-                
-                //var result = MessageBox.Show("An error has occured.  Would you like to modify your connection information?\r\n" + (string.IsNullOrEmpty(Message) ? "" : Message), "Site Access Error", MessageBoxButton.OKCancel);
-                //if (result == MessageBoxResult.OK)
-                //{
-                    NavigationService.Navigate(new Uri("/Connection.xaml", UriKind.RelativeOrAbsolute));
-                //}
-            });
+            TweakUIFromConfig(false);
 
         }
 
@@ -242,6 +266,11 @@ namespace VirtualClient7
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
             App.Client.Devices();
+        }
+
+        private void TextBlock_Tap_1(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Connection.xaml", UriKind.RelativeOrAbsolute));
         }
 
 
