@@ -23,7 +23,7 @@
             </controls:PivotItem>
             
             <controls:PivotItem Header="setup" Name="SetupPivotItem">
-                <TextBlock Text="This application needs to be configured to point to a zVirtual Scenes Server.  Tap here to set that up now." MaxHeight="300" MaxWidth="300" TextOptions.TextHintingMode="Animated" TextWrapping="Wrap" TextAlignment="Center" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Tap="TextBlock_Tap_1"/>
+                <TextBlock Text="This application needs to be connected to the internet and configured to point to a zVirtual Scenes Server.  Tap here to check your server connection settings." MaxHeight="300" MaxWidth="300" TextOptions.TextHintingMode="Animated" TextWrapping="Wrap" TextAlignment="Center" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Tap="TextBlock_Tap_1"/>
             </controls:PivotItem>
 
 
