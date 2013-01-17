@@ -3,4 +3,9 @@
 >
     <Deployment.Parts>
     </Deployment.Parts>
+
+  <!--<Extensions>
+    <Protocol Name="vc7nfc" NavUriFragment="encodedLaunchUri=%s" TaskID="_default" />
+  </Extensions>-->
+
 </Deployment>

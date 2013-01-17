@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using Coding4Fun.Phone.Controls;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Windows.Networking.Proximity;
+using Windows.Storage.Streams;
 using zVirtualClient;
 
 namespace VirtualClient7
@@ -55,8 +47,9 @@ namespace VirtualClient7
                 TileScheduleRunning = true;
             }
         }
-        ShellTileSchedule SampleTileSchedule = new ShellTileSchedule();
-        bool TileScheduleRunning = false;
+
+        private ShellTileSchedule SampleTileSchedule = new ShellTileSchedule();
+        private bool TileScheduleRunning = false;
 
 
         // Handle selection changed on ListBox
@@ -67,13 +60,14 @@ namespace VirtualClient7
                 return;
 
             // Navigate to the new page
-            NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + devicesMainListBox.SelectedIndex, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + devicesMainListBox.SelectedIndex,
+                                               UriKind.Relative));
 
             // Reset selected index to -1 (no selection)
             devicesMainListBox.SelectedIndex = -1;
         }
 
-        ProgressIndicator prog;
+        private ProgressIndicator prog;
         // Load data for the DevicesViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
@@ -83,18 +77,17 @@ namespace VirtualClient7
             SystemTray.SetBackgroundColor(this, SystemColors.DesktopColor);
             SystemTray.SetForegroundColor(this, SystemColors.MenuColor);
 
-            prog = new ProgressIndicator();            
+            prog = new ProgressIndicator();
             prog.IsVisible = true;
             prog.IsIndeterminate = true;
             prog.Text = "Connecting, please wait...";
             SystemTray.SetProgressIndicator(this, prog);
 
             Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-                MainPivot.Items.Clear();
-                MainPivot.Items.Add(ConnectionPivotItem);
-            });
-
+                {
+                    MainPivot.Items.Clear();
+                    MainPivot.Items.Add(ConnectionPivotItem);
+                });
 
             AttemptConnection();
         }
@@ -131,7 +124,8 @@ namespace VirtualClient7
             creds = App.CredentialStore.DefaultCredential;
 
 
-            if (string.IsNullOrEmpty(creds.Host) || creds.Host == "localhost"  || string.IsNullOrEmpty(creds.Password) || creds.Port <= 0)
+            if (string.IsNullOrEmpty(creds.Host) || creds.Host == "localhost" || string.IsNullOrEmpty(creds.Password) ||
+                creds.Port <= 0)
             {
                 TweakUIFromConfig(false);
             }
@@ -144,7 +138,8 @@ namespace VirtualClient7
                 App.Client.OnScenes += new zVirtualClient.Interfaces.SceneResponse(Client_OnScenes);
                 App.Client.OnStartScene += new zVirtualClient.Interfaces.SceneNameChangeResponse(Client_OnStartScene);
                 App.Client.OnRequest += new zVirtualClient.Interfaces.Request(Client_OnRequest);
-                App.Client.OnRequestCompleted += new zVirtualClient.Interfaces.RequestCompleted(Client_OnRequestCompleted);
+                App.Client.OnRequestCompleted +=
+                    new zVirtualClient.Interfaces.RequestCompleted(Client_OnRequestCompleted);
                 App.Client.Login();
 
                 if (!App.DevicesViewModel.IsDataLoaded)
@@ -154,16 +149,16 @@ namespace VirtualClient7
             }
         }
 
-        void Client_OnRequestCompleted(object Sender, string Type)
+        private void Client_OnRequestCompleted(object Sender, string Type)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-                SystemTray.SetIsVisible(this, false);
-                //prog.IsVisible = false;
-            });
+                {
+                    SystemTray.SetIsVisible(this, false);
+                    //prog.IsVisible = false;
+                });
         }
 
-        void Client_OnRequest(object Sender, string Type)
+        private void Client_OnRequest(object Sender, string Type)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
@@ -172,45 +167,45 @@ namespace VirtualClient7
                 });
         }
 
-        void Client_OnScenes(zVirtualClient.Models.SceneResponse SceneResponse)
+        private void Client_OnScenes(zVirtualClient.Models.SceneResponse SceneResponse)
         {
             if (SceneResponse.success)
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
-                {
-                    App.ScenesViewModel.Items.Clear();
-                    foreach (var d in SceneResponse.scenes)
                     {
-                        App.ScenesViewModel.Items.Add(
-                            new SceneViewModel() { Scene = d });
-                    }
-                    App.ScenesViewModel.IsDataLoaded = true;
+                        App.ScenesViewModel.Items.Clear();
+                        foreach (var d in SceneResponse.scenes)
+                        {
+                            App.ScenesViewModel.Items.Add(
+                                new SceneViewModel() {Scene = d});
+                        }
+                        App.ScenesViewModel.IsDataLoaded = true;
 
-                    TweakUIFromConfig(true);
+                        TweakUIFromConfig(true);
 
-                });
+                    });
             }
         }
 
 
-        void Client_OnDevices(zVirtualClient.Models.Devices DevicesResponse)
+        private void Client_OnDevices(zVirtualClient.Models.Devices DevicesResponse)
         {
             if (DevicesResponse.success)
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
-                {
-                    App.DevicesViewModel.Items.Clear();
-                    foreach (var d in DevicesResponse.devices)
                     {
-                        App.DevicesViewModel.Items.Add(new DeviceViewModel() { Device = d });
-                    }
-                    App.DevicesViewModel.IsDataLoaded = true;
-                    App.Client.Scenes();
-                });
+                        App.DevicesViewModel.Items.Clear();
+                        foreach (var d in DevicesResponse.devices)
+                        {
+                            App.DevicesViewModel.Items.Add(new DeviceViewModel() {Device = d});
+                        }
+                        App.DevicesViewModel.IsDataLoaded = true;
+                        App.Client.Scenes();
+                    });
             }
         }
 
-        static void client_OnLogin(zVirtualClient.Models.LoginResponse LoginResponse)
+        private static void client_OnLogin(zVirtualClient.Models.LoginResponse LoginResponse)
         {
             App.Connected = LoginResponse.success;
             if (App.Connected)
@@ -219,8 +214,8 @@ namespace VirtualClient7
             }
         }
 
-        void client_OnError(object Sender, string Message, Exception Exception)
-        {           
+        private void client_OnError(object Sender, string Message, Exception Exception)
+        {
             App.Connected = false;
 
             TweakUIFromConfig(false);
@@ -243,23 +238,24 @@ namespace VirtualClient7
             SceneViewModel svm = (scenesMainListBox.SelectedItem as SceneViewModel);
             if (svm != null)
             {
-                App.Client.StartScene(svm.id);
+                //App.Client.StartScene(svm.id);
             }
         }
-        void Client_OnStartScene(zVirtualClient.Models.SceneNameChangeResponse SceneNameChangeResponse)
+
+        private void Client_OnStartScene(zVirtualClient.Models.SceneNameChangeResponse SceneNameChangeResponse)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-                if (SceneNameChangeResponse.success)
                 {
-                    MessageBox.Show("Success!");
-                }
-                else
-                {
-                    MessageBox.Show("Fail! Reason:" + SceneNameChangeResponse.desc);
+                    if (SceneNameChangeResponse.success)
+                    {
+                        MessageBox.Show("Success!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Fail! Reason:" + SceneNameChangeResponse.desc);
 
-                }
-            });
+                    }
+                });
 
         }
 
@@ -273,6 +269,58 @@ namespace VirtualClient7
             NavigationService.Navigate(new Uri("/Connection.xaml", UriKind.RelativeOrAbsolute));
         }
 
+        private ProximityDevice _proximityDevice;
+        private long subId = 0;
+        private long pubId = 0;
 
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            //SceneViewModel svm = (scenesMainListBox.SelectedItem as SceneViewModel);
+            //if (svm != null)
+            //{
+            if (App.SupportsNFC)
+            {
+                if (_proximityDevice == null)
+                {
+                    _proximityDevice = ProximityDevice.GetDefault();
+                    if (_proximityDevice != null)
+                        subId = _proximityDevice.SubscribeForMessage("WriteableTag", OnWriteableTagArrived);
+
+                    MessageBox.Show("Place the writeable tag near your device, then hit ok.");
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("I could not detect a NFC sensor on this device");
+            }
+
+            //SceneContextMenu
+            //}
+
+        }
+
+        private void OnWriteableTagArrived(ProximityDevice sender, ProximityMessage message)
+        {
+            try
+            {
+                if ( MessageBox.Show("Are you sure you want to write to this NFC Tag?", "Confirmation", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                {
+                    var dataWriter = new DataWriter();
+                    dataWriter.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf16LE;
+                    string appLauncher = string.Format(@"vc7nfc:MainPage?source=scene");
+                    dataWriter.WriteString(appLauncher);
+                    pubId = sender.PublishBinaryMessage("WindowsUri:WriteTag", dataWriter.DetachBuffer());
+                    MessageBox.Show("Completed writing to the tag.");
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not write to the tag.  Reason:" + e.Message);
+                throw;
+            }
+
+
+        }
     }
 }

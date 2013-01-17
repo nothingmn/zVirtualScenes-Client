@@ -21,6 +21,24 @@ namespace VirtualClient7
 
     public partial class App : Application
     {
+
+        private static bool _nfc = false;
+        private static bool checkNFC = true;
+
+        public static bool SupportsNFC
+        {
+            get
+            {
+                if (checkNFC)
+                {
+                    var device = Windows.Networking.Proximity.ProximityDevice.GetDefault();
+                    _nfc = (device != null);
+                    checkNFC = false;
+                }
+                return _nfc;
+            }
+        }
+
         private static DevicesViewModel devicesViewModel = null;
         private static ScenesViewModel scenesViewModel = null;
         private static DeviceCommandsViewModel deviceCommandsViewModel = null;

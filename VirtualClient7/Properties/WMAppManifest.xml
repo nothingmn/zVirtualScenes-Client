@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{63dc7f34-e96f-4e7a-9073-ef17570d0302}" Title="zVirtualScenes Client" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="DataBoundApp1 author" Description="Sample description" Publisher="DataBoundApp1" PublisherID="{8087d83c-a1b1-430c-8aa2-d5b7edc35189}">
+  <Languages xmlns="">
+    <Language code="en" />
+  </Languages>
+  <App xmlns="" ProductID="{63dc7f34-e96f-4e7a-9073-ef17570d0302}" Title="zVirtualScenes Client" RuntimeType="Silverlight" Version="1.0.0.*" Genre="apps.normal" Author="Rob Chartier" Description="This is the official Windows Phone 7 client for the zVirtualScenes server!  Control every aspect of your home with this easy to use Home Automation Tool. Turn on and off lights, control your thermostat, run pre-set scene's to activate virtually anything!&#xD;&#xA;" Publisher="Rob Chartier" PublisherID="{8087d83c-a1b1-430c-8aa2-d5b7edc35189}">
     <IconPath IsRelative="true" IsResource="false">Images\logo.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
+      <Capability Name="ID_CAP_PROXIMITY" />
     </Capabilities>
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
@@ -16,10 +20,14 @@
           <Count>0</Count>
           <BackgroundImageURI IsResource="false" IsRelative="true">Background.png</BackgroundImageURI>
           <Title>zVirtualScenes Client</Title>
-          <BackContent></BackContent>
-          <BackBackgroundImageURI></BackBackgroundImageURI>
-          <BackTitle></BackTitle>
-          <DeviceLockImageURI></DeviceLockImageURI>
+          <BackContent>
+          </BackContent>
+          <BackBackgroundImageURI>
+          </BackBackgroundImageURI>
+          <BackTitle>
+          </BackTitle>
+          <DeviceLockImageURI>
+          </DeviceLockImageURI>
           <HasLarge>false</HasLarge>
         </TemplateFlip>
       </PrimaryToken>
