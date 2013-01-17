@@ -5,7 +5,10 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Controls="clr-namespace:Coding4Fun.Phone.Controls;assembly=Coding4Fun.Phone.Controls" xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls" mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:Controls="clr-namespace:Coding4Fun.Phone.Controls;assembly=Coding4Fun.Phone.Controls" 
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696" 
     d:DataContext="{d:DesignData SampleData/MainViewModelSampleData.xaml}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -15,19 +18,19 @@
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
-        <controls:Pivot Title="HOME CONTROL" Name="MainPivot">
+        <phone:Pivot Title="HOME CONTROL" Name="MainPivot">
             <!--Pivot item one-->
 
-            <controls:PivotItem Header="connecting" Name="ConnectionPivotItem">
+            <phone:PivotItem Header="connecting" Name="ConnectionPivotItem">
                 <TextBlock Text="Please wait while I attempt to connect to your zVirtual Scenes Server..." MaxHeight="300" MaxWidth="300" TextOptions.TextHintingMode="Animated" TextWrapping="Wrap" TextAlignment="Center" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </controls:PivotItem>
+            </phone:PivotItem>
             
-            <controls:PivotItem Header="setup" Name="SetupPivotItem">
+            <phone:PivotItem Header="setup" Name="SetupPivotItem">
                 <TextBlock Text="This application needs to be connected to the internet and configured to point to a zVirtual Scenes Server.  Tap here to check your server connection settings." MaxHeight="300" MaxWidth="300" TextOptions.TextHintingMode="Animated" TextWrapping="Wrap" TextAlignment="Center" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Tap="TextBlock_Tap_1"/>
-            </controls:PivotItem>
+            </phone:PivotItem>
 
 
-            <controls:PivotItem Header="devices" Name="DevicesPivotItem">
+            <phone:PivotItem Header="devices" Name="DevicesPivotItem">
 
                 <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
                     <Grid x:Name="devicesContentPanel" Grid.Row="1" Margin="12,0,12,0">
@@ -54,10 +57,10 @@
                         </ListBox>
                     </Grid>
         
-            </controls:PivotItem>
+            </phone:PivotItem>
 
             <!--Pivot item two-->
-            <controls:PivotItem Header="scenes" Name="ScenesPivotItem">
+            <phone:PivotItem Header="scenes" Name="ScenesPivotItem">
                 <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
                 <Grid x:Name="scenesContentPanel" Grid.Row="1" Margin="12,0,12,0">
                     <ListBox x:Name="scenesMainListBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectionChanged="scenesMainListBox_SelectionChanged">
@@ -84,8 +87,8 @@
                     </ListBox>
                 </Grid>
 
-            </controls:PivotItem>
-        </controls:Pivot>
+            </phone:PivotItem>
+        </phone:Pivot>
     </Grid>
 
 
