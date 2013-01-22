@@ -177,7 +177,7 @@ namespace VirtualClient7
                         foreach (var d in SceneResponse.scenes)
                         {
                             App.ScenesViewModel.Items.Add(
-                                new SceneViewModel() {Scene = d});
+                                new SceneViewModel() { Scene = d });
                         }
                         App.ScenesViewModel.IsDataLoaded = true;
 
@@ -197,7 +197,7 @@ namespace VirtualClient7
                         App.DevicesViewModel.Items.Clear();
                         foreach (var d in DevicesResponse.devices)
                         {
-                            App.DevicesViewModel.Items.Add(new DeviceViewModel() {Device = d});
+                            App.DevicesViewModel.Items.Add(new DeviceViewModel() { Device = d });
                         }
                         App.DevicesViewModel.IsDataLoaded = true;
                         App.Client.Scenes();
@@ -235,10 +235,14 @@ namespace VirtualClient7
 
         private void scenesMainListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
+        }
+        private void ExecuteSelectedScene()
+        {
             SceneViewModel svm = (scenesMainListBox.SelectedItem as SceneViewModel);
             if (svm != null)
             {
-                //App.Client.StartScene(svm.id);
+                  App.Client.StartScene(svm.id);
             }
         }
 
@@ -304,7 +308,7 @@ namespace VirtualClient7
         {
             try
             {
-                if ( MessageBox.Show("Are you sure you want to write to this NFC Tag?", "Confirmation", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                if (MessageBox.Show("Are you sure you want to write to this NFC Tag?", "Confirmation", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
                     var dataWriter = new DataWriter();
                     dataWriter.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf16LE;
@@ -321,6 +325,21 @@ namespace VirtualClient7
             }
 
 
+        }
+
+        private void MenuItem_RunScene_OnClick(object sender, RoutedEventArgs e)
+        {
+            ExecuteSelectedScene();
+        }
+
+        private void GestureListener_Tap(object sender, GestureEventArgs e)
+        {
+            TextBlock block = sender as TextBlock;
+            ContextMenu contextMenu = ContextMenuService.GetContextMenu(block);
+            if (contextMenu.Parent == null)
+            {
+                contextMenu.IsOpen = true;
+            }
         }
     }
 }
