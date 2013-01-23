@@ -74,20 +74,7 @@
                                             <ColumnDefinition Width="*"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <Image Grid.Row="0" Grid.Column="0" Source="{Binding Image, Mode = OneWay}" Height="45" Width="45" />
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}">
-                                            <Controls:GestureService.GestureListener>
-                                                <Controls:GestureListener Tap="GestureListener_Tap" />
-                                            </Controls:GestureService.GestureListener>
-                                            <Controls:ContextMenuService.ContextMenu>
-                                                <Controls:ContextMenu>
-                                                    <Controls:MenuItem Header="Run Scene" Click="MenuItem_RunScene_OnClick">
-                                                    </Controls:MenuItem>
-
-                                                    <Controls:MenuItem Header="Configure NFC" Click="MenuItem_OnClick">
-                                                    </Controls:MenuItem>
-                                                    
-                                                </Controls:ContextMenu>
-                                            </Controls:ContextMenuService.ContextMenu>
+                                        <TextBlock Grid.Row="0" x:Name="SceneTextBlock" Grid.Column="1" Text="{Binding name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}">
                                         </TextBlock>
                                         <TextBlock Grid.Row="1" Grid.Column="1"  Text="{Binding cmd_count}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextNormalStyle}" />
                                     </Grid>

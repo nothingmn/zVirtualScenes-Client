@@ -76,7 +76,7 @@ namespace VirtualClient7
             SystemTray.SetOpacity(this, 0.5);
             SystemTray.SetBackgroundColor(this, SystemColors.DesktopColor);
             SystemTray.SetForegroundColor(this, SystemColors.MenuColor);
-
+            if (refreshButton == null && this.ApplicationBar.Buttons != null && this.ApplicationBar.Buttons.Count>0) refreshButton = (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton);
             prog = new ProgressIndicator();
             prog.IsVisible = true;
             prog.IsIndeterminate = true;
@@ -85,13 +85,28 @@ namespace VirtualClient7
 
             Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
+                    AllowRefresh(false);
                     MainPivot.Items.Clear();
                     MainPivot.Items.Add(ConnectionPivotItem);
                 });
 
             AttemptConnection();
         }
-
+        ApplicationBarIconButton refreshButton;
+        private void AllowRefresh(bool Allow)
+        {
+            if (refreshButton != null)
+            {
+                if (Allow)
+                {
+                    this.ApplicationBar.Buttons.Add(refreshButton);
+                }
+                else
+                {
+                    this.ApplicationBar.Buttons.Remove(refreshButton);
+                }
+            }
+        }
         private void TweakUIFromConfig(bool isConfigured)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
@@ -100,6 +115,7 @@ namespace VirtualClient7
                     SystemTray.SetIsVisible(this, false);
                     if (isConfigured)
                     {
+                        AllowRefresh(true);
                         MainPivot.Items.Add(DevicesPivotItem);
                         MainPivot.Items.Add(ScenesPivotItem);
 
@@ -107,6 +123,8 @@ namespace VirtualClient7
                     }
                     else
                     {
+                        AllowRefresh(false);
+
                         MainPivot.Items.Add(SetupPivotItem);
 
                     }
@@ -235,7 +253,7 @@ namespace VirtualClient7
 
         private void scenesMainListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            ExecuteSelectedScene();
         }
         private void ExecuteSelectedScene()
         {
@@ -330,9 +348,20 @@ namespace VirtualClient7
         private void MenuItem_RunScene_OnClick(object sender, RoutedEventArgs e)
         {
             ExecuteSelectedScene();
+           
         }
 
         private void GestureListener_Tap(object sender, GestureEventArgs e)
+        {
+            TextBlock block = sender as TextBlock;
+            ContextMenu contextMenu = ContextMenuService.GetContextMenu(block);
+            if (contextMenu.Parent == null)
+            {
+                contextMenu.IsOpen = true;
+            }
+        }
+
+        private void GesterListner_Hold(object sender, GestureEventArgs e)
         {
             TextBlock block = sender as TextBlock;
             ContextMenu contextMenu = ContextMenuService.GetContextMenu(block);
