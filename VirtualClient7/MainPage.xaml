@@ -15,7 +15,7 @@
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
-        <phone:Pivot Title="HOME CONTROL" Name="MainPivot">
+        <phone:Pivot Title="HOME CONTROL" Name="MainPivot" Margin="0,10,0,-10">
             <!--Pivot item one-->
 
             <phone:PivotItem Header="connecting" Name="ConnectionPivotItem">
@@ -58,6 +58,10 @@
 
             <!--Pivot item two-->
             <phone:PivotItem Header="scenes" Name="ScenesPivotItem">
+
+
+
+
                 <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
                 <Grid x:Name="scenesContentPanel" Grid.Row="1" Margin="12,0,12,0">
                     <ListBox x:Name="scenesMainListBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectionChanged="scenesMainListBox_SelectionChanged">
@@ -77,14 +81,71 @@
                                         <TextBlock Grid.Row="0" x:Name="SceneTextBlock" Grid.Column="1" Text="{Binding name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}">
                                         </TextBlock>
                                         <TextBlock Grid.Row="1" Grid.Column="1"  Text="{Binding cmd_count}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextNormalStyle}" />
+
                                     </Grid>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+
+                    <Border x:Name="CanvasBorder"
+                            Height="405"
+                            Width="405"
+                            BorderThickness="10" 
+                            BorderBrush="{StaticResource PhoneBorderBrush}"
+                             Visibility="Collapsed" 
+                            >
+                    <Canvas x:Name="myDialog"
+                                            Height="400"
+                                            Width="400"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="5,5"
+                                           RenderTransformOrigin="0,3"
+                                            >
+                        <Canvas.Background>
+                            <SolidColorBrush Color="{StaticResource PhoneChromeColor}"/>
+                        </Canvas.Background>
+                        
+                            <TextBlock VerticalAlignment="Top"
+                                               HorizontalAlignment="Left"
+                                               Height="75"
+                                               Width="400"
+                                               Name="instructionsTextBlock"
+                                               Text="What would you like to do..."
+                                               TextAlignment="Left"
+                                               TextWrapping="Wrap"
+                                       Margin="5,5"
+                                               />
+                        <Button Height="100"
+                                                Width="400"
+                                                Content="Run Scene"
+                                                Name="RunScene"
+                                                Click="RunSceneButton_Click"
+                                                Margin="5, 80"
+                                                />
+                        <Button Height="100"
+                                                Width="400"
+                                                Content="Setup NFC"
+                                                Name="SetupNfcButton"
+                                                Click="SetupNfcButton_Click"
+                                                Margin="5, 170"
+                                                />
+                        <Button Height="100"
+                                                Width="400"
+                                                Content="Cancel"
+                                                Name="CancelButton"
+                                                Click="CancelButton_Click"
+                                                Margin="5,260"
+                                                />
+
+                    </Canvas>
+                    </Border>
+
                 </Grid>
 
             </phone:PivotItem>
+
         </phone:Pivot>
     </Grid>
 

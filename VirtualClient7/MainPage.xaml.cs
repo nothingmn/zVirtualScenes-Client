@@ -76,7 +76,8 @@ namespace VirtualClient7
             SystemTray.SetOpacity(this, 0.5);
             SystemTray.SetBackgroundColor(this, SystemColors.DesktopColor);
             SystemTray.SetForegroundColor(this, SystemColors.MenuColor);
-            if (refreshButton == null && this.ApplicationBar.Buttons != null && this.ApplicationBar.Buttons.Count>0) refreshButton = (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton);
+            if (refreshButton == null && this.ApplicationBar.Buttons != null && this.ApplicationBar.Buttons.Count > 0) refreshButton = (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton);
+
             prog = new ProgressIndicator();
             prog.IsVisible = true;
             prog.IsIndeterminate = true;
@@ -88,18 +89,24 @@ namespace VirtualClient7
                     AllowRefresh(false);
                     MainPivot.Items.Clear();
                     MainPivot.Items.Add(ConnectionPivotItem);
+
+
                 });
 
             AttemptConnection();
         }
         ApplicationBarIconButton refreshButton;
+
         private void AllowRefresh(bool Allow)
         {
             if (refreshButton != null)
             {
                 if (Allow)
                 {
-                    this.ApplicationBar.Buttons.Add(refreshButton);
+                    if (this.ApplicationBar.Buttons.Count <= 0)
+                    {
+                        this.ApplicationBar.Buttons.Add(refreshButton);
+                    }
                 }
                 else
                 {
@@ -118,7 +125,6 @@ namespace VirtualClient7
                         AllowRefresh(true);
                         MainPivot.Items.Add(DevicesPivotItem);
                         MainPivot.Items.Add(ScenesPivotItem);
-
 
                     }
                     else
@@ -253,15 +259,30 @@ namespace VirtualClient7
 
         private void scenesMainListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ExecuteSelectedScene();
+
+
+            if (App.SupportsNFC)
+            {
+                SceneViewModel svm = (scenesMainListBox.SelectedItem as SceneViewModel);
+                if (svm != null)
+                {
+                    instructionsTextBlock.Text = string.Format("What would you like to do with the Scene:\n{0}", svm.name);
+                    CanvasBorder.Visibility = System.Windows.Visibility.Visible;
+                }
+            }
+            else
+            {
+                ExecuteSelectedScene();
+            }
         }
         private void ExecuteSelectedScene()
         {
             SceneViewModel svm = (scenesMainListBox.SelectedItem as SceneViewModel);
             if (svm != null)
             {
-                  App.Client.StartScene(svm.id);
+                App.Client.StartScene(svm.id);
             }
+            scenesMainListBox.SelectedItem = null;
         }
 
         private void Client_OnStartScene(zVirtualClient.Models.SceneNameChangeResponse SceneNameChangeResponse)
@@ -295,80 +316,76 @@ namespace VirtualClient7
         private long subId = 0;
         private long pubId = 0;
 
-        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
-        {
-            //SceneViewModel svm = (scenesMainListBox.SelectedItem as SceneViewModel);
-            //if (svm != null)
-            //{
-            if (App.SupportsNFC)
-            {
-                if (_proximityDevice == null)
-                {
-                    _proximityDevice = ProximityDevice.GetDefault();
-                    if (_proximityDevice != null)
-                        subId = _proximityDevice.SubscribeForMessage("WriteableTag", OnWriteableTagArrived);
-
-                    MessageBox.Show("Place the writeable tag near your device, then hit ok.");
-                }
-
-            }
-            else
-            {
-                MessageBox.Show("I could not detect a NFC sensor on this device");
-            }
-
-            //SceneContextMenu
-            //}
-
-        }
-
         private void OnWriteableTagArrived(ProximityDevice sender, ProximityMessage message)
         {
-            try
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                if (MessageBox.Show("Are you sure you want to write to this NFC Tag?", "Confirmation", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                try
                 {
-                    var dataWriter = new DataWriter();
-                    dataWriter.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf16LE;
-                    string appLauncher = string.Format(@"vc7nfc:MainPage?source=scene");
-                    dataWriter.WriteString(appLauncher);
-                    pubId = sender.PublishBinaryMessage("WindowsUri:WriteTag", dataWriter.DetachBuffer());
-                    MessageBox.Show("Completed writing to the tag.");
+                    if (MessageBox.Show("Are you sure you want to write to this NFC Tag?", "Confirmation", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                    {
+                        var dataWriter = new DataWriter();
+                        dataWriter.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf16LE;
+                        string appLauncher = string.Format(@"vc7nfc:MainPage?source=scene");
+                        dataWriter.WriteString(appLauncher);
+                        pubId = sender.PublishBinaryMessage("WindowsUri:WriteTag", dataWriter.DetachBuffer());
+                        MessageBox.Show("Completed writing to the tag.");
+
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Could not write to the tag.  Reason:" + e.Message);
-                throw;
-            }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Could not write to the tag.  Reason:" + e.Message);
+                }
+                finally
+                {
+                    _proximityDevice.StopSubscribingForMessage(subid);
+                }
+
+            });
 
 
         }
 
-        private void MenuItem_RunScene_OnClick(object sender, RoutedEventArgs e)
+        private void RunSceneButton_Click(object sender, RoutedEventArgs e)
         {
+            CanvasBorder.Visibility = System.Windows.Visibility.Collapsed;
             ExecuteSelectedScene();
-           
         }
 
-        private void GestureListener_Tap(object sender, GestureEventArgs e)
+        long subid;
+
+        private void SetupNfcButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBlock block = sender as TextBlock;
-            ContextMenu contextMenu = ContextMenuService.GetContextMenu(block);
-            if (contextMenu.Parent == null)
+            CanvasBorder.Visibility = System.Windows.Visibility.Collapsed;
+
+            SceneViewModel svm = (scenesMainListBox.SelectedItem as SceneViewModel);
+            if (svm != null)
             {
-                contextMenu.IsOpen = true;
+                if (App.SupportsNFC)
+                {
+                    if (_proximityDevice == null)
+                    {
+                        _proximityDevice = ProximityDevice.GetDefault();
+                        if (_proximityDevice != null)
+                            subid = _proximityDevice.SubscribeForMessage("WriteableTag", OnWriteableTagArrived);
+
+                        MessageBox.Show("Place the writeable tag near your device, then hit ok.");
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("I could not detect a NFC sensor on this device");
+                }
+
             }
         }
 
-        private void GesterListner_Hold(object sender, GestureEventArgs e)
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBlock block = sender as TextBlock;
-            ContextMenu contextMenu = ContextMenuService.GetContextMenu(block);
-            if (contextMenu.Parent == null)
-            {
-                contextMenu.IsOpen = true;
-            }
+            CanvasBorder.Visibility = System.Windows.Visibility.Collapsed;
         }
+
     }
 }

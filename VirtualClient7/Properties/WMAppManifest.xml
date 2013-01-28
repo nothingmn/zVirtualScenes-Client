@@ -32,10 +32,15 @@
         </TemplateFlip>
       </PrimaryToken>
     </Tokens>
+    <Extensions>
+      <Protocol Name="vc7nfc" NavUriFragment="encodedLaunchUri=%s" TaskID="_default" />
+    </Extensions>
+
     <ScreenResolutions>
       <ScreenResolution Name="ID_RESOLUTION_WVGA" />
       <ScreenResolution Name="ID_RESOLUTION_WXGA" />
       <ScreenResolution Name="ID_RESOLUTION_HD720P" />
     </ScreenResolutions>
+
   </App>
 </Deployment>
