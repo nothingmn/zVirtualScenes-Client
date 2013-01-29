@@ -6,6 +6,7 @@ using Microsoft.Phone.Shell;
 using Windows.Networking.Proximity;
 using Windows.Storage.Streams;
 using zVirtualClient;
+using System.Net;
 
 namespace VirtualClient7
 {
@@ -93,7 +94,37 @@ namespace VirtualClient7
 
                 });
 
+            HandleRoute(e);
             AttemptConnection();
+        }
+
+        private void HandleRoute(RoutedEventArgs e)
+        {
+            var source = this.NavigationService.CurrentSource.ToString();
+            string url = HttpUtility.UrlDecode(source);
+            if (url.Contains("action=scene"))
+            {
+                var action = "";
+                var sceneid = -1;
+                int paramIndex = url.IndexOf("action=") + 7;
+                string paramValue = url.Substring(paramIndex);
+
+                var parts = paramValue.Split('&');
+
+                action = parts[0];
+                var sid = parts[1].Replace("id=", "");
+                int.TryParse(sid, out NFCSceneID);
+            }
+
+        }
+        private int NFCSceneID = -1;
+
+        private void AutoExecuteNFC()
+        {
+            if (App.SupportsNFC && NFCSceneID > 0)
+            {
+                App.Client.StartScene(NFCSceneID);
+            }
         }
         ApplicationBarIconButton refreshButton;
 
@@ -125,6 +156,7 @@ namespace VirtualClient7
                         AllowRefresh(true);
                         MainPivot.Items.Add(DevicesPivotItem);
                         MainPivot.Items.Add(ScenesPivotItem);
+                        AutoExecuteNFC();
 
                     }
                     else
@@ -162,8 +194,7 @@ namespace VirtualClient7
                 App.Client.OnScenes += new zVirtualClient.Interfaces.SceneResponse(Client_OnScenes);
                 App.Client.OnStartScene += new zVirtualClient.Interfaces.SceneNameChangeResponse(Client_OnStartScene);
                 App.Client.OnRequest += new zVirtualClient.Interfaces.Request(Client_OnRequest);
-                App.Client.OnRequestCompleted +=
-                    new zVirtualClient.Interfaces.RequestCompleted(Client_OnRequestCompleted);
+                App.Client.OnRequestCompleted += new zVirtualClient.Interfaces.RequestCompleted(Client_OnRequestCompleted);
                 App.Client.Login();
 
                 if (!App.DevicesViewModel.IsDataLoaded)
@@ -229,12 +260,12 @@ namespace VirtualClient7
             }
         }
 
-        private static void client_OnLogin(zVirtualClient.Models.LoginResponse LoginResponse)
+        private void client_OnLogin(zVirtualClient.Models.LoginResponse LoginResponse)
         {
             App.Connected = LoginResponse.success;
             if (App.Connected)
             {
-                App.Client.Devices();
+                App.Client.Devices();                
             }
         }
 
@@ -316,6 +347,17 @@ namespace VirtualClient7
         private long subId = 0;
         private long pubId = 0;
 
+
+        private SceneViewModel SelectedScene
+        {
+            get
+            {
+                return (scenesMainListBox.SelectedItem as SceneViewModel);
+            }
+        }
+
+       
+
         private void OnWriteableTagArrived(ProximityDevice sender, ProximityMessage message)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
@@ -326,7 +368,7 @@ namespace VirtualClient7
                     {
                         var dataWriter = new DataWriter();
                         dataWriter.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf16LE;
-                        string appLauncher = string.Format(@"vc7nfc:MainPage?source=scene");
+                        string appLauncher = string.Format(@"zVirtualScenes:MainPage?action=scene&id={0}", SelectedScene.id);
                         dataWriter.WriteString(appLauncher);
                         pubId = sender.PublishBinaryMessage("WindowsUri:WriteTag", dataWriter.DetachBuffer());
                         MessageBox.Show("Completed writing to the tag.");

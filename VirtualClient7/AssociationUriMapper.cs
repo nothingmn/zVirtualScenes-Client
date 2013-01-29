@@ -14,12 +14,14 @@ namespace VirtualClient7
         {
             string url = HttpUtility.UrlDecode(uri.ToString());
 
-            if (url.Contains("VirtualClient7:MainPage"))
+            if (url.Contains("zVirtualScenes:MainPage"))
             {
-                int paramIndex = url.IndexOf("source=") + 7;
-                string paramValue = url.Substring(paramIndex);
+                //{/Protocol?encodedLaunchUri=zVirtualScenes:MainPage?action=scene&id=1}
+                var pos = url.IndexOf(":MainPage?") +10;
+                var param = url.Substring(pos);
 
-                return new Uri("/MainPage.xaml?source=" + paramValue, UriKind.Relative);
+                return new Uri(string.Format("/MainPage.xaml?" + param), UriKind.Relative);
+
             }
 
             return uri;

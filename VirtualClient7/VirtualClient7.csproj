@@ -253,7 +253,9 @@
     <Content Include="Images\dark\work.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Properties\AppManifest.xml" />
+    <Content Include="Properties\AppManifest.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </Content>

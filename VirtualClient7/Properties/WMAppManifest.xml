@@ -33,7 +33,7 @@
       </PrimaryToken>
     </Tokens>
     <Extensions>
-      <Protocol Name="vc7nfc" NavUriFragment="encodedLaunchUri=%s" TaskID="_default" />
+      <Protocol Name="zvirtualscenes" NavUriFragment="encodedLaunchUri=%s" TaskID="_default" />
     </Extensions>
 
     <ScreenResolutions>
