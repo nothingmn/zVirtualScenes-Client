@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using VirtualClient7.Bluetooth.Channels;
 using Windows.Networking.Proximity;
 using Windows.Storage.Streams;
 using zVirtualClient;
 using System.Net;
+using zVirtualClient.Helpers.Serialization;
 
 namespace VirtualClient7
 {
@@ -77,7 +80,8 @@ namespace VirtualClient7
             SystemTray.SetOpacity(this, 0.5);
             SystemTray.SetBackgroundColor(this, SystemColors.DesktopColor);
             SystemTray.SetForegroundColor(this, SystemColors.MenuColor);
-            if (refreshButton == null && this.ApplicationBar.Buttons != null && this.ApplicationBar.Buttons.Count > 0) refreshButton = (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton);
+            if (refreshButton == null && this.ApplicationBar.Buttons != null && this.ApplicationBar.Buttons.Count > 0)
+                refreshButton = (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton);
 
             prog = new ProgressIndicator();
             prog.IsVisible = true;
@@ -117,6 +121,7 @@ namespace VirtualClient7
             }
 
         }
+
         private int NFCSceneID = -1;
 
         private void AutoExecuteNFC()
@@ -126,7 +131,8 @@ namespace VirtualClient7
                 App.Client.StartScene(NFCSceneID);
             }
         }
-        ApplicationBarIconButton refreshButton;
+
+        private ApplicationBarIconButton refreshButton;
 
         private void AllowRefresh(bool Allow)
         {
@@ -145,6 +151,7 @@ namespace VirtualClient7
                 }
             }
         }
+
         private void TweakUIFromConfig(bool isConfigured)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
@@ -194,7 +201,8 @@ namespace VirtualClient7
                 App.Client.OnScenes += new zVirtualClient.Interfaces.SceneResponse(Client_OnScenes);
                 App.Client.OnStartScene += new zVirtualClient.Interfaces.SceneNameChangeResponse(Client_OnStartScene);
                 App.Client.OnRequest += new zVirtualClient.Interfaces.Request(Client_OnRequest);
-                App.Client.OnRequestCompleted += new zVirtualClient.Interfaces.RequestCompleted(Client_OnRequestCompleted);
+                App.Client.OnRequestCompleted +=
+                    new zVirtualClient.Interfaces.RequestCompleted(Client_OnRequestCompleted);
                 App.Client.Login();
 
                 if (!App.DevicesViewModel.IsDataLoaded)
@@ -232,7 +240,7 @@ namespace VirtualClient7
                         foreach (var d in SceneResponse.scenes)
                         {
                             App.ScenesViewModel.Items.Add(
-                                new SceneViewModel() { Scene = d });
+                                new SceneViewModel() {Scene = d});
                         }
                         App.ScenesViewModel.IsDataLoaded = true;
 
@@ -252,7 +260,7 @@ namespace VirtualClient7
                         App.DevicesViewModel.Items.Clear();
                         foreach (var d in DevicesResponse.devices)
                         {
-                            App.DevicesViewModel.Items.Add(new DeviceViewModel() { Device = d });
+                            App.DevicesViewModel.Items.Add(new DeviceViewModel() {Device = d});
                         }
                         App.DevicesViewModel.IsDataLoaded = true;
                         App.Client.Scenes();
@@ -265,7 +273,7 @@ namespace VirtualClient7
             App.Connected = LoginResponse.success;
             if (App.Connected)
             {
-                App.Client.Devices();                
+                App.Client.Devices();
             }
         }
 
@@ -297,7 +305,8 @@ namespace VirtualClient7
                 SceneViewModel svm = (scenesMainListBox.SelectedItem as SceneViewModel);
                 if (svm != null)
                 {
-                    instructionsTextBlock.Text = string.Format("What would you like to do with the Scene:\n{0}", svm.name);
+                    instructionsTextBlock.Text = string.Format("What would you like to do with the Scene:\n{0}",
+                                                               svm.name);
                     CanvasBorder.Visibility = System.Windows.Visibility.Visible;
                 }
             }
@@ -306,6 +315,7 @@ namespace VirtualClient7
                 ExecuteSelectedScene();
             }
         }
+
         private void ExecuteSelectedScene()
         {
             SceneViewModel svm = (scenesMainListBox.SelectedItem as SceneViewModel);
@@ -350,41 +360,41 @@ namespace VirtualClient7
 
         private SceneViewModel SelectedScene
         {
-            get
-            {
-                return (scenesMainListBox.SelectedItem as SceneViewModel);
-            }
+            get { return (scenesMainListBox.SelectedItem as SceneViewModel); }
         }
 
-       
+
 
         private void OnWriteableTagArrived(ProximityDevice sender, ProximityMessage message)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-                try
                 {
-                    if (MessageBox.Show("Are you sure you want to write to this NFC Tag?", "Confirmation", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                    try
                     {
-                        var dataWriter = new DataWriter();
-                        dataWriter.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf16LE;
-                        string appLauncher = string.Format(@"zVirtualScenes:MainPage?action=scene&id={0}", SelectedScene.id);
-                        dataWriter.WriteString(appLauncher);
-                        pubId = sender.PublishBinaryMessage("WindowsUri:WriteTag", dataWriter.DetachBuffer());
-                        MessageBox.Show("Completed writing to the tag.");
+                        if (
+                            MessageBox.Show("Are you sure you want to write to this NFC Tag?", "Confirmation",
+                                            MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                        {
+                            var dataWriter = new DataWriter();
+                            dataWriter.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf16LE;
+                            string appLauncher = string.Format(@"zVirtualScenes:MainPage?action=scene&id={0}",
+                                                               SelectedScene.id);
+                            dataWriter.WriteString(appLauncher);
+                            pubId = sender.PublishBinaryMessage("WindowsUri:WriteTag", dataWriter.DetachBuffer());
+                            MessageBox.Show("Completed writing to the tag.");
 
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show("Could not write to the tag.  Reason:" + e.Message);
-                }
-                finally
-                {
-                    _proximityDevice.StopSubscribingForMessage(subid);
-                }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Could not write to the tag.  Reason:" + e.Message);
+                    }
+                    finally
+                    {
+                        _proximityDevice.StopSubscribingForMessage(subid);
+                    }
 
-            });
+                });
 
 
         }
@@ -395,7 +405,7 @@ namespace VirtualClient7
             ExecuteSelectedScene();
         }
 
-        long subid;
+        private long subid;
 
         private void SetupNfcButton_Click(object sender, RoutedEventArgs e)
         {
@@ -427,6 +437,56 @@ namespace VirtualClient7
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             CanvasBorder.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private Bluetooth.Connection c;
+
+        private void PairAgentMenuItem_Click(object sender, EventArgs e)
+        {
+            if (c == null || !c.Connected)
+            {
+                c = new Bluetooth.Connection(new CSVChannel());
+                c.OnConnected += c_OnConnected;
+                c.OnDataRead += c_OnDataRead;
+                c.ConnectoToDevice("ROB17R");
+            }
+            else
+            {
+                if (c.Connected)
+                {
+                    SendScenes();
+                }
+            }
+        }
+
+        private void SendScenes()
+        {
+            List<string> scenes = new List<string>();
+            foreach (var s in App.ScenesViewModel.Items)
+            {
+                scenes.Add(s.name);
+            }
+
+            c.SendData(scenes.ToArray());
+
+        }
+
+        private void c_OnDataRead(object Data, DateTime Timestamp)
+        {
+            var data = (string[]) Data;
+            foreach (var s in App.ScenesViewModel.Items)
+            {
+                if (s.name == data[0])
+                {
+                    App.Client.StartScene(s.id);
+                }
+            }
+
+        }
+
+        private void c_OnConnected(Bluetooth.Connection connection, DateTime Timestamp)
+        {
+            SendScenes();
         }
 
     }

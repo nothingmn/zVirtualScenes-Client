@@ -112,6 +112,13 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="AssociationUriMapper.cs" />
+    <Compile Include="Bluetooth\Channels\BaseChannel.cs" />
+    <Compile Include="Bluetooth\Channels\ByteChannel.cs" />
+    <Compile Include="Bluetooth\Channels\CSVChannel.cs" />
+    <Compile Include="Bluetooth\Channels\IChannel.cs" />
+    <Compile Include="Bluetooth\Channels\PocoChannel.cs" />
+    <Compile Include="Bluetooth\Channels\StringChannel.cs" />
+    <Compile Include="Bluetooth\Connection.cs" />
     <Compile Include="DetailsPage.xaml.cs">
       <DependentUpon>DetailsPage.xaml</DependentUpon>
     </Compile>

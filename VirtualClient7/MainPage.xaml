@@ -156,6 +156,7 @@
             <shell:ApplicationBarIconButton IconUri="/Images/dark/refresh.png" x:Name="RefreshButton" Text="Refresh" Click="ApplicationBarIconButton_Click"/>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Manage Credentials" Click="ForgetCredentialsApplicationBarMenuItem_Click" />
+                <shell:ApplicationBarMenuItem Text="Pair AGENT Watch" Click="PairAgentMenuItem_Click" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
