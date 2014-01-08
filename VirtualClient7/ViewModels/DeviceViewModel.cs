@@ -15,6 +15,7 @@ namespace VirtualClient7
                 if (_Images == null)
                 {
                     _Images = new Dictionary<string, Uri>();
+                    _Images.Add("thermostat", new System.Uri(App.FixThemeImage("/Images/dark/thermostat.png"), UriKind.RelativeOrAbsolute));
                     _Images.Add("christmas,xmas,tree,holiday", new System.Uri(App.FixThemeImage("/Images/dark/christmastree.png"), UriKind.RelativeOrAbsolute));
                     _Images.Add("living,study,couch,sofa", new System.Uri(App.FixThemeImage("/Images/dark/sofa.png"), UriKind.RelativeOrAbsolute));
                     _Images.Add("door,exit,entry", new System.Uri(App.FixThemeImage("/Images/dark/door.png"), UriKind.RelativeOrAbsolute));
@@ -27,6 +28,7 @@ namespace VirtualClient7
 
                     _Images.Add("light", new System.Uri(App.FixThemeImage("/Images/dark/light.png"), UriKind.RelativeOrAbsolute));
                     _Images.Add("switch", new System.Uri(App.FixThemeImage("/Images/dark/switch.png"), UriKind.RelativeOrAbsolute));
+                    
                 }
                 return _Images;
             }
@@ -70,7 +72,7 @@ namespace VirtualClient7
                 }
             }
         }
-        public int level
+        public double level
         {
             get
             {
